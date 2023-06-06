@@ -1,0 +1,36 @@
+query ExampleQuery {
+  users {
+    name
+  }
+  quotes {
+    name
+    by
+  }
+}
+-------------------------
+query ExampleQuery {
+  users {
+    name
+    age
+    quote {
+      name
+    }
+  }
+}
+-------------------------
+query ExampleQuery {
+  user(id: "$#pr5") {
+    id
+    name 
+    age
+  }
+}
+-------------------------
+query ExampleQuery($userid: ID!) {
+  user(id: $userid) {
+    id
+    name 
+    age
+  }
+}
+-------------------------
