@@ -1,48 +1,34 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { dummyUSerData, dummyQuotesData } from "./data.js";
-const typeDefs = `#graphql
-type Query {
- users: [User]
- user(id:ID!): User
- myQuote(id:ID!): [Quote]
- quotes: [Quote]
-}
-type User {
-    id: ID!
-    name: String
-    age: Int
-    quote: [Quote]
-}
-type Quote {
-    name: String
-    by: ID
-}
-`;
-const resolvers = {
-  Query: {
-    users: () => {
-      return dummyUSerData;
-    },
-    user: (_, args) => {
-      return dummyUSerData.find(item=>item.id === args.id);
-    },
-    myQuote: (_, {id}) => {
-      return dummyQuotesData.filter(item=>item.by === id);
-    },
-    quotes: () => {
-      return dummyQuotesData;
-    },
-  },
-  User: {
-    quote: (parent, args) => {
-        return dummyQuotesData.filter(item=>item.by === parent.id);
-    }
-  }
-};
+import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
+
+
+
+mongoose.connect('mongodb://localhost:27017/gqldb',{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log('connected to mongoDB');
+});
+
+import './modals/User.js';
+import './modals/Quote.js';
+import { typeDefs } from "./schema.js";
+import { resolvers } from "./resolvers.js";
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-const { url } = await startStandaloneServer(server);
+const { url } = await startStandaloneServer(server, {
+  context: async ({ req }) => {
+    const {authorization} = req.headers;
+    if(authorization) {
+      const {userId} = jwt.verify(authorization, 'avbdd!@#$]');
+      return {userId: userId};
+    }
+  },
+});
 console.log(`🚀 Server ready at ${url}`);

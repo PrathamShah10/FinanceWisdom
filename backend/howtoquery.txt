@@ -34,3 +34,43 @@ query ExampleQuery($userid: ID!) {
   }
 }
 -------------------------
+mutation ExampleMutation {
+  addUser(name: "new one", age: 21) {
+    name
+    age
+    id 
+  }
+}
+-------------------------
+mutation ExampleMutation($name: String!, $age: Int!) {
+  addUser(name: $name, age: $age) {
+    name
+    age
+    id 
+  }
+}
+
+variables : {  
+  "name": "pratham shah",
+  "age": 22,
+}
+-------------------------
+mutation ExampleMutation($newUserDetails: UserInput!) {
+  addUser(newUserDetails: $newUserDetails) {
+    name
+    age
+    username
+    password
+    _id 
+  }
+}
+
+variables: {
+  "newUserDetails": {
+  "name": "newOne",
+  "username": "newUser",
+  "password": "newPass",
+  "age": 10,
+  }
+}
+-------------------------
