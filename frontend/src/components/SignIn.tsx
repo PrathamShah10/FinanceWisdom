@@ -1,9 +1,11 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { SIGNIN_USER } from "../mutations";
+import { useNavigate } from "react-router-dom";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const [signInUser, {loading, error, data}] = useMutation(SIGNIN_USER);
+  const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -21,6 +23,7 @@ const SignIn = () => {
   };
   if(data) {
     localStorage.setItem('token', data?.signInUser.token);
+    navigate('/');
   }
   if (error) {
     return <h1>error</h1>;

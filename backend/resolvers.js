@@ -24,7 +24,6 @@ export const resolvers = {
       const alreadyUser = await User.findOne({
         username: newUserDetails.username,
       });
-      console.log("already hai kya: ", alreadyUser);
       if (alreadyUser) {
         throw new Error("user already exsits");
       }

@@ -18,10 +18,10 @@ const NavBar = () => {
           </div>
           <div>
             <button
-              // onClick={() => {
-              //   localStorage.removeItem("token");
-              //   navigate("/login");
-              // }}
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/login");
+              }}
             >
               Logout
             </button>
