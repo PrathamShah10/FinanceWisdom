@@ -1,6 +1,9 @@
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
+import { SIGNIN_USER } from "../mutations";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
+  const [signInUser, {loading, error, data}] = useMutation(SIGNIN_USER);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -10,8 +13,21 @@ const SignIn = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    signInUser({
+      variables: {
+        signDetails: formData,
+      }
+    })
   };
+  if(data) {
+    localStorage.setItem('token', data?.signInUser.token);
+  }
+  if (error) {
+    return <h1>error</h1>;
+  }
+  if (loading) {
+    return <h1>loading...</h1>;
+  }
   return (
     <div className="h-screen flex items-center justify-center">
       <form
