@@ -1,11 +1,10 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { CREATE_QUOTE } from "../mutations";
-import { GET_ALL_QUOTES } from "../queries";
 const CreateQuote = () => {
   const [quote, setQuote] = useState<string>("");
   const [CreateQuote, { loading, error, data }] = useMutation(CREATE_QUOTE, {
-    refetchQueries: [GET_ALL_QUOTES, "ExampleQuery"],
+    refetchQueries: ["ExampleQuery", "UserDetails"],
   });
   const handleCreate = () => {
     CreateQuote({

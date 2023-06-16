@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { GET_USER_DETAILS, GET_ALL_QUOTES } from "../queries";
+import { GET_USER_DETAILS } from "../queries";
 
-const Profile = ({ name = "pratham" }: ProfileProps) => {
+const Profile = () => {
   const userString = localStorage.getItem("User");
   const user = userString ? JSON.parse(userString) : null;
   const userid = user?._id;
@@ -10,7 +10,6 @@ const Profile = ({ name = "pratham" }: ProfileProps) => {
     variables: {
       _id: userid,
     },
-    // refetchQueries: [GET_ALL_QUOTES, "ExampleQuery"],
   });
   if (loading) return <h1>loading...</h1>;
   if (error) return <h1>error</h1>;
@@ -41,8 +40,5 @@ const Profile = ({ name = "pratham" }: ProfileProps) => {
       </div>
     </div>
   );
-};
-type ProfileProps = {
-  name?: string;
 };
 export default Profile;
