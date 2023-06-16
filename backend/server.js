@@ -3,8 +3,6 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
-
-
 mongoose.connect('mongodb://localhost:27017/gqldb',{
   useNewUrlParser: true,
   useUnifiedTopology: true,

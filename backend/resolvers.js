@@ -50,7 +50,7 @@ export const resolvers = {
         throw new Error("crediantials invalid");
       }
       const token = jwt.sign({ userId: user._id }, "avbdd!@#$]");
-      return { token: token };
+      return { token: token, userDetails: user };
     },
 
     createQuote: async (_, args, context) => {

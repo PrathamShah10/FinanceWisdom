@@ -11,3 +11,15 @@ export const GET_ALL_QUOTES = gql`
     }
   }
 `;
+
+export const GET_USER_DETAILS = gql`
+  query UserDetails($_id: ID!) {
+    user(_id: $_id) {
+      name
+      age
+      quote {
+        description
+      }
+    }
+  }
+`;

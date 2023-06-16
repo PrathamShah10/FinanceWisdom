@@ -20,6 +20,7 @@ const NavBar = () => {
             <button
               onClick={() => {
                 localStorage.removeItem("token");
+                localStorage.removeItem("User");
                 navigate("/login");
               }}
             >

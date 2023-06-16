@@ -12,6 +12,11 @@ export const SIGNIN_USER = gql`
   mutation example($signDetails: signInput!) {
     signInUser(signDetails: $signDetails) {
       token
+      userDetails {
+        name
+        age
+        _id
+      }
     }
   }
 `;

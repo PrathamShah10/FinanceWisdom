@@ -23,6 +23,7 @@ const SignIn = () => {
   };
   if(data) {
     localStorage.setItem('token', data?.signInUser.token);
+    localStorage.setItem('User', JSON.stringify(data.signInUser.userDetails));
     navigate('/');
   }
   if (error) {

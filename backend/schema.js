@@ -33,6 +33,7 @@ type IdWithName {
 }
 type Token {
     token: String
+    userDetails: User
 }
 input signInput {
     username: String!
