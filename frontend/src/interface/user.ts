@@ -14,7 +14,8 @@ interface IUserState {
   isUserQuotePending: boolean,
 }
 interface IQuote {
-    description: string;
+    description?: string;
+    by?: string,
 }
 interface IUserLoginState {
   user?: ILoginUserData;
