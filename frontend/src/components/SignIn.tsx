@@ -4,7 +4,7 @@ import { SIGNIN_USER } from "../mutations";
 import { useNavigate } from "react-router-dom";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [signInUser, {loading, error, data}] = useMutation(SIGNIN_USER);
+  const [signInUser, { loading, error, data }] = useMutation(SIGNIN_USER);
   const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,13 +18,13 @@ const SignIn = () => {
     signInUser({
       variables: {
         signDetails: formData,
-      }
-    })
+      },
+    });
   };
-  if(data) {
-    localStorage.setItem('token', data?.signInUser.token);
-    localStorage.setItem('User', JSON.stringify(data.signInUser.userDetails));
-    navigate('/');
+  if (data) {
+    localStorage.setItem("token", data?.signInUser.token);
+    localStorage.setItem("User", JSON.stringify(data.signInUser.userDetails));
+    navigate("/");
   }
   if (error) {
     return <h1>error</h1>;
