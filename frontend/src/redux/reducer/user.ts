@@ -3,6 +3,7 @@ import { IUser, IUserState, IQuote } from "../../interface/user";
 const initialState: IUserState = {
   user: undefined,
   isUserDataPending: false,
+  isUserQuotePending: false,
 };
 export const userSlicer = createSlice({
   name: "user",
@@ -23,6 +24,9 @@ export const userSlicer = createSlice({
         ],
       }
     },
+    setIsUserQuotePending: (state, {payload}: PayloadAction<boolean>) => {
+      state.isUserQuotePending = payload;
+    },
   },
 });
 
@@ -30,6 +34,7 @@ export const {
     setUserData,
     setIsUserDataPending,
     setQuoteData,
+    setIsUserQuotePending,
 } = userSlicer.actions;
 
 export default userSlicer.reducer;

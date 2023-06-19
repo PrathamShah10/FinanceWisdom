@@ -11,6 +11,7 @@ interface IUser {
 interface IUserState {
   user?: IUser,
   isUserDataPending: boolean,
+  isUserQuotePending: boolean,
 }
 interface IQuote {
     description: string;

@@ -2,7 +2,7 @@ import { GET_USER_DETAILS } from "../../queries";
 import { CREATE_QUOTE } from "../../mutations";
 import { AppDispatch } from "..";
 import { client } from "../../index";
-import { setUserData, setIsUserDataPending, setQuoteData } from "../reducer/user";
+import { setUserData, setIsUserDataPending, setQuoteData, setIsUserQuotePending } from "../reducer/user";
 import { IUser, IQuote } from "../../interface/user";
 
 export const getUserDetailsAction = (userid: string) => {
@@ -34,7 +34,7 @@ export const getUserDetailsAction = (userid: string) => {
 
 export const generateQuoteAction = (name: string) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setIsUserDataPending(true));
+    dispatch(setIsUserQuotePending(true));
     client
       .mutate({
         mutation: CREATE_QUOTE,
@@ -52,7 +52,7 @@ export const generateQuoteAction = (name: string) => {
         console.log(err);
       })
       .finally(() => {
-        dispatch(setIsUserDataPending(false));
+        dispatch(setIsUserQuotePending(false));
       });
   };
 };
