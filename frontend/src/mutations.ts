@@ -24,7 +24,6 @@ export const CREATE_QUOTE = gql`
   mutation quote($name: String!) {
     createQuote(name: $name) {
       description
-      by
     }
   }
 `;

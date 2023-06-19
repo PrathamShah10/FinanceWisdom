@@ -3,8 +3,8 @@ interface ILoginUserData {
   userDetails: IUser;
 }
 interface IUser {
-    name: string;
-    age: string;
+    name?: string;
+    age?: string;
     quote?: Array<IQuote>;
     _id?: string;
 }

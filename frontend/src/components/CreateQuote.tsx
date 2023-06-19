@@ -1,32 +1,22 @@
-import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { CREATE_QUOTE } from "../mutations";
+import { generateQuoteAction } from "../redux/action/user";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 const CreateQuote = () => {
   const [quote, setQuote] = useState<string>("");
-  const [CreateQuote, { loading, error, data }] = useMutation(CREATE_QUOTE, {
-    refetchQueries: ["ExampleQuery", "UserDetails"],
-  });
+  const dispatch = useAppDispatch();
+  const { user, isUserDataPending } = useAppSelector((state) => state.user);
   const handleCreate = () => {
-    CreateQuote({
-      variables: {
-        name: quote,
-      },
-    });
+    dispatch(generateQuoteAction(quote));
   };
-  if (loading) return <h1>loading...</h1>;
-  if (error) return <h1>error</h1>;
   return (
     <div className="h-screen flex flex-col gap-y-2 justify-center items-center">
       <div>
-        {data ? (
-          <div className="m-4 p-4 bg-green-500 rounded-lg">
-            Quote Added: {data.createQuote.description}{" "}
-          </div>
-        ) : (
-          ""
+        {isUserDataPending && <h1>loading...</h1>}
+        {!isUserDataPending && (
+          <h1 className="bg-green-200 border-1 border-white-100 border-lg">
+            total created quotes are: {user?.quote?.length}
+          </h1>
         )}
-      </div>
-      <div>
         <input
           type="text"
           value={quote}

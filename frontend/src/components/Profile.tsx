@@ -11,8 +11,8 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserDetailsAction(userid));
   }, [dispatch, userid]);
-  if(isUserDataPending) {
-    return <h1>Loading Profile...</h1>
+  if (isUserDataPending) {
+    return <h1>Loading Profile...</h1>;
   }
   return (
     <div>
