@@ -10,7 +10,7 @@ export const resolvers = {
       return await User.find({});
     },
     user: async (_, {_id}) => {
-       return User.findOne({_id: _id});
+       return await User.findOne({_id: _id});
     },
     myQuote: async (_, { _id }) => {
       return await Quote.find({ by: _id });
