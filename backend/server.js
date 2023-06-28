@@ -1,18 +1,52 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import jwt from 'jsonwebtoken';
+import { Server } from "socket.io";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+const io = new Server(8000, {
+  cors: true,
+});
+const emailToSocketIdMap = new Map();
+const socketidToEmailMap = new Map();
+io.on("connection", (socket) => {
+  console.log(`Socket Connected`, socket.id);
+  socket.on("room:join", (data) => {
+    const { email, room } = data;
+    emailToSocketIdMap.set(email, socket.id);
+    socketidToEmailMap.set(socket.id, email);
+    io.to(room).emit("user:joined", { email, id: socket.id });
+    socket.join(room);
+    io.to(socket.id).emit("room:join", data);
+  });
 
-mongoose.connect('mongodb://localhost:27017/gqldb',{
+  socket.on("user:call", ({ to, offer }) => {
+    io.to(to).emit("incomming:call", { from: socket.id, offer });
+  });
+
+  socket.on("call:accepted", ({ to, ans }) => {
+    io.to(to).emit("call:accepted", { from: socket.id, ans });
+  });
+
+  socket.on("peer:nego:needed", ({ to, offer }) => {
+    console.log("peer:nego:needed", offer);
+    io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
+  });
+
+  socket.on("peer:nego:done", ({ to, ans }) => {
+    console.log("peer:nego:done", ans);
+    io.to(to).emit("peer:nego:final", { from: socket.id, ans });
+  });
+});
+mongoose.connect("mongodb://localhost:27017/gqldb", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 mongoose.connection.on("connected", () => {
-  console.log('connected to mongoDB');
+  console.log("connected to mongoDB");
 });
 
-import './modals/User.js';
-import './modals/Quote.js';
+import "./modals/User.js";
+import "./modals/Quote.js";
 import { typeDefs } from "./schema.js";
 import { resolvers } from "./resolvers.js";
 
@@ -22,10 +56,10 @@ const server = new ApolloServer({
 });
 const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => {
-    const {authorization} = req.headers;
-    if(authorization) {
-      const {userId} = jwt.verify(authorization, 'avbdd!@#$]');
-      return {userId: userId};
+    const { authorization } = req.headers;
+    if (authorization) {
+      const { userId } = jwt.verify(authorization, "avbdd!@#$]");
+      return { userId: userId };
     }
   },
 });

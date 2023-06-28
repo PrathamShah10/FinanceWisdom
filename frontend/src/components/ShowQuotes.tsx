@@ -5,7 +5,6 @@ import { IQuote } from "../interface/user";
 const ShowQuotes = () => {
   const dispatch = useAppDispatch();
   const { user, isUserDataPending } = useAppSelector((state) => state.user);
-  // console.log('display quotes me:', user);
   useEffect(() => {
     dispatch(getAllQuotesAction());
   }, [dispatch]);
