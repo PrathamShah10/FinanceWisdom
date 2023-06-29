@@ -4,52 +4,92 @@ const NavBar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   return (
-    <div className="p-4 bg-[#F08080] flex space-x-2 items-center justify-between">
-      {token ? (
-        <>
-          <div>
-            <Link to="/" className="text-[#000080]">
-              Home
-            </Link>
+    <nav className="bg-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 text-white">
+              <svg
+                className="h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  About
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
           </div>
-          <div>
-            <Link to="/createQuote" className="text-[#000080]">
-              Create Quote
-            </Link>
+          <div className="hidden md:block">
+            <div className="ml-4 flex items-center md:ml-6">
+              <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                <span className="sr-only">View notifications</span>
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 8a7 7 0 00-7 7M9 21a4 4 0 01-4-4"
+                  />
+                </svg>
+              </button>
+
+              <div className="ml-3 relative">
+                <div>
+                  <button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="h-8 w-8 rounded-full"
+                      src="https://source.unsplash.com/random"
+                      alt="User avatar"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <Link to="/profile" className="text-[#000080]">
-              Profile
-            </Link>
-          </div>
-          <div>
-            <button
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("User");
-                navigate("/login");
-              }}
-              className="bg-white px-4 py-2 font-bold rounded-lg text-red-600"
-            >
-              Logout
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <div>
-            <Link to="/login" className="text-[#000080]">
-              SignIn
-            </Link>
-          </div>
-          <div>
-            <Link to="/register" className="text-[#000080]">
-              SignUp
-            </Link>
-          </div>
-        </>
-      )}
-    </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 
