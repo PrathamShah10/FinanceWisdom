@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { getUserDetailsAction } from "../redux/action/user";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { IQuote } from "../interface/user";
+import React from "react";
+// import { getUserDetailsAction } from "../redux/action/user";
+// import { useAppDispatch, useAppSelector } from "../hooks/redux";
+// import { IQuote } from "../interface/user";
 const Profile = () => {
-  const dispatch = useAppDispatch();
-  const userString = localStorage.getItem("User");
-  const userVal = userString ? JSON.parse(userString) : null;
-  const userid = userVal?._id;
-  const { user, isUserDataPending } = useAppSelector((state) => state.user);
-  useEffect(() => {
-    dispatch(getUserDetailsAction(userid));
-  }, [dispatch, userid]);
-  if (isUserDataPending) {
-    return <h1>Loading Profile...</h1>;
-  }
+  // const dispatch = useAppDispatch();
+  // const userString = localStorage.getItem("User");
+  // const userVal = userString ? JSON.parse(userString) : null;
+  // const userid = userVal?._id;
+  // const { user, isUserDataPending } = useAppSelector((state) => state.user);
+  // useEffect(() => {
+  //   dispatch(getUserDetailsAction(userid));
+  // }, [dispatch, userid]);
+  // if (isUserDataPending) {
+  //   return <h1>Loading Profile...</h1>;
+  // }
   return (
     <div>
-      <div className="flex">
+      {/* <div className="flex">
         <div className="pic">
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-1ls-t9kJh2d1Ma4v39c1SbC00tq6N6Jukx6i4fCqSm2J2ZTY2x0ktpfpU5ttMQlkdTQ&usqp=CAU"
@@ -36,7 +36,8 @@ const Profile = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
+    hello
     </div>
   );
 };

@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
 });
-mongoose.connect("mongodb://localhost:27017/gqldb", {
+mongoose.connect("mongodb://localhost:27017/growthDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -46,7 +46,7 @@ mongoose.connection.on("connected", () => {
 });
 
 import "./modals/User.js";
-import "./modals/Quote.js";
+import "./modals/Buisness.js";
 import { typeDefs } from "./schema.js";
 import { resolvers } from "./resolvers.js";
 

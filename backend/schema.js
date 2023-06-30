@@ -1,39 +1,40 @@
 export const typeDefs = `#graphql
 
 type Query {
- users: [User]
  user(_id:ID!): User
- myQuote(_id:ID!): [Quote]
- quotes: [QuoteWithName]
+ business(_id:ID!): BusinessPerson
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User
-    signInUser(signDetails: signInput!): Token
-    createQuote(name: String!): Quote
+    signInUser(signDetails: signInput!): UserToken
+    signInBuisness(signDetails: signInput!): BuisnessToken
+    addBuisnessMan(newUserDetails: BuisnessInput!) : BusinessPerson
 }
 type User {
     _id: ID!
     name: String
-    age: Int
+    email: String
     username: String
     password: String
-    quote: [Quote]
+    buisnessMan: BusinessPerson
 }
-type Quote {
-    description: String
-    by: ID
-}
-type QuoteWithName {
-    description: String
-    by: IdWithName
-}
-type IdWithName {
+type BusinessPerson {
+    _id: ID!
     name: String
-    _id: ID
+    email: String
+    username: String
+    password: String
+    customers: [User]
 }
-type Token {
+type UserToken {
     token: String
     userDetails: User
+    isCustomer: Boolean
+}
+type BuisnessToken {
+    token: String
+    userDetails: BusinessPerson
+    isCustomer: Boolean
 }
 input signInput {
     username: String!
@@ -41,7 +42,14 @@ input signInput {
 }
 input UserInput {
     name: String!
-    age: Int!
+    email: String!
+    username: String!
+    password: String!
+    buisnessMan: String!
+}
+input BuisnessInput {
+    name: String!
+    email: String!
     username: String!
     password: String!
 }

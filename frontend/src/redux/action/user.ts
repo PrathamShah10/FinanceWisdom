@@ -1,32 +1,39 @@
-import { GET_USER_DETAILS, GET_ALL_QUOTES } from "../../queries";
-import { CREATE_QUOTE } from "../../mutations";
+import { SIGNIN_BUISNESSMAN, SIGNIN_USER } from '../../mutations';
 import { AppDispatch } from "..";
 import { client } from "../../index";
 import {
   setUserData,
   setIsUserDataPending,
-  setQuoteData,
-  setIsUserQuotePending,
-  setQuotesData,
 } from "../reducer/user";
-import { IUser, IQuote } from "../../interface/user";
+import { ISignInDetails, IUser } from "../../interface/user";
 
-export const getUserDetailsAction = (userid: string) => {
+export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
     dispatch(setIsUserDataPending(true));
     client
-      .query({
-        query: GET_USER_DETAILS,
+      .mutate({
+        mutation: SIGNIN_BUISNESSMAN,
         variables: {
-          _id: userid,
+          signDetails: signDetails,
         },
         fetchPolicy: 'network-only',
       })
       .then((response) => {
+        console.log('res', response);
+        const res = response.data.signInBuisness;
+        localStorage.setItem('token', res.token);
+        const {name, email, _id, customers} = res.userDetails;
+        const customersFilter = customers.map((customer: any) => {
+          const {__typename, ...data } = customer;
+          return data;
+        }) 
+        const isCustomer = res.isCustomer;
         const userData: IUser = {
-          name: response.data.user.name,
-          age: response.data.user.age,
-          quote: response.data.user.quote,
+          name,
+          email,
+          _id,
+          customers: customersFilter,
+          isCustomer,
         };
         dispatch(setUserData(userData));
       })
@@ -38,56 +45,36 @@ export const getUserDetailsAction = (userid: string) => {
       });
   };
 };
-
-export const generateQuoteAction = (name: string) => {
+export const getSignedUserDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setIsUserQuotePending(true));
+    dispatch(setIsUserDataPending(true));
     client
       .mutate({
-        mutation: CREATE_QUOTE,
+        mutation: SIGNIN_USER,
         variables: {
-          name,
+          signDetails: signDetails,
         },
         fetchPolicy: 'network-only',
       })
       .then((response) => {
-        const quoteData: IQuote = {
-          description: response.data.createQuote.description,
+        const res = response.data.signInUser;
+        localStorage.setItem('token', res.token);
+        const {name, email, _id, buisnessMan } = res.userDetails;
+        const isCustomer = res.isCustomer;
+        const userData: IUser = {
+          name,
+          email,
+          _id,
+          isCustomer,
+          buisnessMan,
         };
-        dispatch(setQuoteData(quoteData));
+        dispatch(setUserData(userData));
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        dispatch(setIsUserQuotePending(false));
-      });
-  };
-};
-
-export const getAllQuotesAction = () => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setIsUserQuotePending(true));
-    client
-      .query({
-        query: GET_ALL_QUOTES,
-        fetchPolicy: 'network-only',
-      })
-      .then((response) => {
-        const quotesData: IQuote[] = response.data.quotes.map((quote: any) => {
-          const quoteData: IQuote = {
-            description: quote.description,
-            by: quote.by.name,
-          };
-          return (quoteData);
-        });
-        dispatch(setQuotesData(quotesData));
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        dispatch(setIsUserQuotePending(false));
+        dispatch(setIsUserDataPending(false));
       });
   };
 };

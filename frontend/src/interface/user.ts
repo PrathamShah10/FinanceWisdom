@@ -1,24 +1,28 @@
-interface ILoginUserData {
-  token: string;
-  userDetails: IUser;
+interface ISignInDetails {
+  username?: string;
+  password?: string;
 }
 interface IUser {
-    name?: string;
-    age?: string;
-    quote?: Array<IQuote>;
-    _id?: string;
+  name?: string;
+  email?: string;
+  username?: string;
+  _id?: string;
+  customers?: ICustomers;
+  buisnessMan?: IBuisnessMan;
+  isCustomer?: boolean;
+}
+interface IBuisnessMan {
+  name?: string;
+  email?: string;
+  username?: string;
+}
+interface ICustomers {
+  name: string;
+  email?: string;
+  username?: string;
 }
 interface IUserState {
-  user?: IUser,
-  isUserDataPending: boolean,
-  isUserQuotePending: boolean,
-}
-interface IQuote {
-    description?: string;
-    by?: string,
-}
-interface IUserLoginState {
-  user?: ILoginUserData;
+  user?: IUser;
   isUserDataPending: boolean;
 }
-export type { ILoginUserData, IUser, IUserState, IQuote, IUserLoginState };
+export type { ISignInDetails, IUser, IUserState };

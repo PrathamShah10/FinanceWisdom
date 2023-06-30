@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const businessPersonSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,9 +17,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    buisnessMan: {
+    customers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'BusinessPerson',
-    }
+        ref: 'User',
+    }],
 })
-mongoose.model('User', userSchema);
+mongoose.model('BusinessPerson', businessPersonSchema);
