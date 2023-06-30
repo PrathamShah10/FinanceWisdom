@@ -4,7 +4,6 @@ import SignIn from "./components/SignIn/SignIn";
 const PrivateRoute = ({ element: Element }: PrivateRouteProps) => {
     const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("token") !== null;
-  console.log('ath', isAuthenticated);
   if(!isAuthenticated) {
     navigate("/");
   }
