@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { randomBytes } from "crypto";
 const User = mongoose.model("User");
 const BusinessPerson = mongoose.model("BusinessPerson");
+const Economics = mongoose.model("Economics");
 export const resolvers = {
   Query: {
     user: async (_, { _id }) => {
@@ -81,6 +82,23 @@ export const resolvers = {
       const token = jwt.sign({ userId: user._id }, "avbdd!@#$]");
       return { token: token, userDetails: user, isCustomer: false };
     },
+    // updateEconmoics(economicDetails: EconomicsInput!): Economics
+    updateEconomics: async (_, { economicDetails }) => {
+      const ecoData = await Economics.findOne({by: economicDetails._id});
+      if(!ecoData) {
+        const newEcoData = await new Economics({
+          expenses: economicDetails.expenses,
+          savings: economicDetails.savings,
+          by: economicDetails._id,
+        });
+        await newEcoData.save();
+        return newEcoData;
+      }
+      ecoData.expenses = economicDetails.expenses;
+      ecoData.savings = economicDetails.savings;
+      await ecoData.save();
+      return ecoData;
+    },
   },
   BusinessPerson: {
     customers: async (buisnessMan) => {
@@ -90,9 +108,15 @@ export const resolvers = {
       const customerNames = [];
 
       for (const customerId of res.customers) {
-        const customer = await User.findById(customerId).select("name email username");
+        const customer = await User.findById(customerId).select(
+          "name email username"
+        );
         if (customer) {
-          customerNames.push({name: customer.name, email: customer.email, username: customer.username});
+          customerNames.push({
+            name: customer.name,
+            email: customer.email,
+            username: customer.username,
+          });
         }
       }
       return customerNames;
@@ -101,6 +125,14 @@ export const resolvers = {
   User: {
     buisnessMan: async (user) => {
       const res = await BusinessPerson.findById(user.buisnessMan).select(
+        "name email username"
+      );
+      return res;
+    },
+  },
+  Economics: {
+    by: async (eco) => {
+      const res = await User.findById(eco.by).select(
         "name email username"
       );
       return res;

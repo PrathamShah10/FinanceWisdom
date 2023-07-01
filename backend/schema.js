@@ -9,6 +9,7 @@ type Mutation {
     signInUser(signDetails: signInput!): UserToken
     signInBuisness(signDetails: signInput!): BuisnessToken
     addBuisnessMan(newUserDetails: BuisnessInput!) : BusinessPerson
+    updateEconomics(economicDetails: EconomicsInput!): Economics
 }
 type User {
     _id: ID!
@@ -25,6 +26,12 @@ type BusinessPerson {
     username: String
     password: String
     customers: [User]
+}
+type Economics {
+    _id: ID!
+    expenses: [Int]
+    savings: [Int]
+    by: User
 }
 type UserToken {
     token: String
@@ -52,5 +59,10 @@ input BuisnessInput {
     email: String!
     username: String!
     password: String!
+}
+input EconomicsInput {
+    _id: String!
+    expenses: [Int]!
+    savings: [Int]!
 }
 `;

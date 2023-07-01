@@ -58,3 +58,16 @@ mutation signInBuisness($signDetails: signInput!) {
   }
 }
 `;
+
+export const UPDATE_USERVISUAL = gql`
+mutation updateEco($economicDetails: EconomicsInput!) {
+  updateEconomics(economicDetails: $economicDetails) {
+    _id
+    expenses
+    savings
+    by {
+      name
+    }
+  }
+}
+`

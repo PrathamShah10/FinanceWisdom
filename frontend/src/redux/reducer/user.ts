@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser, IUserState } from "../../interface/user";
+import { IUser, IUserState, IDataVisualize } from "../../interface/user";
 const initialState: IUserState = {
   user: undefined,
+  visuals: undefined,
   isUserDataPending: false,
 };
 export const userSlicer = createSlice({
@@ -11,6 +12,9 @@ export const userSlicer = createSlice({
     setUserData: (state, { payload }: PayloadAction<IUser | undefined>) => {
       state.user = payload;
     },
+    setUserVisuals: (state, { payload }: PayloadAction<IDataVisualize | undefined>) => {
+      state.visuals = payload;
+    },
     setIsUserDataPending: (state, { payload }: PayloadAction<boolean>) => {
       state.isUserDataPending = payload;
     },
@@ -19,6 +23,7 @@ export const userSlicer = createSlice({
 
 export const {
   setUserData,
+  setUserVisuals,
   setIsUserDataPending,
 } = userSlicer.actions;
 

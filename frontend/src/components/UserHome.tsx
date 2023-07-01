@@ -1,90 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { setUserVisualsAction } from "../redux/action/user";
 import { months } from "../constants/month";
-import { IUserVisuals, IDataVisualize } from "../interface/user";
+import { IUserVisualInput, IDataVisualize } from "../interface/user";
 import VisualizeData from "../components/Visualize/VisualizeData";
 const UserHome = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
-  const [inputData, setInputData] = useState<IUserVisuals>({});
+  const [inputData, setInputData] = useState<IUserVisualInput>({});
   const [visualData, setVisualData] = useState<IDataVisualize>({
     expenses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
-  const handleChange = (value: string, type: string) => {
-    const numericValue = parseInt(value);
-    if (type === "expenses") {
-      const expenseIndex = inputData?.expenses?.findIndex((obj) =>
-        obj.hasOwnProperty(selectedMonth)
-      );
-      const dummyInputData: IUserVisuals = inputData;
-      if (expenseIndex === -1 || expenseIndex === undefined) {
-        if (dummyInputData.expenses) {
-          dummyInputData.expenses.push({ [selectedMonth]: numericValue });
-        } else {
-          dummyInputData.expenses = [{ [selectedMonth]: numericValue }];
-        }
-      } else {
-        if (!dummyInputData.expenses) return;
-        const dummy = dummyInputData.expenses[expenseIndex];
-        if (dummy && dummy[selectedMonth] !== undefined) {
-          dummy[selectedMonth] = numericValue;
-        }
-        dummyInputData.expenses[expenseIndex] = dummy;
-      }
-      setInputData(dummyInputData);
-    } else {
-      const expenseIndex = inputData?.savings?.findIndex((obj) =>
-        obj.hasOwnProperty(selectedMonth)
-      );
-      const dummyInputData: IUserVisuals = inputData;
-      if (expenseIndex === -1 || expenseIndex === undefined) {
-        if (dummyInputData.savings) {
-          dummyInputData.savings.push({ [selectedMonth]: numericValue });
-        } else {
-          dummyInputData.savings = [{ [selectedMonth]: numericValue }];
-        }
-      } else {
-        if (!dummyInputData.savings) return;
-        const dummy = dummyInputData.savings[expenseIndex];
-        if (dummy && dummy[selectedMonth] !== undefined) {
-          dummy[selectedMonth] = numericValue;
-        }
-        dummyInputData.savings[expenseIndex] = dummy;
-      }
-      setInputData(dummyInputData);
-    }
-  };
-
+  const dispatch = useAppDispatch();
+  const { user, visuals } = useAppSelector((state) => state.user);
   const handleSubmit = () => {
-    console.log("data:", inputData);
-    const expensesNumeric: Array<number> = months.map((month) => {
-      const expenseIndex = inputData?.expenses?.findIndex((obj) =>
-        obj.hasOwnProperty(month)
-      );
-      if (expenseIndex === undefined || expenseIndex === -1) {
-        return 0;
+    const changeExpensedData = months.map((month: string, i: number) => {
+      if (month === selectedMonth) {
+        return inputData.expenses || 0;
       } else {
-        if (inputData?.expenses)
-          return inputData?.expenses[expenseIndex][month];
-        else return 0;
+        return visualData.expenses[i];
       }
     });
-
-    const savingsNumeric: Array<number> = months.map((month) => {
-      const expenseIndex = inputData?.savings?.findIndex((obj) =>
-        obj.hasOwnProperty(month)
-      );
-      if (expenseIndex === undefined || expenseIndex === -1) {
-        return 0;
+    const changedSavingsData = months.map((month: string, i: number) => {
+      if (month === selectedMonth) {
+        return inputData.savings || 0;
       } else {
-        if (inputData?.savings) return inputData?.savings[expenseIndex][month];
-        else return 0;
+        return visualData.savings[i];
       }
     });
-
-    console.log(expensesNumeric, savingsNumeric);
-    expensesNumeric &&
-      savingsNumeric &&
-      setVisualData({ expenses: expensesNumeric, savings: savingsNumeric });
+    if (user?._id) {
+      dispatch(
+        setUserVisualsAction({
+          expenses: changeExpensedData,
+          savings: changedSavingsData,
+          _id: user?._id,
+        })
+      );
+    }
+    setVisualData({
+      expenses: changeExpensedData,
+      savings: changedSavingsData,
+    });
   };
 
   return (
@@ -121,8 +77,12 @@ const UserHome = () => {
             </label>
             <input
               type="text"
-              onChange={(e) => handleChange(e.target.value, "expenses")}
-              // value={expenseValue[selectedMonth]}
+              onChange={(e) =>
+                setInputData((prev) => ({
+                  ...prev,
+                  expenses: parseInt(e.target.value),
+                }))
+              }
               className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
             />
           </div>
@@ -133,8 +93,12 @@ const UserHome = () => {
             </label>
             <input
               type="text"
-              onChange={(e) => handleChange(e.target.value, "savings")}
-              // value={savingValue[selectedMonth]}
+              onChange={(e) =>
+                setInputData((prev) => ({
+                  ...prev,
+                  savings: parseInt(e.target.value),
+                }))
+              }
               className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
             />
           </div>
@@ -149,8 +113,8 @@ const UserHome = () => {
       </div>
       <div className="right">
         <VisualizeData
-          expenseData={visualData.expenses}
-          savingsData={visualData.savings}
+          expenseData={visuals?.expenses}
+          savingsData={visuals?.savings}
         />
       </div>
     </div>

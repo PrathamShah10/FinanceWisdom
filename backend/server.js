@@ -47,6 +47,7 @@ mongoose.connection.on("connected", () => {
 
 import "./modals/User.js";
 import "./modals/Buisness.js";
+import "./modals/Economics.js";
 import { typeDefs } from "./schema.js";
 import { resolvers } from "./resolvers.js";
 

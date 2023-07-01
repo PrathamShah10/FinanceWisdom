@@ -23,17 +23,15 @@ interface ICustomers {
 }
 interface IUserState {
   user?: IUser;
+  visuals?: IDataVisualize;
   isUserDataPending: boolean;
 }
-interface IUserVisualConfig {
-  [key: string]: number;
-}
-interface IUserVisuals {
-  expenses?: Array<IUserVisualConfig>;
-  savings?: Array<IUserVisualConfig>;
+interface IUserVisualInput {
+  expenses?: number;
+  savings?: number;
 }
 interface IDataVisualize {
   expenses: Array<number>;
   savings: Array<number>;
 }
-export type { ISignInDetails, IUser, IUserState, IUserVisuals, IDataVisualize };
+export type { ISignInDetails, IUser, IUserState, IUserVisualInput, IDataVisualize };

@@ -1,8 +1,9 @@
-import { SIGNIN_BUISNESSMAN, SIGNIN_USER } from '../../mutations';
+import { SIGNIN_BUISNESSMAN, SIGNIN_USER, UPDATE_USERVISUAL } from '../../mutations';
 import { AppDispatch } from "..";
 import { client } from "../../index";
 import {
   setUserData,
+  setUserVisuals,
   setIsUserDataPending,
 } from "../reducer/user";
 import { ISignInDetails, IUser } from "../../interface/user";
@@ -78,3 +79,33 @@ export const getSignedUserDetailsAction = (signDetails: ISignInDetails) => {
       });
   };
 };
+
+export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setIsUserDataPending(true));
+    client
+      .mutate({
+        mutation: UPDATE_USERVISUAL,
+        variables: {
+          economicDetails: economicDetails,
+        },
+        fetchPolicy: 'network-only',
+      })
+      .then((response) => {
+        const res = response.data.updateEconomics;
+        dispatch(setUserVisuals({expenses: res.expenses, savings: res.savings}));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setIsUserDataPending(false));
+      });
+  };
+};
+
+type EconomicsInput = {
+  _id: string;
+  expenses: Array<number>;
+  savings: Array<number>;
+}
