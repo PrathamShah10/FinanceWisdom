@@ -1,6 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
+import { getAllUserData } from "../../redux/action/user";
 const SignIn = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const { _id, isCustomer } = JSON.parse(userData);
+        dispatch(getAllUserData(_id, isCustomer));
+        if (isCustomer) {
+          navigate("/home-user");
+        } else {
+          navigate("/home-buisness");
+        }
+      }
+    }
+  }, [dispatch, navigate]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">

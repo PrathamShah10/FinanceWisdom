@@ -7,16 +7,18 @@ interface IUser {
   email?: string;
   username?: string;
   _id?: string;
-  customers?: ICustomers;
+  customers?: Array<ICustomer>;
   buisnessMan?: IBuisnessMan;
   isCustomer?: boolean;
 }
 interface IBuisnessMan {
+  _id?: string
   name?: string;
   email?: string;
   username?: string;
 }
-interface ICustomers {
+interface ICustomer {
+  _id?:string;
   name: string;
   email?: string;
   username?: string;
@@ -24,14 +26,22 @@ interface ICustomers {
 interface IUserState {
   user?: IUser;
   visuals?: IDataVisualize;
-  isUserDataPending: boolean;
+  isUserDataPending?: boolean;
+  chats?: Array<IChats>;
 }
 interface IUserVisualInput {
   expenses?: number;
   savings?: number;
 }
 interface IDataVisualize {
+  _id?: string;
+  by?: any;
   expenses: Array<number>;
   savings: Array<number>;
 }
-export type { ISignInDetails, IUser, IUserState, IUserVisualInput, IDataVisualize };
+interface IChats {
+  sender: string;
+  reciever: string;
+  message: string;
+}
+export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats };

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { randomBytes } from "crypto";
 const User = mongoose.model("User");
 const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
+const Chats = mongoose.model("Chats");
 export const resolvers = {
   Query: {
     user: async (_, { _id }) => {
@@ -12,6 +12,22 @@ export const resolvers = {
     },
     business: async (_, { _id }) => {
       return await BusinessPerson.findOne({ _id: _id });
+    },
+    getAllUserData: async (_, { _id }) => {
+      const visuals = await Economics.findOne({ by: _id });
+      const chats = await Chats.find({
+        $or: [{ sender: _id }, { reciever: _id }],
+      });
+      const user = await User.findById(_id);
+      return { user, visuals, chats };
+    },
+    getAllBusinessData: async (_, { _id }) => {
+      const chats = await Chats.find({
+        $or: [{ sender: _id }, { reciever: _id }],
+      });
+
+      const buisness = await BusinessPerson.findById(_id);
+      return { user: buisness, chats };
     },
   },
   Mutation: {
@@ -84,8 +100,8 @@ export const resolvers = {
     },
     // updateEconmoics(economicDetails: EconomicsInput!): Economics
     updateEconomics: async (_, { economicDetails }) => {
-      const ecoData = await Economics.findOne({by: economicDetails._id});
-      if(!ecoData) {
+      const ecoData = await Economics.findOne({ by: economicDetails._id });
+      if (!ecoData) {
         const newEcoData = await new Economics({
           expenses: economicDetails.expenses,
           savings: economicDetails.savings,
@@ -99,6 +115,17 @@ export const resolvers = {
       await ecoData.save();
       return ecoData;
     },
+    addMessage: async (_, { messageDetails }) => {
+      console.log("mmsg", messageDetails);
+      const msg = await new Chats({
+        ...messageDetails,
+        // sender: messageDetails.sender,
+        // reciever: messageDetails.reciever,
+        // message: messageDetails.message,
+      });
+      await msg.save();
+      return await Chats.find({});
+    },
   },
   BusinessPerson: {
     customers: async (buisnessMan) => {
@@ -109,10 +136,11 @@ export const resolvers = {
 
       for (const customerId of res.customers) {
         const customer = await User.findById(customerId).select(
-          "name email username"
+          "_id name email username"
         );
         if (customer) {
           customerNames.push({
+            _id: customer._id,
             name: customer.name,
             email: customer.email,
             username: customer.username,
@@ -124,18 +152,16 @@ export const resolvers = {
   },
   User: {
     buisnessMan: async (user) => {
-      const res = await BusinessPerson.findById(user.buisnessMan).select(
-        "name email username"
+      const res = await User.findById(user._id).populate(
+        "_id name email username"
       );
       return res;
     },
   },
   Economics: {
     by: async (eco) => {
-      const res = await User.findById(eco.by).select(
-        "name email username"
-      );
+      const res = await User.findById(eco.by).select("name email username");
       return res;
-    }
-  }
+    },
+  },
 };

@@ -21,53 +21,65 @@ export const SIGNUP_BUISNESSMAN = gql`
   }
 `;
 export const SIGNIN_USER = gql`
-mutation signInUser($signDetails: signInput!) {
-  signInUser(signDetails: $signDetails) {
-    token
-    userDetails {
-      _id
-      name
-      email
-      buisnessMan {
+  mutation signInUser($signDetails: signInput!) {
+    signInUser(signDetails: $signDetails) {
+      token
+      userDetails {
+        _id
         name
         email
-        username
-        password
+        buisnessMan {
+          _id
+          name
+          email
+          username
+        }
       }
+      isCustomer
     }
-    isCustomer
   }
-}
 `;
 
 export const SIGNIN_BUISNESSMAN = gql`
-mutation signInBuisness($signDetails: signInput!) {
-  signInBuisness(signDetails: $signDetails) {
-    token
-    userDetails {
-      _id
-      name
-      email
-      customers {
+  mutation signInBuisness($signDetails: signInput!) {
+    signInBuisness(signDetails: $signDetails) {
+      token
+      userDetails {
+        _id
         name
         email
-        username
+        customers {
+          _id
+          name
+          email
+          username
+        }
       }
+      isCustomer
     }
-    isCustomer
   }
-}
 `;
 
 export const UPDATE_USERVISUAL = gql`
-mutation updateEco($economicDetails: EconomicsInput!) {
-  updateEconomics(economicDetails: $economicDetails) {
-    _id
-    expenses
-    savings
-    by {
-      name
+  mutation updateEco($economicDetails: EconomicsInput!) {
+    updateEconomics(economicDetails: $economicDetails) {
+      _id
+      expenses
+      savings
+      by {
+        name
+      }
     }
   }
-}
-`
+`;
+
+export const ADD_MESSAGES = gql`
+  mutation addmsg($messageDetails: MessagingInput!) {
+    addMessage(messageDetails: $messageDetails) {
+      _id
+      sender
+      message
+      reciever
+    }
+  }
+`;

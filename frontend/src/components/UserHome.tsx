@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setUserVisualsAction } from "../redux/action/user";
+import { setUserVisualsAction, getAllUserData } from "../redux/action/user";
 import { months } from "../constants/month";
 import { IUserVisualInput, IDataVisualize } from "../interface/user";
 import VisualizeData from "../components/Visualize/VisualizeData";
 const UserHome = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
-  const [visualData, setVisualData] = useState<IDataVisualize>({
-    expenses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  });
   const dispatch = useAppDispatch();
   const { user, visuals } = useAppSelector((state) => state.user);
+  const [visualData, setVisualData] = useState<IDataVisualize>(
+    visuals || {
+      expenses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    }
+  );
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+      if (userData) {
+        const { _id, isCustomer } = JSON.parse(userData);
+        dispatch(getAllUserData(_id, isCustomer));
+      }
+    }, [dispatch]);
   const handleSubmit = () => {
     const changeExpensedData = months.map((month: string, i: number) => {
       if (month === selectedMonth) {
@@ -117,6 +127,9 @@ const UserHome = () => {
           savingsData={visuals?.savings}
         />
       </div>
+      <Link to="/chat">
+        <div>Chat</div>
+      </Link>
     </div>
   );
 };

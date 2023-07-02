@@ -1,24 +1,51 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_QUOTES = gql`
-  query ExampleQuery {
-    quotes {
-      description
-      by {
+export const GET_ALL_USER_DATA = gql`
+  query UserDetails($_id: ID!) {
+    getAllUserData(_id: $_id) {
+      user {
         name
+        email
+        username
         _id
+      }
+      visuals {
+        _id
+        expenses
+        savings
+        by {
+          buisnessMan {
+            name
+          }
+        }
+      }
+      chats {
+        sender
+        reciever
+        message
       }
     }
   }
 `;
 
-export const GET_USER_DETAILS = gql`
+export const GET_ALL_BUISNESS_DATA = gql`
   query UserDetails($_id: ID!) {
-    user(_id: $_id) {
-      name
-      age
-      quote {
-        description
+    getAllBusinessData(_id: $_id) {
+      user {
+        name
+        email
+        username
+        _id
+        customers {
+          name
+          _id
+          username
+        }
+      }
+      chats {
+        message
+        sender
+        reciever
       }
     }
   }
