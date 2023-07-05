@@ -7,6 +7,11 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const userData = localStorage.getItem("user");
+  let user = null;
+  if (userData) {
+    user = JSON.parse(userData);
+  }
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,44 +23,21 @@ const NavBar = () => {
                   token ? "" : "hidden"
                 } ml-10 flex items-baseline space-x-4`}
               >
-                <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                  Home
-                </div>
-                <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                  <Link to="/video-call">Video Call</Link>
-                </div>
-                <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                  Contact
-                </div>
+                <Link to={user?.isCustomer ? "/home-user" : "/home-buisness"}>
+                  <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                    Home
+                  </div>
+                </Link>
+                <Link to="/video-call">
+                  <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                    Video Call
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
           <div className={`hidden ${token ? "md:block" : ""}`}>
             <div className="ml-4 flex items-center md:ml-6">
-              <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 8a7 7 0 00-7 7M9 21a4 4 0 01-4-4"
-                  />
-                </svg>
-              </button>
-
               <div className="ml-3 relative">
                 <div>
                   <button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -88,7 +70,7 @@ const NavBar = () => {
                             localStorage.removeItem("token");
                             localStorage.removeItem("user");
                             dispatch(setUserData(undefined));
-                            navigate("/login");
+                            navigate("/");
                           }}
                         >
                           Logout

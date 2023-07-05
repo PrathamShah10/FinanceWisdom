@@ -31,7 +31,12 @@ export const resolvers = {
     },
     getAllBusinessMen: async () => {
       return await BusinessPerson.find({});
-    }
+    },
+    getAllChats: async (_, {_id}) => {
+      return await Chats.find({
+        $or: [{ sender: _id }, { reciever: _id }],
+      });
+    },
   },
   Mutation: {
     addUser: async (_, { newUserDetails }) => {
@@ -119,7 +124,6 @@ export const resolvers = {
       return ecoData;
     },
     addMessage: async (_, { messageDetails }) => {
-      console.log("mmsg", messageDetails);
       const msg = await new Chats({
         ...messageDetails,
         // sender: messageDetails.sender,
@@ -155,10 +159,8 @@ export const resolvers = {
   },
   User: {
     buisnessMan: async (user) => {
-      const res = await User.findById(user._id).populate(
-        "_id name email username"
-      );
-      return res;
+      const res = await User.findById(user._id).populate("buisnessMan", "_id name")
+      return res.buisnessMan;
     },
   },
   Economics: {

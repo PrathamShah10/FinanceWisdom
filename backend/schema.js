@@ -3,6 +3,7 @@ union UserOrBusinessPerson = User | BusinessPerson
 type Query {
  user(_id:ID!): User
  business(_id:ID!): BusinessPerson
+ getAllChats(_id:ID!): [Messaging]
  getAllUserData(_id:ID!): AllUserData
  getAllBusinessData(_id:ID!): AllBuisnessData
  getAllBusinessMen: [BusinessPerson]
