@@ -14,7 +14,11 @@ import {
   setAllData,
 } from "../reducer/user";
 import { ISignInDetails, IUser, IChats } from "../../interface/user";
-import { GET_ALL_BUISNESS_DATA, GET_ALL_USER_DATA } from "../../queries";
+import {
+  GET_ALL_BUISNESS_DATA,
+  GET_ALL_CHATS,
+  GET_ALL_USER_DATA,
+} from "../../queries";
 
 export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
@@ -117,6 +121,7 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
 };
 
 export const setChatsAction = (messageDetails: MessageInput) => {
+  // console.log('settingChats');
   return (dispatch: AppDispatch) => {
     dispatch(setIsUserDataPending(true));
     client
@@ -146,6 +151,30 @@ export const setChatsAction = (messageDetails: MessageInput) => {
       });
   };
 };
+export const getAllChats = (_id: string) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setIsUserDataPending(true));
+    client
+      .query({
+        query: GET_ALL_CHATS,
+        variables: {
+          _id,
+        },
+        fetchPolicy: "network-only",
+      })
+      .then((response) => {
+        const res: IChats[] = response.data.getAllChats;
+console.log('query chats', res);
+        dispatch(setChats(res));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setIsUserDataPending(false));
+      });
+  };
+};
 
 export const getAllUserData = (_id: string, isCustomer: boolean) => {
   return (dispatch: AppDispatch) => {
@@ -161,10 +190,8 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
       .then((response) => {
         if (isCustomer) {
           const res = response.data.getAllUserData;
-          console.log("resGETAll", response.data.getAllUserData);
           dispatch(setAllData(res));
         } else {
-          console.log("resGETAll", response.data.getAllBusinessData);
           dispatch(setAllData(response.data.getAllBusinessData));
         }
       })

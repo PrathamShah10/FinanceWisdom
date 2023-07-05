@@ -6,16 +6,11 @@ import mongoose from "mongoose";
 const io = new Server(8000, {
   cors: true,
 });
-// const emailToSocketIdMap = new Map();
-// const socketidToEmailMap = new Map();
 io.on("connection", (socket) => {
   console.log(`Socket Connected`, socket.id);
   socket.on("room:join", (data) => {
-    const { email, room } = data;
-    console.log('room is', room);
-    // emailToSocketIdMap.set(email, socket.id);
-    // socketidToEmailMap.set(socket.id, email);
-    io.to(room).emit("user:joined", { email, id: socket.id });
+    const { room } = data;
+    io.to(room).emit("user:joined", { id: socket.id });
     socket.join(room);
     io.to(socket.id).emit("room:join", data);
   });
@@ -39,6 +34,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", (messageData) => {
+    console.log('msggg');
     const { sender, receiver, message } = messageData;
     const messageToSend = {
       sender,

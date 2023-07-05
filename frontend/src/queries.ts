@@ -7,6 +7,10 @@ export const GET_ALL_USER_DATA = gql`
         name
         email
         username
+        buisnessMan {
+          _id
+          name
+        }
         _id
       }
       visuals {
@@ -63,6 +67,16 @@ export const GET_ALL_BUISNESSMEN = gql`
         _id
         username
       }
+    }
+  }
+`;
+
+export const GET_ALL_CHATS = gql`
+  query chats($_id: ID!) {
+    getAllChats(_id: $_id) {
+      sender
+      reciever
+      message
     }
   }
 `;
