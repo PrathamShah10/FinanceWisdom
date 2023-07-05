@@ -22,7 +22,7 @@ const NavBar = () => {
                   Home
                 </div>
                 <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                  About
+                  <Link to="/video-call">Video Call</Link>
                 </div>
                 <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
                   Contact

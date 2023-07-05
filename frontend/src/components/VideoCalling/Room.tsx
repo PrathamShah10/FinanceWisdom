@@ -4,9 +4,9 @@ import peer from "./service/peer";
 import ReactPlayer from "react-player";
 const Room = () => {
   const socket = useSocket();
-  const [remoteSocketId, setRemoteSocketId] = useState<string|null>(null);
-  const [myStream, setMyStream] = useState<any>();
-  const [remoteStream, setRemoteStream] = useState<any>();
+  const [remoteSocketId, setRemoteSocketId] = useState<string | null>(null);
+  const [myStream, setMyStream] = useState<any>(null);
+  const [remoteStream, setRemoteStream] = useState<any>(null);
 
   const handleUserJoined = useCallback(({ email, id }: handleUserJoinProp) => {
     console.log(`Email ${email} joined room`);
@@ -73,9 +73,12 @@ const Room = () => {
     [socket]
   );
 
-  const handleNegoNeedFinal = useCallback(async ({ ans }: handleNegoNeedFinalProps) => {
-    await peer.setLocalDescription(ans);
-  }, []);
+  const handleNegoNeedFinal = useCallback(
+    async ({ ans }: handleNegoNeedFinalProps) => {
+      await peer.setLocalDescription(ans);
+    },
+    []
+  );
 
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
@@ -107,37 +110,52 @@ const Room = () => {
     handleNegoNeedIncomming,
     handleNegoNeedFinal,
   ]);
-
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer
-            playing
-            muted
-            height="100px"
-            width="200px"
-            url={myStream}
-          />
-        </>
-      )}
-      {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer
-            playing
-            muted
-            height="100px"
-            width="200px"
-            url={remoteStream}
-          />
-        </>
-      )}
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <h1 className="text-3xl font-bold mb-6">Room Page</h1>
+      <h4 className="text-lg mb-4">
+        {remoteSocketId ? 'Connected' : 'No one in room'}
+      </h4>
+      <div className="flex space-x-4 mb-6">
+        {myStream && (
+          <button
+            className="px-4 py-2 text-white bg-blue-500 rounded"
+            onClick={sendStreams}
+          >
+            Send Stream
+          </button>
+        )}
+        {remoteSocketId && (
+          <button
+            className={` ${(myStream !== null && remoteStream !== null) ? 'hidden' : ''} px-4 py-2 text-white bg-green-500 rounded`}
+            onClick={handleCallUser}
+          >
+            CALL
+          </button>
+        )}
+      </div>
+      <div className="flex items-center justify-center space-x-8">
+        {remoteStream && (
+          <div className="rounded-md overflow-hidden shadow-md">
+            <ReactPlayer
+              playing
+              muted
+              className="w-96 h-80"
+              url={remoteStream}
+            />
+          </div>
+        )}
+        {myStream && (
+          <div className="rounded-md overflow-hidden shadow-md">
+            <ReactPlayer
+              playing
+              muted
+              className="w-48 h-40"
+              url={myStream}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -146,27 +164,20 @@ type handleUserJoinProp = {
   id: string;
 };
 
-
-
 type handleIncommingCallProps = {
   from: string;
   offer: any;
 };
-
-
-
 
 type handleCallAcceptedProps = {
   from: string;
   ans: any;
 };
 
-
 type handleNegoNeedIncommingProps = {
   from: string;
   offer: any;
 };
-
 
 type handleNegoNeedFinalProps = {
   ans: any;

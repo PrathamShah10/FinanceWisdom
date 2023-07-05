@@ -5,6 +5,7 @@ type Query {
  business(_id:ID!): BusinessPerson
  getAllUserData(_id:ID!): AllUserData
  getAllBusinessData(_id:ID!): AllBuisnessData
+ getAllBusinessMen: [BusinessPerson]
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User

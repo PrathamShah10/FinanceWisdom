@@ -50,3 +50,19 @@ export const GET_ALL_BUISNESS_DATA = gql`
     }
   }
 `;
+
+export const GET_ALL_BUISNESSMEN = gql`
+  query UserDetails {
+    getAllBusinessMen {
+      name
+      email
+      username
+      _id
+      customers {
+        name
+        _id
+        username
+      }
+    }
+  }
+`;

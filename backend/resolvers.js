@@ -29,6 +29,9 @@ export const resolvers = {
       const buisness = await BusinessPerson.findById(_id);
       return { user: buisness, chats };
     },
+    getAllBusinessMen: async () => {
+      return await BusinessPerson.find({});
+    }
   },
   Mutation: {
     addUser: async (_, { newUserDetails }) => {

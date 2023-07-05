@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { SIGNUP_USER } from "../../mutations";
-import { useMutation } from "@apollo/client";
+import { GET_ALL_BUISNESSMEN } from "../../queries";
+import { useMutation, useQuery } from "@apollo/client";
 const CustomerSignUp = () => {
   const [registrationData, setRegistrationData] = useState({});
   const [signUpUser, { data, loading, error }] = useMutation(SIGNUP_USER);
+  const {
+    data: businessmenData,
+    loading: businessmenLoading,
+    error: businessmenError,
+  } = useQuery(GET_ALL_BUISNESSMEN);
+  console.log("dataya", data?.getAllBusinessMen);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signUpUser({
@@ -12,25 +19,36 @@ const CustomerSignUp = () => {
       },
     });
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { name, value }: handleChangeProp = e.target;
-    setRegistrationData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleChange = (
+    e?: React.ChangeEvent<HTMLInputElement>,
+    name?: string,
+    value?: string
+  ) => {
+    if (e) {
+      let { name, value }: handleChangeProp = e.target;
+      setRegistrationData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else if (name && value) {
+      setRegistrationData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
   type handleChangeProp = {
     name: string;
     value: string;
   };
-  if (error) {
+  if (error || businessmenError) {
     return <h1>Error</h1>;
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="relative top-0">
         {data ? (
-          loading ? (
+          loading || businessmenLoading ? (
             <h2 className="bg-red-200 w-full">Registering...</h2>
           ) : (
             <h2 className="bg-green-200 w-full">Registered Successfully</h2>
@@ -67,16 +85,24 @@ const CustomerSignUp = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-2 text-sm font-medium text-gray-800">
-              Select BuisnessMan
+            <label htmlFor="month" className="block mb-1 font-medium">
+              Select BuisnessMan:
             </label>
-            <input
-              type="string"
+            <select
               name="buisnessMan"
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
-              placeholder="Enter your Select BuisnessMan"
-            />
+              className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+              onChange={e => {
+                handleChange(undefined,  "buisnessMan", (e.target as HTMLSelectElement).value)
+              }}
+            >
+              {businessmenData?.getAllBusinessMen?.map((buisnessMan: any, i: number) => {
+                return (
+                  <option key={i} value={buisnessMan?._id}>
+                    {buisnessMan?.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium text-gray-800">
