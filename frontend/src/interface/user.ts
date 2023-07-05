@@ -1,24 +1,47 @@
-interface ILoginUserData {
-  token: string;
-  userDetails: IUser;
+interface ISignInDetails {
+  username?: string;
+  password?: string;
 }
 interface IUser {
-    name?: string;
-    age?: string;
-    quote?: Array<IQuote>;
-    _id?: string;
+  name?: string;
+  email?: string;
+  username?: string;
+  _id?: string;
+  customers?: Array<ICustomer>;
+  buisnessMan?: IBuisnessMan;
+  isCustomer?: boolean;
+}
+interface IBuisnessMan {
+  _id?: string
+  name?: string;
+  email?: string;
+  username?: string;
+}
+interface ICustomer {
+  _id?:string;
+  name: string;
+  email?: string;
+  username?: string;
 }
 interface IUserState {
-  user?: IUser,
-  isUserDataPending: boolean,
-  isUserQuotePending: boolean,
+  user?: IUser;
+  visuals?: IDataVisualize;
+  isUserDataPending?: boolean;
+  chats?: Array<IChats>;
 }
-interface IQuote {
-    description?: string;
-    by?: string,
+interface IUserVisualInput {
+  expenses?: number;
+  savings?: number;
 }
-interface IUserLoginState {
-  user?: ILoginUserData;
-  isUserDataPending: boolean;
+interface IDataVisualize {
+  _id?: string;
+  by?: any;
+  expenses: Array<number>;
+  savings: Array<number>;
 }
-export type { ILoginUserData, IUser, IUserState, IQuote, IUserLoginState };
+interface IChats {
+  sender: string;
+  reciever: string;
+  message: string;
+}
+export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats };

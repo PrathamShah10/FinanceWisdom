@@ -1,32 +1,83 @@
-import { GET_USER_DETAILS, GET_ALL_QUOTES } from "../../queries";
-import { CREATE_QUOTE } from "../../mutations";
+import {
+  ADD_MESSAGES,
+  SIGNIN_BUISNESSMAN,
+  SIGNIN_USER,
+  UPDATE_USERVISUAL,
+} from "../../mutations";
 import { AppDispatch } from "..";
 import { client } from "../../index";
 import {
   setUserData,
+  setUserVisuals,
   setIsUserDataPending,
-  setQuoteData,
-  setIsUserQuotePending,
-  setQuotesData,
+  setChats,
+  setAllData,
 } from "../reducer/user";
-import { IUser, IQuote } from "../../interface/user";
+import { ISignInDetails, IUser, IChats } from "../../interface/user";
+import { GET_ALL_BUISNESS_DATA, GET_ALL_USER_DATA } from "../../queries";
 
-export const getUserDetailsAction = (userid: string) => {
+export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
     dispatch(setIsUserDataPending(true));
     client
-      .query({
-        query: GET_USER_DETAILS,
+      .mutate({
+        mutation: SIGNIN_BUISNESSMAN,
         variables: {
-          _id: userid,
+          signDetails: signDetails,
         },
-        fetchPolicy: 'network-only',
+        fetchPolicy: "network-only",
       })
       .then((response) => {
+        const res = response.data.signInBuisness;
+        localStorage.setItem("token", res.token);
+        const { name, email, _id, customers } = res.userDetails;
+        const customersFilter = customers.map((customer: any) => {
+          const { __typename, ...data } = customer;
+          return data;
+        });
+        const isCustomer = res.isCustomer;
+        // console.log('strignify::', JSON.stringify({_id, isCustomer}));
+        localStorage.setItem("user", JSON.stringify({ _id, isCustomer }));
         const userData: IUser = {
-          name: response.data.user.name,
-          age: response.data.user.age,
-          quote: response.data.user.quote,
+          name,
+          email,
+          _id,
+          customers: customersFilter,
+          isCustomer,
+        };
+        dispatch(setUserData(userData));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setIsUserDataPending(false));
+      });
+  };
+};
+export const getSignedUserDetailsAction = (signDetails: ISignInDetails) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setIsUserDataPending(true));
+    client
+      .mutate({
+        mutation: SIGNIN_USER,
+        variables: {
+          signDetails: signDetails,
+        },
+        fetchPolicy: "network-only",
+      })
+      .then((response) => {
+        const res = response.data.signInUser;
+        localStorage.setItem("token", res.token);
+        const { name, email, _id, buisnessMan } = res.userDetails;
+        const isCustomer = res.isCustomer;
+        localStorage.setItem("user", JSON.stringify({ _id, isCustomer }));
+        const userData: IUser = {
+          name,
+          email,
+          _id,
+          isCustomer,
+          buisnessMan,
         };
         dispatch(setUserData(userData));
       })
@@ -39,55 +90,100 @@ export const getUserDetailsAction = (userid: string) => {
   };
 };
 
-export const generateQuoteAction = (name: string) => {
+export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setIsUserQuotePending(true));
+    dispatch(setIsUserDataPending(true));
     client
       .mutate({
-        mutation: CREATE_QUOTE,
+        mutation: UPDATE_USERVISUAL,
         variables: {
-          name,
+          economicDetails: economicDetails,
         },
-        fetchPolicy: 'network-only',
+        fetchPolicy: "network-only",
       })
       .then((response) => {
-        const quoteData: IQuote = {
-          description: response.data.createQuote.description,
-        };
-        dispatch(setQuoteData(quoteData));
+        const res = response.data.updateEconomics;
+        dispatch(
+          setUserVisuals({ expenses: res.expenses, savings: res.savings })
+        );
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        dispatch(setIsUserQuotePending(false));
+        dispatch(setIsUserDataPending(false));
       });
   };
 };
 
-export const getAllQuotesAction = () => {
+export const setChatsAction = (messageDetails: MessageInput) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setIsUserQuotePending(true));
+    dispatch(setIsUserDataPending(true));
     client
-      .query({
-        query: GET_ALL_QUOTES,
-        fetchPolicy: 'network-only',
+      .mutate({
+        mutation: ADD_MESSAGES,
+        variables: {
+          messageDetails: messageDetails,
+        },
+        fetchPolicy: "network-only",
       })
       .then((response) => {
-        const quotesData: IQuote[] = response.data.quotes.map((quote: any) => {
-          const quoteData: IQuote = {
-            description: quote.description,
-            by: quote.by.name,
-          };
-          return (quoteData);
-        });
-        dispatch(setQuotesData(quotesData));
+        const res: IChats[] = response.data.addMessage;
+        const filteredData = res.filter(
+          (item) =>
+            (item.sender === messageDetails.sender ||
+              item.sender === messageDetails.reciever) &&
+            (item.reciever === messageDetails.reciever ||
+              item.reciever === messageDetails.sender)
+        );
+        dispatch(setChats(filteredData));
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        dispatch(setIsUserQuotePending(false));
+        dispatch(setIsUserDataPending(false));
       });
   };
+};
+
+export const getAllUserData = (_id: string, isCustomer: boolean) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setIsUserDataPending(true));
+    client
+      .query({
+        query: isCustomer ? GET_ALL_USER_DATA : GET_ALL_BUISNESS_DATA,
+        variables: {
+          _id,
+        },
+        fetchPolicy: "network-only",
+      })
+      .then((response) => {
+        if (isCustomer) {
+          const res = response.data.getAllUserData;
+          console.log("resGETAll", response.data.getAllUserData);
+          dispatch(setAllData(res));
+        } else {
+          console.log("resGETAll", response.data.getAllBusinessData);
+          dispatch(setAllData(response.data.getAllBusinessData));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setIsUserDataPending(false));
+      });
+  };
+};
+type EconomicsInput = {
+  _id: string;
+  expenses: Array<number>;
+  savings: Array<number>;
+};
+type MessageInput = {
+  sender?: string;
+  reciever?: string;
+  message?: string;
+  //messages
 };
