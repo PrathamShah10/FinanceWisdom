@@ -1,38 +1,6 @@
-import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { SIGNUP_USER } from "../../mutations";
 const SignUp = () => {
-  const [formData, setFormData] = useState({});
-  const [signUpUser, { data, loading, error }] = useMutation(SIGNUP_USER);
-  if (error) {
-    return <h1>error</h1>;
-  }
-  if (loading) {
-    return <h1>loading...</h1>;
-  }
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { name, value }: handleChangeProp = e.target;
-    if (name === "age") {
-      value = parseInt(value);
-    }
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-  type handleChangeProp = {
-    name: string;
-    value: string | number;
-  };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signUpUser({
-      variables: {
-        newUserDetails: formData,
-      },
-    });
-  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
