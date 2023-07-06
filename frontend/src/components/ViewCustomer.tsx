@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
 import { GET_CUSTOMER_DATA } from "../queries";
 import { Line } from "react-chartjs-2";
+import ClipSpinner from "./common/ClipSpinner";
 function ViewCustomer({ customerId }: ViewCustomerProps) {
   const { data, loading, error } = useQuery(GET_CUSTOMER_DATA, {
     variables: {
@@ -56,10 +57,10 @@ function ViewCustomer({ customerId }: ViewCustomerProps) {
       },
     },
   } as any;
-  if (loading) return <h1>loading...</h1>;
   if (error) return <h1>error</h1>;
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
+        <ClipSpinner isLoading={loading} />
       <div className="mt-8 flex flex-col justify-center items-center space-y-4">
         <div className=" h-[250px] ">
           <Line data={expenseGraphData} options={LineOptions} />

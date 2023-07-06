@@ -37,5 +37,5 @@ class PeerService {
     }
   }
 }
-
-export default new PeerService();
+const peerVideoService = new PeerService();
+export default peerVideoService;

@@ -5,12 +5,12 @@ import { bgcolors } from "../../constants/colors";
 import { CategoryScale } from "chart.js";
 import PieChart from "./PieChart";
 import { BarChart } from "./BarChart";
+import ClipSpinner from "../common/ClipSpinner";
 // import { BarChart } from "./BarChart";
 Chart.register(CategoryScale);
 const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
   const [stat, setStat] = useState<string>("expenses");
   const [toogleChart, setToogleChart] = useState<string>("PIECHART");
-  if (!expenseData || !savingsData) return <h1>loading...</h1>;
   const data1 = {
     labels: [...months],
     datasets: [
@@ -36,6 +36,7 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
   return (
     <div>
       <div className="flex flex-col space-y-4">
+        <ClipSpinner isLoading={(!expenseData || !savingsData)} />
         <div className=" flex mb-4">
           <select
             className="p-3 rounded-lg bg-white-200 text-black mr-4 border-2 border-white  hover:border-black"

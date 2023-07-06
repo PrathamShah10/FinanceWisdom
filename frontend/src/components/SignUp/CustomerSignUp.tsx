@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { SIGNUP_USER } from "../../mutations";
 import { GET_ALL_BUISNESSMEN } from "../../queries";
 import { useMutation, useQuery } from "@apollo/client";
+import ClipSpinner from "../common/ClipSpinner";
 const CustomerSignUp = () => {
   const [registrationData, setRegistrationData] = useState({});
-  const [signUpUser, { data, loading, error }] = useMutation(SIGNUP_USER);
+  const [signUpUser, { loading, error }] = useMutation(SIGNUP_USER);
   const {
     data: businessmenData,
     loading: businessmenLoading,
@@ -45,17 +46,6 @@ const CustomerSignUp = () => {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="relative top-0">
-        {data ? (
-          loading || businessmenLoading ? (
-            <h2 className="bg-red-200 w-full">Registering...</h2>
-          ) : (
-            <h2 className="bg-green-200 w-full">Registered Successfully</h2>
-          )
-        ) : (
-          ""
-        )}
-      </div>
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-6">Customer Register</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
@@ -90,17 +80,23 @@ const CustomerSignUp = () => {
             <select
               name="buisnessMan"
               className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              onChange={e => {
-                handleChange(undefined,  "buisnessMan", (e.target as HTMLSelectElement).value)
+              onChange={(e) => {
+                handleChange(
+                  undefined,
+                  "buisnessMan",
+                  (e.target as HTMLSelectElement).value
+                );
               }}
             >
-              {businessmenData?.getAllBusinessMen?.map((buisnessMan: any, i: number) => {
-                return (
-                  <option key={i} value={buisnessMan?._id}>
-                    {buisnessMan?.name}
-                  </option>
-                );
-              })}
+              {businessmenData?.getAllBusinessMen?.map(
+                (buisnessMan: any, i: number) => {
+                  return (
+                    <option key={i} value={buisnessMan?._id}>
+                      {buisnessMan?.name}
+                    </option>
+                  );
+                }
+              )}
             </select>
           </div>
           <div className="mb-4">
@@ -131,7 +127,11 @@ const CustomerSignUp = () => {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
-            Register
+            {!(loading || businessmenLoading) ? (
+              "Register"
+            ) : (
+              <ClipSpinner isLoading={loading || businessmenLoading} />
+            )}
           </button>
         </form>
       </div>

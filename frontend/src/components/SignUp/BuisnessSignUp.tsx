@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { SIGNUP_BUISNESSMAN } from "../../mutations";
 import { useMutation } from "@apollo/client";
+import ClipSpinner from "../common/ClipSpinner";
 const BuisnessSignUp = () => {
   const [registrationData, setRegistrationData] = useState({});
-  const [signUpUser, { data, loading, error }] =
+  const [signUpUser, { loading, error }] =
     useMutation(SIGNUP_BUISNESSMAN);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,17 +30,6 @@ const BuisnessSignUp = () => {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="relative top-0">
-        {data ? (
-          loading ? (
-            <h2 className="bg-red-200 w-full">Registering...</h2>
-          ) : (
-            <h2 className="bg-green-200 w-full">Registered Successfully</h2>
-          )
-        ) : (
-          ""
-        )}
-      </div>
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-6">Buisness Register</h2>
         <form onSubmit={handleSubmit}>
@@ -95,7 +85,7 @@ const BuisnessSignUp = () => {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
-            Register
+            {!loading ? 'Register' : <ClipSpinner isLoading={loading} />}
           </button>
         </form>
       </div>

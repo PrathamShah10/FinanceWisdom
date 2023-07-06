@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { getSignedBuisnessDetailsAction } from "../../redux/action/user";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { ISignInDetails } from "../../interface/user";
+import ClipSpinner from "../common/ClipSpinner";
 function BuisnessLogin() {
   const [signInData, setSignInData] = useState<ISignInDetails>({});
   const dispatch = useAppDispatch();
   const { user, isUserDataPending } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (user?.isCustomer === false) {
       navigate("/home-buisness");
@@ -32,9 +33,6 @@ function BuisnessLogin() {
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="relative top-0">
-        {isUserDataPending ? <h1>loading...</h1> : ""}
-      </div>
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-6">Buisness Login</h2>
         <form onSubmit={handleSubmit}>
@@ -66,7 +64,11 @@ function BuisnessLogin() {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
-            Sign In
+            {!isUserDataPending ? (
+              "Sign In"
+            ) : (
+              <ClipSpinner isLoading={isUserDataPending} />
+            )}
           </button>
         </form>
       </div>

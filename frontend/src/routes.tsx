@@ -1,7 +1,7 @@
 import PrivateRoute from "./PrivateRoute";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-import Profile from "./components/Profile";
+// import Profile from "./components/Profile";
 import VideoCallBody from "./components/VideoCalling/VideoCallBody";
 import BuisnessLogin from "./components/SignIn/BuisnessLogin";
 import CustomerLogin from "./components/SignIn/CustomerLogin";
@@ -34,7 +34,7 @@ export const routes: RouteObject[] = [
     element: <CustomerSignUp />,
   },
   { path: "/register", element: <SignUp /> },
-  { path: "/profile", element: <PrivateRoute element={Profile} /> },
+  // { path: "/profile", element: <PrivateRoute element={Profile} /> },
   { path: "/video-call", element: <PrivateRoute element={VideoCallBody} /> },
   { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} /> },
   { path: "/home-user", element: <PrivateRoute element={UserHome} /> },

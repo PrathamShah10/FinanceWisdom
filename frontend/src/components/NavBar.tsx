@@ -63,7 +63,7 @@ const NavBar = () => {
                       aria-orientation="vertical"
                       aria-labelledby="user-menu"
                     >
-                      <Link to="/login">
+                      <Link to="/">
                         <div
                           className="text-gray-300 bg-red-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                           onClick={() => {
