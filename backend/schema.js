@@ -7,6 +7,7 @@ type Query {
  getAllUserData(_id:ID!): AllUserData
  getAllBusinessData(_id:ID!): AllBuisnessData
  getAllBusinessMen: [BusinessPerson]
+ getCustomerData(_id: String!): Economics
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User

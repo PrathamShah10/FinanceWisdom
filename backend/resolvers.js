@@ -37,6 +37,9 @@ export const resolvers = {
         $or: [{ sender: _id }, { reciever: _id }],
       });
     },
+    getCustomerData: async (_, {_id}) => {
+      return await Economics.findOne({by:_id});
+    },
   },
   Mutation: {
     addUser: async (_, { newUserDetails }) => {

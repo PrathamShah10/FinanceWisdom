@@ -16,12 +16,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("user:call", ({ to, offer }) => {
-    console.log('calling vai');
     io.to(to).emit("incomming:call", { from: socket.id, offer });
   });
 
   socket.on("call:accepted", ({ to, ans }) => {
-    console.log('accepted vai');
     io.to(to).emit("call:accepted", { from: socket.id, ans });
   });
 
@@ -34,7 +32,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", (messageData) => {
-    console.log('msggg');
     const { sender, receiver, message } = messageData;
     const messageToSend = {
       sender,

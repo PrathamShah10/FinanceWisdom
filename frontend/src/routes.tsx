@@ -38,5 +38,5 @@ export const routes: RouteObject[] = [
   { path: "/video-call", element: <PrivateRoute element={VideoCallBody} /> },
   { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} /> },
   { path: "/home-user", element: <PrivateRoute element={UserHome} /> },
-  { path: "/chat", element: <PrivateRoute element={Chat} /> },
+  { path: "/chat/:customerId", element: <PrivateRoute element={Chat} /> },
 ];

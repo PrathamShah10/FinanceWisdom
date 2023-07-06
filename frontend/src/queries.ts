@@ -80,3 +80,13 @@ export const GET_ALL_CHATS = gql`
     }
   }
 `;
+
+export const GET_CUSTOMER_DATA = gql`
+query visuals($_id: String!) {
+  getCustomerData(_id: $_id) {
+    expenses
+    savings
+    _id
+  }
+}
+`;

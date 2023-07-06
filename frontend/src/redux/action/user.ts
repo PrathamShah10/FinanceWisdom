@@ -40,7 +40,6 @@ export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
           return data;
         });
         const isCustomer = res.isCustomer;
-        // console.log('strignify::', JSON.stringify({_id, isCustomer}));
         localStorage.setItem("user", JSON.stringify({ _id, isCustomer }));
         const userData: IUser = {
           name,
@@ -121,7 +120,6 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
 };
 
 export const setChatsAction = (messageDetails: MessageInput) => {
-  // console.log('settingChats');
   return (dispatch: AppDispatch) => {
     dispatch(setIsUserDataPending(true));
     client
@@ -164,7 +162,6 @@ export const getAllChats = (_id: string) => {
       })
       .then((response) => {
         const res: IChats[] = response.data.getAllChats;
-console.log('query chats', res);
         dispatch(setChats(res));
       })
       .catch((err) => {

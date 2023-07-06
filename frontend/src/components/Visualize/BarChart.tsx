@@ -14,7 +14,15 @@ export const BarChart = ({ chartData }: any) => {
             legend: {
               display: false
             }
-          }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0, // Round to whole numbers if desired
+              },
+            },
+          },
         }}
       />
     </div>

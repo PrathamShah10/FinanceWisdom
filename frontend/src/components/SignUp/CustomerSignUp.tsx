@@ -10,7 +10,6 @@ const CustomerSignUp = () => {
     loading: businessmenLoading,
     error: businessmenError,
   } = useQuery(GET_ALL_BUISNESSMEN);
-  console.log("dataya", data?.getAllBusinessMen);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signUpUser({

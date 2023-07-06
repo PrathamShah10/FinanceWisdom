@@ -7,7 +7,6 @@ const BuisnessSignUp = () => {
     useMutation(SIGNUP_BUISNESSMAN);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("arw: ", registrationData);
     signUpUser({
       variables: {
         newUserDetails: registrationData,

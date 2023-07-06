@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import { getAllChats, setChatsAction } from "../../redux/action/user";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { io } from "socket.io-client";
 
-const Chat = ({ customerId }: ChatProps) => {
+const Chat = () => {
   const dispatch = useAppDispatch();
   const { user, chats } = useAppSelector((state) => state.user);
   const socket = useMemo(() => io("localhost:8000"), []);
-  console.log("chat: ", chats);
+  const {customerId} = useParams();
   const senderId = user?._id;
-  const receiverId = customerId ? customerId : user?.buisnessMan?._id;
+  const receiverId = customerId !== 'undefined' ? customerId : user?.buisnessMan?._id;
   const [message, setMessage] = useState<string>("");
   const handleMessages = useCallback(
     (messageData: any) => {
       const { sender, receiver } = messageData;
       if (sender === receiverId && receiver === senderId) {
-        // console.log("dispatch in recieving");
         senderId && dispatch(getAllChats(senderId));
       }
     },
@@ -35,7 +35,6 @@ const Chat = ({ customerId }: ChatProps) => {
         receiver: receiverId,
         message: message,
       };
-      console.log("emiited", socket);
       socket.emit("message", messageData);
       dispatch(
         setChatsAction({
@@ -117,7 +116,4 @@ const Chat = ({ customerId }: ChatProps) => {
   );
 };
 
-type ChatProps = {
-  customerId?: string;
-};
 export default Chat;
