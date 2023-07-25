@@ -2,9 +2,9 @@ import React, { ChangeEvent } from "react";
 import * as XLSX from "xlsx"; // Use named imports
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setUserVisualsAction } from "../redux/action/user";
-const EnterExcelData = () => {
+const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, customerId } = useAppSelector((state) => state.user);
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -30,18 +30,24 @@ const EnterExcelData = () => {
     const excelData = XLSX.utils.sheet_to_json(sheet);
     const changeExpensedData = excelData.map((exp: any, i) => exp.Expenses);
     const changedSavingsData = excelData.map((exp: any, i) => exp.Savings);
-    if (
-      user?._id &&
-      changeExpensedData.length === 12 &&
-      changedSavingsData.length === 12
-    ) {
-      dispatch(
-        setUserVisualsAction({
-          expenses: changeExpensedData,
-          savings: changedSavingsData,
-          _id: user?._id,
-        })
-      );
+    if (changeExpensedData.length === 12 && changedSavingsData.length === 12) {
+      if (isAdvisor && customerId) {
+        dispatch(
+          setUserVisualsAction({
+            budgetExp: changeExpensedData,
+            budgetSave: changedSavingsData,
+            _id: customerId,
+          })
+        );
+      } else if (user?._id && !isAdvisor) {
+        dispatch(
+          setUserVisualsAction({
+            expenses: changeExpensedData,
+            savings: changedSavingsData,
+            _id: user?._id,
+          })
+        );
+      }
     }
   };
   const handleDownload = () => {
@@ -62,5 +68,7 @@ const EnterExcelData = () => {
     </div>
   );
 };
-
+type EnterExcelDataProps = {
+  isAdvisor?: boolean;
+};
 export default EnterExcelData;

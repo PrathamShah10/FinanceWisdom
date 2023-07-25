@@ -33,16 +33,16 @@ interface IUserState {
 interface IUserVisualInput {
   expenses?: number;
   savings?: number;
-  budExp?: number,
-  budSav?: number,
+  budExp?: number;
+  budSav?: number;
 }
 interface IDataVisualize {
   _id?: string;
   by?: any;
   expenses: Array<number>;
   savings: Array<number>;
-  budgetExp?: Array<number>,
-  budgetSave?: Array<number>,
+  budgetExp?: Array<number>;
+  budgetSave?: Array<number>;
 }
 interface IChats {
   sender: string;
