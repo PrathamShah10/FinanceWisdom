@@ -93,7 +93,7 @@ const ViewAllLines = () => {
             </option>
           </select>
         </div>
-        <div className="chart-container w-[45%] mt-2">
+        <div className="chart-container flex items-center justify-center w-[45%] mt-2">
           {toogleChart === "EXPENSE" ? (
             <Line data={expenseGraphData} options={LineOptions} />
           ) : (

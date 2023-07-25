@@ -83,6 +83,30 @@ export const routes: RouteObject[] = [
     element: <PrivateRoute element={EnterExcelData} />,
   },
   { path: "/chat/:customerId", element: <PrivateRoute element={Chat} /> },
-  { path: "/set-budget", element: <PrivateRoute element={SetBudget} /> },
+  {
+    path: "/set-budget",
+    element: (
+      <PrivateRoute
+        element={Options}
+        props={{
+          title: "how would you like to update",
+          heading1: "enter manually",
+          heading2: "enter through excel sheet",
+          link1: "/update-advisor-manualdata",
+          link2: "/update-advisor-exceldata",
+        }}
+      />
+    ),
+  },
+  {
+    path: "update-advisor-manualdata",
+    element: <PrivateRoute element={SetBudget} />,
+  },
+  {
+    path: "update-advisor-exceldata",
+    element: (
+      <PrivateRoute element={EnterExcelData} props={{ isAdvisor: true }} />
+    ),
+  },
   { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
 ];

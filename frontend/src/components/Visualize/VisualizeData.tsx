@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import Chart from "chart.js/auto";
 import { months } from "../../constants/month";
 import { bgcolors } from "../../constants/colors";
@@ -71,6 +72,7 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
           )}
         </div>
       </div>
+      <button><Link to="/line-graph">See Growth</Link></button>
     </div>
   );
 };
