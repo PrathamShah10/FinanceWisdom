@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useAppDispatch } from "../../hooks/redux";
+import { getAllUserData } from "../../redux/action/user";
 import { Link } from "react-router-dom";
 const Options = ({
   title,
@@ -7,7 +9,20 @@ const Options = ({
   link1,
   link2,
   onHandleClick,
+  isCustomerStart = false,
 }: OptionsProps) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isCustomerStart) {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const { _id, isCustomer } = JSON.parse(userData);
+        dispatch(getAllUserData(_id, isCustomer));
+      }
+    }
+  }, [dispatch, isCustomerStart]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
@@ -51,5 +66,6 @@ type OptionsProps = {
   link1: string;
   link2: string;
   onHandleClick?: (a: string) => void;
+  isCustomerStart?: boolean;
 };
 export default Options;

@@ -121,10 +121,11 @@ export const resolvers = {
         await newEcoData.save();
         return newEcoData;
       }
-      if (economicDetails.expenses && expenses.savings) {
+      if (economicDetails.expenses && economicDetails.savings) {
         ecoData.expenses = economicDetails.expenses;
         ecoData.savings = economicDetails.savings;
       }
+
       if (economicDetails.budgetExp) {
         ecoData.budgetExp = economicDetails.budgetExp;
       }

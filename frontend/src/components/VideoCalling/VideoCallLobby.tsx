@@ -28,7 +28,6 @@ function VideoCallLobby({ setPath ,setRoomId }: VideoCallLobbyProps) {
   //   (data: any) => {
   //     const { lobbyId } = data;
   //     setPath && setPath(`/room/${lobbyId}`);
-  //     console.log('setting my room as ', lobbyId);
   //     setRoomId && setRoomId(lobbyId);
   //   },
   //   [setPath, setRoomId]
