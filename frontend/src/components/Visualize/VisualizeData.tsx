@@ -63,7 +63,7 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
             </option>
           </select>
         </div>
-        <div className="chart-container mt-2">
+        <div className="flex items-center justify-center w-[75%] mt-2">
           {toogleChart === "PIECHART" ? (
             <PieChart chartData={stat === "expenses" ? data1 : data2} />
           ) : (

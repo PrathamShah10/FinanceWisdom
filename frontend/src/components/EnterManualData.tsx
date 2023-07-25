@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState} from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setUserVisualsAction, getAllUserData } from "../redux/action/user";
+import { setUserVisualsAction } from "../redux/action/user";
 import { months } from "../constants/month";
 import { IUserVisualInput, IDataVisualize } from "../interface/user";
-import { ChatIcon } from "./common/icons/Icons";
-import VisualizeData from "../components/Visualize/VisualizeData";
 const UserHome = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
@@ -17,13 +14,6 @@ const UserHome = () => {
       savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     }
   );
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const { _id, isCustomer } = JSON.parse(userData);
-      dispatch(getAllUserData(_id, isCustomer));
-    }
-  }, [dispatch]);
   const handleSubmit = () => {
     const changeExpensedData = months.map((month: string, i: number) => {
       if (month === selectedMonth) {
@@ -60,7 +50,7 @@ const UserHome = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <div className="mt-10 flex flex-row items-center justify-center">
-        <div className="left w-[50%]">
+        {/* <div className="left w-[50%]"> */}
           <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-center">
               Enter Your Expenses
@@ -127,17 +117,17 @@ const UserHome = () => {
               Submit
             </button>
           </div>
-        </div>
-          <VisualizeData
+        {/* </div> */}
+          {/* <VisualizeData
             expenseData={visuals?.expenses}
             savingsData={visuals?.savings}
-          />
+          /> */}
 
-        <Link to={`/chat/${undefined}`}>
+        {/* <Link to={`/chat/${undefined}`}>
           <div className="fixed bottom-[3rem] right-[3rem] p-4 border-[2px] border-black rounded-full">
             <ChatIcon />
           </div>
-        </Link>
+        </Link> */}
       </div>
 
       {/* <div className="mt-8 flex flex-col justify-center items-center space-y-4">
@@ -148,7 +138,8 @@ const UserHome = () => {
           <Line data={savingGraphData} options={LineOptions} />
         </div>
       </div> */}
-      <div><button><Link to="/line-graph">View Growth</Link></button></div>
+      {/* <div><button><Link to="/line-graph">View Growth</Link></button></div>
+      <input type="file" onChange={handleFileChange} /> */}
     </div>
   );
 };
