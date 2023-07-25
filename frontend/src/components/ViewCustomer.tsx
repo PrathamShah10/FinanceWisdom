@@ -5,10 +5,12 @@ import { months } from "../constants/month";
 import { GET_CUSTOMER_DATA } from "../queries";
 import { Line } from "react-chartjs-2";
 import ClipSpinner from "./common/ClipSpinner";
-function ViewCustomer({ customerId }: ViewCustomerProps) {
+import { useAppSelector } from "../hooks/redux";
+function ViewCustomer() {
+  const { customerId } = useAppSelector((state) => state.user);
   const { data, loading, error } = useQuery(GET_CUSTOMER_DATA, {
     variables: {
-        _id: customerId,
+      _id: customerId,
     },
   });
   const expenseData = data?.getCustomerData.expenses;
@@ -60,7 +62,7 @@ function ViewCustomer({ customerId }: ViewCustomerProps) {
   if (error) return <h1>error</h1>;
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-        <ClipSpinner isLoading={loading} />
+      <ClipSpinner isLoading={loading} />
       <div className="mt-8 flex flex-col justify-center items-center space-y-4">
         <div className=" h-[250px] ">
           <Line data={expenseGraphData} options={LineOptions} />
@@ -85,10 +87,12 @@ function ViewCustomer({ customerId }: ViewCustomerProps) {
           </svg>
         </div>
       </Link>
+      <div>
+        <button className="bg-blue-500 rounded-lg p-4">
+          <Link to="/set-budget">Set finanical budget</Link>
+        </button>
+      </div>
     </div>
   );
 }
-type ViewCustomerProps = {
-  customerId: string;
-};
 export default ViewCustomer;

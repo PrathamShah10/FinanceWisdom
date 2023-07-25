@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 import { useSocket } from "./VideoCallBody";
 import peer from "./service/peer";
 import ReactPlayer from "react-player";
-const Room = () => {
+const Room = ({ enteredRoom }: RoomProps) => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState<string | null>(null);
   const [myStream, setMyStream] = useState<any>(null);
   const [remoteStream, setRemoteStream] = useState<any>(null);
   const [incommingCall, setIncommingCall] = useState<boolean>(false);
-  const handleUserJoined = useCallback(({ id }: handleUserJoinProp) => {
-  
-    setRemoteSocketId(id);
-  }, []);
+  const handleUserJoined = useCallback(({ id, room }: handleUserJoinProp) => {
+    if (room === enteredRoom) {
+      setRemoteSocketId(id);
+    } else {
+      return;
+    }
+  }, [enteredRoom]);
 
   const handleCallUser = useCallback(async () => {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -185,6 +188,7 @@ const Room = () => {
 };
 type handleUserJoinProp = {
   id: string;
+  room: string;
 };
 
 type handleIncommingCallProps = {
@@ -204,5 +208,9 @@ type handleNegoNeedIncommingProps = {
 
 type handleNegoNeedFinalProps = {
   ans: any;
+};
+
+type RoomProps = {
+  enteredRoom?: string;
 };
 export default Room;

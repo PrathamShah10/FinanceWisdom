@@ -1,69 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setUserVisualsAction, getAllUserData } from "../redux/action/user";
+import React, { useState } from "react";
+import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
-import { IUserVisualInput, IDataVisualize } from "../interface/user";
-import { ChatIcon } from "./common/icons/Icons";
-import VisualizeData from "../components/Visualize/VisualizeData";
-const UserHome = () => {
+import { GET_CUSTOMER_DATA } from "../queries";
+import { IUserVisualInput } from "../interface/user";
+import { setUserVisualsAction } from "../redux/action/user";
+// import ClipSpinner from "./common/ClipSpinner";
+const SetBudget = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
+  const { customerId } = useAppSelector((state) => state.user);
+  const { data } = useQuery(GET_CUSTOMER_DATA, {
+    variables: {
+      _id: customerId,
+    },
+  });
+  const visuals = data.getCustomerData;
   const dispatch = useAppDispatch();
-  const { user, visuals } = useAppSelector((state) => state.user);
-  const [visualData, setVisualData] = useState<IDataVisualize>(
-    visuals || {
-      expenses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    }
-  );
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const { _id, isCustomer } = JSON.parse(userData);
-      dispatch(getAllUserData(_id, isCustomer));
-    }
-  }, [dispatch]);
   const handleSubmit = () => {
     const changeExpensedData = months.map((month: string, i: number) => {
       if (month === selectedMonth) {
-        return inputData.expenses || 0;
+        return inputData.budExp || 0;
       } else {
-        return visualData.expenses[i];
+        return visuals.budgetExp[i];
       }
     });
     const changedSavingsData = months.map((month: string, i: number) => {
       if (month === selectedMonth) {
-        return inputData.savings || 0;
+        return inputData.budSav || 0;
       } else {
-        return visualData.savings[i];
+        return visuals.budgetSave[i];
       }
     });
-    if (user?._id) {
+    if (customerId) {
       dispatch(
         setUserVisualsAction({
-          expenses: changeExpensedData,
-          savings: changedSavingsData,
-          _id: user?._id,
+          budgetExp: changeExpensedData,
+          budgetSave: changedSavingsData,
+          _id: customerId,
         })
       );
     }
-    setVisualData({
-      expenses: changeExpensedData,
-      savings: changedSavingsData,
-    });
   };
-  const getMonthIndex = (month: string) => {
-    return months.findIndex((item) => item === month);
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <div className="mt-10 flex flex-row items-center justify-center">
+      {/* <ClipSpinner isLoading={loading} /> */}
+      <div className="mt-4 flex flex-row items-center justify-center">
         <div className="left w-[50%]">
           <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-center">
-              Enter Your Expenses
+              Enter Budget Plan
             </h2>
 
             <div className="mb-4">
@@ -92,11 +78,10 @@ const UserHome = () => {
               </label>
               <input
                 type="text"
-                defaultValue={visualData.expenses[getMonthIndex(selectedMonth)]}
                 onChange={(e) =>
                   setInputData((prev) => ({
                     ...prev,
-                    expenses: parseInt(e.target.value),
+                    budExp: parseInt(e.target.value),
                   }))
                 }
                 className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
@@ -109,17 +94,15 @@ const UserHome = () => {
               </label>
               <input
                 type="text"
-                defaultValue={visualData.savings[getMonthIndex(selectedMonth)]}
                 onChange={(e) =>
                   setInputData((prev) => ({
                     ...prev,
-                    savings: parseInt(e.target.value),
+                    budSav: parseInt(e.target.value),
                   }))
                 }
                 className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
-
             <button
               className="block w-full p-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
               onClick={handleSubmit}
@@ -128,29 +111,9 @@ const UserHome = () => {
             </button>
           </div>
         </div>
-          <VisualizeData
-            expenseData={visuals?.expenses}
-            savingsData={visuals?.savings}
-          />
-
-        <Link to={`/chat/${undefined}`}>
-          <div className="fixed bottom-[3rem] right-[3rem] p-4 border-[2px] border-black rounded-full">
-            <ChatIcon />
-          </div>
-        </Link>
       </div>
-
-      {/* <div className="mt-8 flex flex-col justify-center items-center space-y-4">
-        <div className=" h-[250px] ">
-          <Line data={expenseGraphData} options={LineOptions} />
-        </div>
-        <div className=" h-[250px] ">
-          <Line data={savingGraphData} options={LineOptions} />
-        </div>
-      </div> */}
-      <div><button><Link to="/line-graph">View Growth</Link></button></div>
     </div>
   );
 };
 
-export default UserHome;
+export default SetBudget;

@@ -10,9 +10,10 @@ io.on("connection", (socket) => {
   console.log(`Socket Connected`, socket.id);
   socket.on("room:join", (data) => {
     const { room } = data;
-    io.to(room).emit("user:joined", { id: socket.id });
+    console.log('room joined new is: ', room);
+    io.to(room).emit("user:joined", { id: socket.id, room:room });
     socket.join(room);
-    io.to(socket.id).emit("room:join", data);
+    // io.to(socket.id).emit("room:join", data);
   });
 
   socket.on("user:call", ({ to, offer }) => {

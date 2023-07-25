@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
-// import { useRoutes } from "react-router-dom";
 import Room from "./Room";
-// import {routes} from '../../VideoCallRoutes';
 import { io } from "socket.io-client";
 import VideoCallContent from "./VideoCallContent";
 const SocketContext = createContext<any>(null);
@@ -11,10 +9,11 @@ export const useSocket = () => {
 };
 const VideoCallBody = () => {
   const [path, setPath] = useState<string>('');
+  const [roomId, setRoomId] = useState<string | undefined>(undefined);
   const socket = useMemo(() => io("localhost:8000"), []);
   return (
     <SocketContext.Provider value={socket}>
-      {path.includes('room') ? <Room /> : <VideoCallContent setPath={setPath}/>}
+      {path.includes('room') ? <Room enteredRoom={roomId} /> : <VideoCallContent setPath={setPath} setRoomId={setRoomId}/>}
     </SocketContext.Provider>
   );
 };

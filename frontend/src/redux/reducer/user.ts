@@ -10,6 +10,7 @@ const initialState: IUserState = {
   visuals: undefined,
   isUserDataPending: false,
   chats: undefined,
+  customerId: undefined,
 };
 export const userSlicer = createSlice({
   name: "user",
@@ -35,6 +36,9 @@ export const userSlicer = createSlice({
     setIsUserDataPending: (state, { payload }: PayloadAction<boolean>) => {
       state.isUserDataPending = payload;
     },
+    setCustomerId: (state, {payload}: PayloadAction<string>) => {
+      state.customerId = payload;
+    }
   },
 });
 
@@ -44,6 +48,7 @@ export const {
   setUserVisuals,
   setAllData,
   setIsUserDataPending,
+  setCustomerId,
 } = userSlicer.actions;
 
 export default userSlicer.reducer;

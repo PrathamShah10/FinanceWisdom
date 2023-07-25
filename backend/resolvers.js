@@ -32,13 +32,13 @@ export const resolvers = {
     getAllBusinessMen: async () => {
       return await BusinessPerson.find({});
     },
-    getAllChats: async (_, {_id}) => {
+    getAllChats: async (_, { _id }) => {
       return await Chats.find({
         $or: [{ sender: _id }, { reciever: _id }],
       });
     },
-    getCustomerData: async (_, {_id}) => {
-      return await Economics.findOne({by:_id});
+    getCustomerData: async (_, { _id }) => {
+      return await Economics.findOne({ by: _id });
     },
   },
   Mutation: {
@@ -121,8 +121,16 @@ export const resolvers = {
         await newEcoData.save();
         return newEcoData;
       }
-      ecoData.expenses = economicDetails.expenses;
-      ecoData.savings = economicDetails.savings;
+      if (economicDetails.expenses && expenses.savings) {
+        ecoData.expenses = economicDetails.expenses;
+        ecoData.savings = economicDetails.savings;
+      }
+      if (economicDetails.budgetExp) {
+        ecoData.budgetExp = economicDetails.budgetExp;
+      }
+      if (economicDetails.budgetSave) {
+        ecoData.budgetSave = economicDetails.budgetSave;
+      }
       await ecoData.save();
       return ecoData;
     },
@@ -162,7 +170,10 @@ export const resolvers = {
   },
   User: {
     buisnessMan: async (user) => {
-      const res = await User.findById(user._id).populate("buisnessMan", "_id name")
+      const res = await User.findById(user._id).populate(
+        "buisnessMan",
+        "_id name"
+      );
       return res.buisnessMan;
     },
   },
