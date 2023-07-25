@@ -11,6 +11,8 @@ import Chat from "./components/Chat/Chat";
 import { RouteObject } from "react-router-dom";
 import BuisnessHome from "./components/BuisnessHome";
 import UserHome from "./components/UserHome";
+import SetBudget from "./components/SetBudget";
+import ViewAllLines from "./components/Visualize/ViewAllLines";
 
 export const routes: RouteObject[] = [
   {
@@ -39,4 +41,6 @@ export const routes: RouteObject[] = [
   { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} /> },
   { path: "/home-user", element: <PrivateRoute element={UserHome} /> },
   { path: "/chat/:customerId", element: <PrivateRoute element={Chat} /> },
+  { path: "/set-budget", element: <PrivateRoute element={SetBudget} />} ,
+  { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} />} ,
 ];

@@ -202,8 +202,11 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
 };
 type EconomicsInput = {
   _id: string;
-  expenses: Array<number>;
-  savings: Array<number>;
+  expenses?: Array<number>;
+  savings?: Array<number>;
+  budgetExp?: Array<number>;
+  budgetSave?: Array<number>;
+  isBuisness?: boolean;
 };
 type MessageInput = {
   sender?: string;

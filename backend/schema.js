@@ -1,5 +1,4 @@
 export const typeDefs = `#graphql
-union UserOrBusinessPerson = User | BusinessPerson
 type Query {
  user(_id:ID!): User
  business(_id:ID!): BusinessPerson
@@ -14,7 +13,7 @@ type Mutation {
     signInUser(signDetails: signInput!): UserToken
     signInBuisness(signDetails: signInput!): BuisnessToken
     addBuisnessMan(newUserDetails: BuisnessInput!) : BusinessPerson
-    updateEconomics(economicDetails: EconomicsInput!): Economics
+    updateEconomics(economicDetails: EconomicsInput): Economics
     addMessage(messageDetails: MessagingInput!): [Messaging]
 }
 type User {
@@ -38,6 +37,8 @@ type Economics {
     expenses: [Int]
     savings: [Int]
     by: User
+    budgetExp: [Int]
+    budgetSave: [Int]
 }
 type AllUserData {
     user: User
@@ -83,8 +84,10 @@ input BuisnessInput {
 }
 input EconomicsInput {
     _id: String!
-    expenses: [Int]!
-    savings: [Int]!
+    expenses: [Int]
+    savings: [Int]
+    budgetExp: [Int]
+    budgetSave: [Int]
 }
 input MessagingInput {
     sender: String!

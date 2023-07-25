@@ -28,16 +28,21 @@ interface IUserState {
   visuals?: IDataVisualize;
   isUserDataPending?: boolean;
   chats?: Array<IChats>;
+  customerId?: string;
 }
 interface IUserVisualInput {
   expenses?: number;
   savings?: number;
+  budExp?: number,
+  budSav?: number,
 }
 interface IDataVisualize {
   _id?: string;
   by?: any;
   expenses: Array<number>;
   savings: Array<number>;
+  budgetExp?: Array<number>,
+  budgetSave?: Array<number>,
 }
 interface IChats {
   sender: string;

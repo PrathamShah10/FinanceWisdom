@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import Options from "../common/Options";
 import { useSocket } from "./VideoCallBody";
-function VideoCallLobby({ setPath }: VideoCallLobbyProps) {
-  const [email, setEmail] = useState<string>("");
+function VideoCallLobby({ setPath ,setRoomId }: VideoCallLobbyProps) {
   const [lobbyId, setLobbyId] = useState<string>("");
   const [selected, setSelected] = useState<string>("DEFAULT");
   const socket = useSocket();
@@ -21,22 +20,25 @@ function VideoCallLobby({ setPath }: VideoCallLobbyProps) {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    socket.emit("room:join", { email, lobbyId });
+    socket.emit("room:join", { room: lobbyId });
+    setPath && setPath('room');
+    setRoomId && setRoomId(lobbyId);
   };
-  const handleJoinLobby = useCallback(
-    (data: any) => {
-      const { lobbyId } = data;
-      setPath && setPath(`/room/${lobbyId}`);
-    },
-    [setPath]
-  );
-  useEffect(() => {
-    socket.on("room:join", handleJoinLobby);
-    return () => {
-      socket.off("room:join", handleJoinLobby);
-    };
-  }, [socket, handleJoinLobby]);
-  console.log("opt", selected);
+  // const handleJoinLobby = useCallback(
+  //   (data: any) => {
+  //     const { lobbyId } = data;
+  //     setPath && setPath(`/room/${lobbyId}`);
+  //     console.log('setting my room as ', lobbyId);
+  //     setRoomId && setRoomId(lobbyId);
+  //   },
+  //   [setPath, setRoomId]
+  // );
+  // useEffect(() => {
+  //   socket.on("room:join", handleJoinLobby);
+  //   return () => {
+  //     socket.off("room:join", handleJoinLobby);
+  //   };
+  // }, [socket, handleJoinLobby]);
   return (
     <div>
       {selected === "DEFAULT" && (
@@ -88,5 +90,6 @@ function VideoCallLobby({ setPath }: VideoCallLobbyProps) {
 }
 type VideoCallLobbyProps = {
   setPath?: (a: string) => void;
+  setRoomId?: (a: string) => void;
 };
 export default VideoCallLobby;
