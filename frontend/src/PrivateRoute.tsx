@@ -6,7 +6,6 @@ const PrivateRoute = ({
   isBuisness = false,
   props,
 }: PrivateRouteProps) => {
-  console.log("buisness hai", isBuisness);
   const navigate = useNavigate();
   let isAuthenticated = localStorage.getItem("token") !== null;
   if (isBuisness) {
