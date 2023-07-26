@@ -1,7 +1,8 @@
 import React from "react";
+import { PersistGate } from "redux-persist/integration/react";
 import { useRoutes } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./redux/index";
+import { store, persistor } from "./redux/index";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import { routes } from "./routes";
@@ -10,8 +11,10 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <NavBar />
-        {element}
+        <PersistGate loading={null} persistor={persistor}>
+          <NavBar />
+          {element}
+        </PersistGate>
       </Provider>
     </>
   );

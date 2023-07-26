@@ -15,7 +15,7 @@ const SetBudget = () => {
       _id: customerId,
     },
   });
-  const visuals = data.getCustomerData;
+  const visuals = data?.getCustomerData;
   const dispatch = useAppDispatch();
   const handleSubmit = () => {
     const changeExpensedData = months.map((month: string, i: number) => {
