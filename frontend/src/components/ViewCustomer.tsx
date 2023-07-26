@@ -1,20 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
 import { GET_CUSTOMER_DATA } from "../queries";
 import { Line } from "react-chartjs-2";
 import ClipSpinner from "./common/ClipSpinner";
-import { useAppSelector } from "../hooks/redux";
-function ViewCustomer() {
-  const { customerId } = useAppSelector((state) => state.user);
+import { ChatIcon } from "./common/icons/Icons";
+const ViewCustomer = () => {
+  const { customerId } = useParams();
   const { data, loading, error } = useQuery(GET_CUSTOMER_DATA, {
     variables: {
       _id: customerId,
     },
   });
-  const expenseData = data?.getCustomerData.expenses;
-  const savingsData = data?.getCustomerData.savings;
+  const expenseData = data?.getCustomerData?.expenses;
+  const savingsData = data?.getCustomerData?.savings;
   const expenseGraphData = {
     datasets: [
       {
@@ -72,27 +72,16 @@ function ViewCustomer() {
         </div>
       </div>
       <Link to={`/chat/${customerId}`}>
-        <div className="fixed bottom-[3rem] right-[3rem] p-4 border-[2px] border-black rounded-full bg-gray-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-6 h-6 text-gray-600 hover:text-gray-900"
-          >
-            <path d="M21 3H3C2.47 3 2 3.47 2 4V16C2 16.53 2.47 17 3 17H8L12 21V17H21C21.53 17 22 16.53 22 16V4C22 3.47 21.53 3 21 3Z" />
-          </svg>
+        <div className="fixed bottom-[3rem] right-[3rem] p-4 border-[2px] border-black rounded-full">
+          <ChatIcon />
         </div>
       </Link>
       <div>
         <button className="bg-blue-500 rounded-lg p-4">
-          <Link to="/set-budget">Set finanical budget</Link>
+          <Link to={`/set-budget/${customerId}`}>Set finanical budget</Link>
         </button>
       </div>
     </div>
   );
-}
+};
 export default ViewCustomer;

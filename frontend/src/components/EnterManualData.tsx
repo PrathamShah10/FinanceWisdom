@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setUserVisualsAction } from "../redux/action/user";
 import { months } from "../constants/month";
 import { IUserVisualInput, IDataVisualize } from "../interface/user";
-const UserHome = () => {
+const EnterManualData = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
   const dispatch = useAppDispatch();
@@ -14,7 +14,6 @@ const UserHome = () => {
       savings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     }
   );
-  
   const handleSubmit = () => {
     const changeExpensedData = months.map((month: string, i: number) => {
       if (month === selectedMonth) {
@@ -123,4 +122,4 @@ const UserHome = () => {
     </div>
   );
 };
-export default UserHome;
+export default EnterManualData;

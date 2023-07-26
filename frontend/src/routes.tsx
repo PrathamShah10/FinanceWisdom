@@ -1,7 +1,6 @@
 import PrivateRoute from "./PrivateRoute";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-// import Profile from "./components/Profile";
 import VideoCallBody from "./components/VideoCalling/VideoCallBody";
 import BuisnessLogin from "./components/SignIn/BuisnessLogin";
 import CustomerLogin from "./components/SignIn/CustomerLogin";
@@ -10,12 +9,13 @@ import BuisnessSignUp from "./components/SignUp/BuisnessSignUp";
 import Chat from "./components/Chat/Chat";
 import { RouteObject } from "react-router-dom";
 import BuisnessHome from "./components/BuisnessHome";
-import UserHome from "./components/EnterManualData";
+import EnterManualData from "./components/EnterManualData";
 import SetBudget from "./components/SetBudget";
 import ViewAllLines from "./components/Visualize/ViewAllLines";
 import Options from "./components/common/Options";
 import EnterExcelData from "./components/EnterExcelData";
 import Visualize from "./components/Visualize/Visualize";
+import ViewCustomer from "./components/ViewCustomer";
 
 export const routes: RouteObject[] = [
   {
@@ -39,9 +39,8 @@ export const routes: RouteObject[] = [
     element: <CustomerSignUp />,
   },
   { path: "/register", element: <SignUp /> },
-  // { path: "/profile", element: <PrivateRoute element={Profile} /> },
   { path: "/video-call", element: <PrivateRoute element={VideoCallBody} /> },
-  { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} /> },
+  { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} isBuisness={true} /> },
   {
     path: "/home-user",
     element: (
@@ -77,14 +76,14 @@ export const routes: RouteObject[] = [
       />
     ),
   },
-  { path: "/update-manualdata", element: <PrivateRoute element={UserHome} /> },
+  { path: "/update-manualdata", element: <PrivateRoute element={EnterManualData} /> },
   {
     path: "/update-exceldata",
     element: <PrivateRoute element={EnterExcelData} />,
   },
   { path: "/chat/:customerId", element: <PrivateRoute element={Chat} /> },
   {
-    path: "/set-budget",
+    path: "/set-budget/:customerId",
     element: (
       <PrivateRoute
         element={Options}
@@ -95,12 +94,13 @@ export const routes: RouteObject[] = [
           link1: "/update-advisor-manualdata",
           link2: "/update-advisor-exceldata",
         }}
+        isBuisness={true} 
       />
     ),
   },
   {
     path: "update-advisor-manualdata",
-    element: <PrivateRoute element={SetBudget} />,
+    element: <PrivateRoute element={SetBudget} isBuisness={true} />,
   },
   {
     path: "update-advisor-exceldata",
@@ -109,4 +109,5 @@ export const routes: RouteObject[] = [
     ),
   },
   { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
+  {path: '/view-customer/:customerId', element: <PrivateRoute element={ViewCustomer} isBuisness={true} />},
 ];
