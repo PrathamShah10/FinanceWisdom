@@ -47,7 +47,7 @@ export const routes: RouteObject[] = [
       <PrivateRoute
         element={Options}
         props={{
-          title: "what u wish to do?",
+          title: "What you wish to do?",
           heading1: "update your financial data for this year",
           heading2: "view financial data in grahpical format",
           link1: "/update-user-data",
@@ -67,7 +67,7 @@ export const routes: RouteObject[] = [
       <PrivateRoute
         element={Options}
         props={{
-          title: "how would you like to update",
+          title: "How would you like to Update?",
           heading1: "enter manually",
           heading2: "enter through excel sheet",
           link1: "/update-manualdata",
@@ -88,7 +88,7 @@ export const routes: RouteObject[] = [
       <PrivateRoute
         element={Options}
         props={{
-          title: "how would you like to update",
+          title: "How would you like to Update?",
           heading1: "enter manually",
           heading2: "enter through excel sheet",
           link1: "/update-advisor-manualdata",
