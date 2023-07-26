@@ -16,24 +16,35 @@ const BuisnessHome = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">My Customers</h2>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+      <div className="max-w-md p-6 bg-white rounded-lg shadow-md w-full">
+        <h2 className="text-3xl font-semibold text-center mb-6 text-purple-700">
+          My Customers
+        </h2>
         {user?.customers?.map((customer: ICustomer, i: number) => (
-          <Link to={`/view-customer/${customer?._id}`}>
+          <Link
+            key={i}
+            to={`/view-customer/${customer?._id}`}
+            className="block w-full"
+          >
             <div
-              key={i}
-              className="flex items-center justify-between p-4 cursor-pointer rounded-lg bg-pink-300 mb-2 hover:bg-pink-400"
+              className="flex items-center justify-between p-4 cursor-pointer rounded-lg bg-pink-500 text-white mb-2 hover:bg-pink-600"
               onClick={() => {
                 // customer?._id && setCustomer(customer._id);
                 customer?._id && dispatch(setCustomerId(customer?._id));
                 // setSelected(true);
               }}
             >
-              <span className="text-lg text-white">{customer.name}</span>
+              <span className="text-lg font-semibold">{customer.name}</span>
+              <span className="bg-indigo-500 px-3 py-1 rounded-lg text-sm">
+                View Details
+              </span>
             </div>
           </Link>
         ))}
+        {user?.customers?.length === 0 && (
+          <p className="text-center text-gray-500 mt-4">No customers found.</p>
+        )}
       </div>
     </div>
   );

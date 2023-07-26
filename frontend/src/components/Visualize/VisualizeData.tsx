@@ -35,44 +35,36 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
     ],
   };
   return (
-    <div>
-      <div className="flex flex-col space-y-4">
-        <ClipSpinner isLoading={(!expenseData || !savingsData)} />
-        <div className=" flex mb-4">
-          <select
-            className="p-3 rounded-lg bg-white-200 text-black mr-4 border-2 border-white  hover:border-black"
-            value={stat}
-            onChange={(e) => setStat(e.target.value)}
-          >
-            <option value="expenses" className="p-1.5 text-black">
-              Expenses
-            </option>
-            <option value="savings" className="p-1.5 text-black">
-              Savings
-            </option>
-          </select>
-          <select
-            className="p-3 rounded-lg bg-white-200 text-black border-2 border-white  hover:border-black"
-            value={toogleChart}
-            onChange={(e) => setToogleChart(e.target.value)}
-          >
-            <option value="PIECHART" className="p-1.5 text-black">
-              PieChart
-            </option>
-            <option value="BARCHART" className="p-1.5 text-black">
-              BarChart
-            </option>
-          </select>
-        </div>
-        <div className="flex items-center justify-center w-[75%] mt-2">
-          {toogleChart === "PIECHART" ? (
-            <PieChart chartData={stat === "expenses" ? data1 : data2} />
-          ) : (
-            <BarChart chartData={stat === "expenses" ? data1 : data2} />
-          )}
-        </div>
+    <div className="mt-5 flex flex-col space-y-4">
+      <ClipSpinner isLoading={!expenseData || !savingsData} />
+      <div className="m-3 flex mb-4">
+        <select
+          className="m-3 p-3 rounded-lg bg-white text-black mr-4 border-2 border-black hover:border-black"
+          value={stat}
+          onChange={(e) => setStat(e.target.value)}
+        >
+          <option value="expenses">Expenses</option>
+          <option value="savings">Savings</option>
+        </select>
+        <select
+          className="m-3 p-3 rounded-lg bg-white text-black border-2 border-black hover:border-black"
+          value={toogleChart}
+          onChange={(e) => setToogleChart(e.target.value)}
+        >
+          <option value="PIECHART">PieChart</option>
+          <option value="BARCHART">BarChart</option>
+        </select>
       </div>
-      <button><Link to="/line-graph">See Growth</Link></button>
+      <div className="flex items-center justify-center w-[75%] mt-2">
+        {toogleChart === 'PIECHART' ? (
+          <PieChart chartData={stat === 'expenses' ? data1 : data2} />
+        ) : (
+          <BarChart chartData={stat === 'expenses' ? data1 : data2} />
+        )}
+      </div>
+      <button className="mx-auto py-2 px-10 rounded-lg bg-blue-500 text-white">
+        <Link to="/line-graph">See Growth</Link>
+      </button>
     </div>
   );
 };

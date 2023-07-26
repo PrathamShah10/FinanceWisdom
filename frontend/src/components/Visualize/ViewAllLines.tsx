@@ -76,30 +76,23 @@ const ViewAllLines = () => {
     },
   } as any;
   return (
-    <div>
-      <div className="flex flex-col space-y-4">
-        <div className=" flex mb-4">
-          
-          <select
-            className="p-3 rounded-lg bg-white-200 text-black border-2 border-white  hover:border-black"
-            value={toogleChart}
-            onChange={(e) => setToogleChart(e.target.value)}
-          >
-            <option value="EXPENSE" className="p-1.5 text-black">
-              EXPENSE
-            </option>
-            <option value="SAVINGS" className="p-1.5 text-black">
-              SAVINGS
-            </option>
-          </select>
-        </div>
-        <div className="chart-container flex items-center justify-center w-[45%] mt-2">
-          {toogleChart === "EXPENSE" ? (
-            <Line data={expenseGraphData} options={LineOptions} />
-          ) : (
-            <Line data={savingGraphData} options={LineOptions} />
-          )}
-        </div>
+    <div className="mt-5 flex flex-col space-y-4">
+      <div className="flex mb-4">
+        <select
+          className="m-3 p-3 rounded-lg bg-white text-black border-2 border-black hover:border-black"
+          value={toogleChart}
+          onChange={(e) => setToogleChart(e.target.value)}
+        >
+          <option value="EXPENSE">EXPENSE</option>
+          <option value="SAVINGS">SAVINGS</option>
+        </select>
+      </div>
+      <div className="mx-auto chart-container flex items-center justify-center w-[45%] mt-2">
+        {toogleChart === 'EXPENSE' ? (
+          <Line data={expenseGraphData} options={LineOptions} />
+        ) : (
+          <Line data={savingGraphData} options={LineOptions} />
+        )}
       </div>
     </div>
   );

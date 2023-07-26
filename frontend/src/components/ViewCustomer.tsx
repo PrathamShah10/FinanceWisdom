@@ -62,26 +62,26 @@ const ViewCustomer = () => {
   if (error) return <h1>error</h1>;
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <ClipSpinner isLoading={loading} />
-      <div className="mt-8 flex flex-col justify-center items-center space-y-4">
-        <div className=" h-[250px] ">
-          <Line data={expenseGraphData} options={LineOptions} />
-        </div>
-        <div className=" h-[250px] ">
-          <Line data={savingGraphData} options={LineOptions} />
-        </div>
+    {loading && <ClipSpinner isLoading={loading} />}
+    <div className="mt-8 flex flex-col justify-center items-center space-y-4">
+      <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
+        <Line data={expenseGraphData} options={LineOptions} />
       </div>
-      <Link to={`/chat/${customerId}`}>
-        <div className="fixed bottom-[3rem] right-[3rem] p-4 border-[2px] border-black rounded-full">
-          <ChatIcon />
-        </div>
-      </Link>
-      <div>
-        <button className="bg-blue-500 rounded-lg p-4">
-          <Link to={`/set-budget/${customerId}`}>Set finanical budget</Link>
-        </button>
+      <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
+        <Line data={savingGraphData} options={LineOptions} />
       </div>
     </div>
+    <Link to={`/chat/${customerId}`}>
+      <div className="fixed bottom-8 right-8 p-4 bg-white border-2 border-black rounded-full shadow-md">
+        <ChatIcon />
+      </div>
+    </Link>
+    <div className="mx-auto mt-auto px-4 pb-8">
+      <button className="mt-3 px-10 bg-blue-500 text-white rounded-lg py-4">
+        <Link to={`/set-budget/${customerId}`}>Set Financial Budget</Link>
+      </button>
+    </div>
+  </div>
   );
 };
 export default ViewCustomer;
