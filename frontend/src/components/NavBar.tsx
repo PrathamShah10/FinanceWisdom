@@ -33,11 +33,21 @@ const NavBar = () => {
                     Video Call
                   </div>
                 </Link>
-                {user?.isCustomer && <Link to={`/chat/${undefined}`}>
-                  <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                    Chat
-                  </div>
-                </Link>}
+                {user?.isCustomer && (
+                  <>
+                    <Link to={`/chat/${undefined}`}>
+                      <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                        Chat
+                      </div>
+                    </Link>
+
+                    <Link to={`/news`}>
+                      <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                        News
+                      </div>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
