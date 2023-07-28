@@ -16,6 +16,7 @@ import Options from "./components/common/Options";
 import EnterExcelData from "./components/EnterExcelData";
 import Visualize from "./components/Visualize/Visualize";
 import ViewCustomer from "./components/ViewCustomer";
+import News from "./components/News";
 
 export const routes: RouteObject[] = [
   {
@@ -110,4 +111,5 @@ export const routes: RouteObject[] = [
   },
   { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
   {path: '/view-customer/:customerId', element: <PrivateRoute element={ViewCustomer} isBuisness={true} />},
+  {path: '/news', element: <PrivateRoute element={News} />},
 ];
