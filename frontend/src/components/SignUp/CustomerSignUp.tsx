@@ -13,6 +13,7 @@ const CustomerSignUp = () => {
   } = useQuery(GET_ALL_BUISNESSMEN);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('res', registrationData);
     signUpUser({
       variables: {
         newUserDetails: registrationData,
@@ -74,13 +75,13 @@ const CustomerSignUp = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="month" className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium">
               Select BuisnessMan:
             </label>
             <select
               name="buisnessMan"
               className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              onChange={(e) => {
+              onClick={(e) => {
                 handleChange(
                   undefined,
                   "buisnessMan",

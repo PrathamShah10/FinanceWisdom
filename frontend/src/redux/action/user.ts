@@ -107,7 +107,7 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
       .then((response) => {
         const res = response.data.updateEconomics;
         dispatch(
-          setUserVisuals({ expenses: res.expenses, savings: res.savings })
+          setUserVisuals({ expenses: res.expenses, savings: res.savings, category: res.category })
         );
       })
       .catch((err) => {
@@ -207,10 +207,10 @@ type EconomicsInput = {
   budgetExp?: Array<number>;
   budgetSave?: Array<number>;
   isBuisness?: boolean;
+  category?: string;
 };
 type MessageInput = {
   sender?: string;
   reciever?: string;
   message?: string;
-  //messages
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
@@ -13,8 +13,18 @@ const ViewCustomer = () => {
       _id: customerId,
     },
   });
-  const expenseData = data?.getCustomerData?.expenses;
-  const savingsData = data?.getCustomerData?.savings;
+  const [category, setCategory] = useState<string>(
+    data?.getCustomerData[0].category || ""
+  );
+  console.log("datahai", data);
+  let categoricalDataIndex = 0;
+  if (data?.getCustomerData) {
+    categoricalDataIndex = data?.getCustomerData?.findIndex(
+      (item: any) => item.category === category
+    );
+  }
+  const expenseData = data?.getCustomerData[categoricalDataIndex].expenses;
+  const savingsData = data?.getCustomerData[categoricalDataIndex].savings;
   const expenseGraphData = {
     datasets: [
       {
@@ -62,26 +72,37 @@ const ViewCustomer = () => {
   if (error) return <h1>error</h1>;
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-    {loading && <ClipSpinner isLoading={loading} />}
-    <div className="mt-8 flex flex-col justify-center items-center space-y-4">
-      <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
-        <Line data={expenseGraphData} options={LineOptions} />
+      {loading && <ClipSpinner isLoading={loading} />}
+      <div className="flex mb-4">
+        <select
+          className="m-3 p-3 rounded-lg bg-white text-black border-2 border-black hover:border-black"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          {data?.getCustomerData?.map((ele: any, i: number) => {
+            return <option value={ele.category}>{ele.category}</option>;
+          })}
+        </select>
       </div>
-      <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
-        <Line data={savingGraphData} options={LineOptions} />
+      <div className="mt-8 flex flex-col justify-center items-center space-y-4">
+        <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
+          <Line data={expenseGraphData} options={LineOptions} />
+        </div>
+        <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
+          <Line data={savingGraphData} options={LineOptions} />
+        </div>
+      </div>
+      <Link to={`/chat/${customerId}`}>
+        <div className="fixed bottom-8 right-8 p-4 bg-white border-2 border-black rounded-full shadow-md">
+          <ChatIcon />
+        </div>
+      </Link>
+      <div className="mx-auto mt-auto px-4 pb-8">
+        <button className="mt-3 px-10 bg-blue-500 text-white rounded-lg py-4">
+          <Link to={`/set-budget/${customerId}`}>Set Financial Budget</Link>
+        </button>
       </div>
     </div>
-    <Link to={`/chat/${customerId}`}>
-      <div className="fixed bottom-8 right-8 p-4 bg-white border-2 border-black rounded-full shadow-md">
-        <ChatIcon />
-      </div>
-    </Link>
-    <div className="mx-auto mt-auto px-4 pb-8">
-      <button className="mt-3 px-10 bg-blue-500 text-white rounded-lg py-4">
-        <Link to={`/set-budget/${customerId}`}>Set Financial Budget</Link>
-      </button>
-    </div>
-  </div>
   );
 };
 export default ViewCustomer;

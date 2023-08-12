@@ -24,6 +24,7 @@ export const GET_ALL_USER_DATA = gql`
             name
           }
         }
+        category
       }
       chats {
         sender
@@ -91,6 +92,7 @@ query visuals($_id: String!) {
     budgetSave
     budgetExp
     _id
+    category
   }
 }
 `;

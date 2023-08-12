@@ -69,6 +69,7 @@ export const UPDATE_USERVISUAL = gql`
       by {
         name
       }
+      category
     }
   }
 `;

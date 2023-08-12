@@ -25,7 +25,7 @@ interface ICustomer {
 }
 interface IUserState {
   user?: IUser;
-  visuals?: IDataVisualize;
+  visuals?: Array<IDataVisualize>;
   isUserDataPending?: boolean;
   chats?: Array<IChats>;
   customerId?: string;
@@ -43,6 +43,7 @@ interface IDataVisualize {
   savings: Array<number>;
   budgetExp?: Array<number>;
   budgetSave?: Array<number>;
+  category?: string;
 }
 interface IChats {
   sender: string;

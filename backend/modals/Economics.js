@@ -1,22 +1,33 @@
 import mongoose from "mongoose";
 
 const economicsSchema = new mongoose.Schema({
-  expenses: [{
-    type: Number,
-  }],
-  savings: [{
-    type: Number,
-  }],
-  budgetExp: [{
-    type: Number,
-  }],
-  budgetSave: [{
-    type: Number,
-  }],
+  expenses: [
+    {
+      type: Number,
+    },
+  ],
+  savings: [
+    {
+      type: Number,
+    },
+  ],
+  budgetExp: [
+    {
+      type: Number,
+    },
+  ],
+  budgetSave: [
+    {
+      type: Number,
+    },
+  ],
+  category: {
+    type: String,
+  },
   by: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
 });
 
-mongoose.model('Economics', economicsSchema);
+mongoose.model("Economics", economicsSchema);

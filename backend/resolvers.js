@@ -14,7 +14,7 @@ export const resolvers = {
       return await BusinessPerson.findOne({ _id: _id });
     },
     getAllUserData: async (_, { _id }) => {
-      const visuals = await Economics.findOne({ by: _id });
+      const visuals = await Economics.find({ by: _id });
       const chats = await Chats.find({
         $or: [{ sender: _id }, { reciever: _id }],
       });
@@ -38,7 +38,7 @@ export const resolvers = {
       });
     },
     getCustomerData: async (_, { _id }) => {
-      return await Economics.findOne({ by: _id });
+      return await Economics.find({ by: _id });
     },
   },
   Mutation: {
@@ -111,12 +111,13 @@ export const resolvers = {
     },
     // updateEconmoics(economicDetails: EconomicsInput!): Economics
     updateEconomics: async (_, { economicDetails }) => {
-      const ecoData = await Economics.findOne({ by: economicDetails._id });
+      const ecoData = await Economics.findOne({ category: economicDetails.category });
       if (!ecoData) {
         const newEcoData = await new Economics({
           expenses: economicDetails.expenses,
           savings: economicDetails.savings,
           by: economicDetails._id,
+          category: economicDetails.category,
         });
         await newEcoData.save();
         return newEcoData;

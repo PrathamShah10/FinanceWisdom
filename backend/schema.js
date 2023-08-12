@@ -6,7 +6,7 @@ type Query {
  getAllUserData(_id:ID!): AllUserData
  getAllBusinessData(_id:ID!): AllBuisnessData
  getAllBusinessMen: [BusinessPerson]
- getCustomerData(_id: String!): Economics
+ getCustomerData(_id: String!): [Economics]
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User
@@ -39,10 +39,11 @@ type Economics {
     by: User
     budgetExp: [Int]
     budgetSave: [Int]
+    category: String
 }
 type AllUserData {
     user: User
-    visuals: Economics
+    visuals: [Economics]
     chats: [Messaging]
 }
 type AllBuisnessData {
@@ -88,6 +89,7 @@ input EconomicsInput {
     savings: [Int]
     budgetExp: [Int]
     budgetSave: [Int]
+    category: String
 }
 input MessagingInput {
     sender: String!

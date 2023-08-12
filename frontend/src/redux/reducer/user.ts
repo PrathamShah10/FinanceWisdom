@@ -26,7 +26,7 @@ export const userSlicer = createSlice({
       state,
       { payload }: PayloadAction<IDataVisualize | undefined>
     ) => {
-      state.visuals = payload;
+      if (payload) state.visuals = [...(state.visuals || []), payload];
     },
     setAllData: (state, { payload }: PayloadAction<IUserState>) => {
       state.user = payload.user;
@@ -36,9 +36,9 @@ export const userSlicer = createSlice({
     setIsUserDataPending: (state, { payload }: PayloadAction<boolean>) => {
       state.isUserDataPending = payload;
     },
-    setCustomerId: (state, {payload}: PayloadAction<string>) => {
+    setCustomerId: (state, { payload }: PayloadAction<string>) => {
       state.customerId = payload;
-    }
+    },
   },
 });
 
