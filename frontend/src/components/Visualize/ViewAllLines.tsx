@@ -4,17 +4,15 @@ import { months } from "../../constants/month";
 import { useAppSelector } from "../../hooks/redux";
 const ViewAllLines = () => {
   const { visuals } = useAppSelector((state) => state.user);
-  const [category, setCategory] = useState<string>(
-    (visuals && visuals[0].category) || ""
-  );
+  let initialCategory = "";
+  if (visuals && visuals.length > 0) {
+    initialCategory = visuals[0].category;
+  }
+  const [category, setCategory] = useState<string>(initialCategory);
   let expenseDataIndex = 0;
   if (visuals) {
     expenseDataIndex = visuals.findIndex((item) => item.category === category);
   }
-  console.log('visualbuis', visuals);
-  // const expenseBudget = visuals?.budgetExp;
-  // const savingsBudget = visuals?.budgetSave;
-  // const savingData = visuals?.savings;
   const expenseGraphData = {
     datasets: [
       {
@@ -34,7 +32,7 @@ const ViewAllLines = () => {
         label: "Budget",
         data:
           visuals &&
-          visuals[expenseDataIndex].budgetExp?.map((expense, index) => ({
+          visuals[expenseDataIndex]?.budgetExp?.map((expense, index) => ({
             x: months[index],
             y: expense,
           })),

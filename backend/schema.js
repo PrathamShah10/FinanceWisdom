@@ -35,10 +35,8 @@ type BusinessPerson {
 type Economics {
     _id: ID!
     expenses: [Int]
-    savings: [Int]
     by: User
     budgetExp: [Int]
-    budgetSave: [Int]
     category: String
 }
 type AllUserData {
@@ -86,9 +84,7 @@ input BuisnessInput {
 input EconomicsInput {
     _id: String!
     expenses: [Int]
-    savings: [Int]
     budgetExp: [Int]
-    budgetSave: [Int]
     category: String
 }
 input MessagingInput {

@@ -3,9 +3,11 @@ import { useAppSelector } from "../../hooks/redux";
 import VisualizeData from "./VisualizeData";
 const Visualize = () => {
   const { visuals } = useAppSelector((state) => state.user);
-  const [category, setCategory] = useState<string>(
-    (visuals && visuals[0].category) || ""
-  );
+  let initialCategory = "";
+  if (visuals && visuals.length > 0) {
+    initialCategory = visuals[0].category;
+  }
+  const [category, setCategory] = useState<string>(initialCategory);
   let categorialVisualsIndex = 0;
   if (visuals) {
     categorialVisualsIndex = visuals.findIndex(
@@ -23,14 +25,15 @@ const Visualize = () => {
           return <option value={ele.category}>{ele.category}</option>;
         })}
       </select>
-      <VisualizeData
-        expenseData={
-          visuals ? visuals[categorialVisualsIndex]?.expenses : undefined
-        }
-        savingsData={
-          visuals ? visuals[categorialVisualsIndex]?.savings : undefined
-        }
-      />
+      {visuals ? (
+        <VisualizeData
+          expenseData={
+            visuals ? visuals[categorialVisualsIndex]?.expenses : undefined
+          }
+        />
+      ) : (
+        "no data to display"
+      )}
     </>
   );
 };

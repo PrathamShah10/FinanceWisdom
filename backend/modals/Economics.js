@@ -6,17 +6,7 @@ const economicsSchema = new mongoose.Schema({
       type: Number,
     },
   ],
-  savings: [
-    {
-      type: Number,
-    },
-  ],
   budgetExp: [
-    {
-      type: Number,
-    },
-  ],
-  budgetSave: [
     {
       type: Number,
     },

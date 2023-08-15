@@ -16,8 +16,6 @@ export const GET_ALL_USER_DATA = gql`
       visuals {
         _id
         expenses
-        savings
-        budgetSave
         budgetExp
         by {
           buisnessMan {
@@ -88,8 +86,6 @@ export const GET_CUSTOMER_DATA = gql`
 query visuals($_id: String!) {
   getCustomerData(_id: $_id) {
     expenses
-    savings
-    budgetSave
     budgetExp
     _id
     category

@@ -106,8 +106,9 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
       })
       .then((response) => {
         const res = response.data.updateEconomics;
+        console.log('resay', res);
         dispatch(
-          setUserVisuals({ expenses: res.expenses, savings: res.savings, category: res.category })
+          setUserVisuals({ expenses: res.expenses, budgetExp: res.budgetExp, category: res.category })
         );
       })
       .catch((err) => {
@@ -203,9 +204,7 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
 type EconomicsInput = {
   _id: string;
   expenses?: Array<number>;
-  savings?: Array<number>;
   budgetExp?: Array<number>;
-  budgetSave?: Array<number>;
   isBuisness?: boolean;
   category?: string;
 };

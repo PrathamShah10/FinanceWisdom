@@ -9,8 +9,7 @@ import { BarChart } from "./BarChart";
 import ClipSpinner from "../common/ClipSpinner";
 // import { BarChart } from "./BarChart";
 Chart.register(CategoryScale);
-const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
-  const [stat, setStat] = useState<string>("expenses");
+const VisualizeData = ({ expenseData }: VisualizeDataProps) => {
   const [toogleChart, setToogleChart] = useState<string>("PIECHART");
   const data1 = {
     labels: [...months],
@@ -23,29 +22,10 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
       },
     ],
   };
-  const data2 = {
-    labels: [...months],
-    datasets: [
-      {
-        label: "User Savings",
-        data: savingsData,
-        backgroundColor: [...bgcolors],
-        borderWidth: 1,
-      },
-    ],
-  };
   return (
     <div className="mt-5 flex flex-col space-y-4">
-      <ClipSpinner isLoading={!expenseData || !savingsData} />
+      <ClipSpinner isLoading={!expenseData} />
       <div className="m-3 flex mb-4">
-        <select
-          className="m-3 p-3 rounded-lg bg-white text-black mr-4 border-2 border-black hover:border-black"
-          value={stat}
-          onChange={(e) => setStat(e.target.value)}
-        >
-          <option value="expenses">Expenses</option>
-          <option value="savings">Savings</option>
-        </select>
         <select
           className="m-3 p-3 rounded-lg bg-white text-black border-2 border-black hover:border-black"
           value={toogleChart}
@@ -57,9 +37,9 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
       </div>
       <div className="flex items-center justify-center w-[75%] mt-2">
         {toogleChart === 'PIECHART' ? (
-          <PieChart chartData={stat === 'expenses' ? data1 : data2} />
+          <PieChart chartData={data1} />
         ) : (
-          <BarChart chartData={stat === 'expenses' ? data1 : data2} />
+          <BarChart chartData={data1} />
         )}
       </div>
       <button className="mx-auto py-2 px-10 rounded-lg bg-blue-500 text-white">
@@ -70,6 +50,5 @@ const VisualizeData = ({ expenseData, savingsData }: VisualizeDataProps) => {
 };
 type VisualizeDataProps = {
   expenseData?: Array<number>;
-  savingsData?: Array<number>;
 };
 export default VisualizeData;

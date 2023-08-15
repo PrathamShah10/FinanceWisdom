@@ -6,7 +6,6 @@ import { toastAction } from "./common/ToastAction";
 const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [expense, setExpense] = useState<number[] | null>(null);
-  const [savings, setSavings] = useState<number[] | null>(null);
   const [category, setCategory] = useState<string>("general");
   const dispatch = useAppDispatch();
   const { user, customerId } = useAppSelector((state) => state.user);
@@ -35,9 +34,7 @@ const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
     const sheet = workbook.Sheets[sheetName];
     const excelData = XLSX.utils.sheet_to_json(sheet);
     const changeExpensedData = excelData.map((exp: any, i) => exp.Expenses);
-    const changedSavingsData = excelData.map((exp: any, i) => exp.Savings);
     setExpense(changeExpensedData);
-    setSavings(changedSavingsData);
   };
   const handleDownload = () => {
     // Replace 'template.xlsx' with the actual name of your Excel template file.
@@ -48,12 +45,11 @@ const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
     link.click();
   };
   const handleSubmit = () => {
-    if (expense?.length === 12 && savings?.length === 12) {
+    if (expense?.length === 12) {
       if (isAdvisor && customerId) {
         dispatch(
           setUserVisualsAction({
             budgetExp: expense,
-            budgetSave: savings,
             category,
             _id: customerId,
           })
@@ -62,7 +58,6 @@ const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
         dispatch(
           setUserVisualsAction({
             expenses: expense,
-            savings: savings,
             category,
             _id: user?._id,
           })

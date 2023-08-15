@@ -115,23 +115,18 @@ export const resolvers = {
       if (!ecoData) {
         const newEcoData = await new Economics({
           expenses: economicDetails.expenses,
-          savings: economicDetails.savings,
           by: economicDetails._id,
           category: economicDetails.category,
         });
         await newEcoData.save();
         return newEcoData;
       }
-      if (economicDetails.expenses && economicDetails.savings) {
+      if (economicDetails.expenses) {
         ecoData.expenses = economicDetails.expenses;
-        ecoData.savings = economicDetails.savings;
       }
 
       if (economicDetails.budgetExp) {
         ecoData.budgetExp = economicDetails.budgetExp;
-      }
-      if (economicDetails.budgetSave) {
-        ecoData.budgetSave = economicDetails.budgetSave;
       }
       await ecoData.save();
       return ecoData;

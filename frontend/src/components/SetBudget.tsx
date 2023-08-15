@@ -5,7 +5,6 @@ import { months } from "../constants/month";
 import { GET_CUSTOMER_DATA } from "../queries";
 import { IUserVisualInput } from "../interface/user";
 import { setUserVisualsAction } from "../redux/action/user";
-// import ClipSpinner from "./common/ClipSpinner";
 const SetBudget = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
@@ -15,14 +14,16 @@ const SetBudget = () => {
     variables: {
       _id: customerId,
     },
+    fetchPolicy: "no-cache",
   });
-  const visuals = data?.getCustomerData;
+  let { visuals } = useAppSelector((state) => state.user);
+  console.log('visualsare', visuals);
+  if (!visuals) {
+    visuals = data?.getCustomerData;
+  }
   const dispatch = useAppDispatch();
   const handleSubmit = () => {
     let categoryVisualsExpenses: number[] = months.map((_, i: number) => {
-      return 0;
-    });
-    let categoryVisualsSavings: number[] = months.map((_, i: number) => {
       return 0;
     });
     if (visuals) {
@@ -30,8 +31,7 @@ const SetBudget = () => {
         (item: any) => item.category === category
       );
       if (categoryIndex !== -1) {
-        categoryVisualsExpenses = visuals[categoryIndex].budgetExp;
-        categoryVisualsSavings = visuals[categoryIndex].budgetSave;
+        categoryVisualsExpenses = visuals[categoryIndex].budgetExp || [];
       }
     }
     const changeExpensedData = months.map((month: string, i: number) => {
@@ -41,18 +41,10 @@ const SetBudget = () => {
         return categoryVisualsExpenses[i] || 0;
       }
     });
-    const changedSavingsData = months.map((month: string, i: number) => {
-      if (month === selectedMonth) {
-        return inputData.budSav || 0;
-      } else {
-        return categoryVisualsSavings[i] || 0;
-      }
-    });
     if (customerId) {
       dispatch(
         setUserVisualsAction({
           budgetExp: changeExpensedData,
-          budgetSave: changedSavingsData,
           _id: customerId,
           category,
         })
@@ -61,7 +53,6 @@ const SetBudget = () => {
   };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* <ClipSpinner isLoading={loading} /> */}
       <div className="mt-14 flex flex-row items-center justify-center">
         <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-4 text-center">
@@ -103,25 +94,8 @@ const SetBudget = () => {
               className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
             />
           </div>
-
           <div className="mb-4">
-            <label htmlFor="savings" className="block mb-1 font-medium">
-              Savings:
-            </label>
-            <input
-              type="text"
-              onChange={(e) =>
-                setInputData((prev) => ({
-                  ...prev,
-                  budSav: parseInt(e.target.value),
-                }))
-              }
-              className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="savings" className="block mb-1 font-medium">
+            <label htmlFor="category" className="block mb-1 font-medium">
               Category:
             </label>
             <input

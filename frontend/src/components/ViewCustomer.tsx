@@ -16,15 +16,14 @@ const ViewCustomer = () => {
   const [category, setCategory] = useState<string>(
     data?.getCustomerData[0].category || ""
   );
-  console.log("datahai", data);
   let categoricalDataIndex = 0;
   if (data?.getCustomerData) {
     categoricalDataIndex = data?.getCustomerData?.findIndex(
       (item: any) => item.category === category
     );
+    // console.log('index is', categoricalDataIndex);
   }
   const expenseData = data?.getCustomerData[categoricalDataIndex].expenses;
-  const savingsData = data?.getCustomerData[categoricalDataIndex].savings;
   const expenseGraphData = {
     datasets: [
       {
@@ -35,21 +34,6 @@ const ViewCustomer = () => {
         })),
         fill: false,
         borderColor: "rgb(205, 92, 92)",
-        pointRadius: 4,
-        pointHoverRadius: 7,
-      },
-    ],
-  };
-  const savingGraphData = {
-    datasets: [
-      {
-        label: "Savings",
-        data: savingsData?.map((saving: any, index: number) => ({
-          x: months[index],
-          y: saving,
-        })),
-        fill: false,
-        borderColor: "rgb(34, 139, 34)",
         pointRadius: 4,
         pointHoverRadius: 7,
       },
@@ -87,9 +71,6 @@ const ViewCustomer = () => {
       <div className="mt-8 flex flex-col justify-center items-center space-y-4">
         <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
           <Line data={expenseGraphData} options={LineOptions} />
-        </div>
-        <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
-          <Line data={savingGraphData} options={LineOptions} />
         </div>
       </div>
       <Link to={`/chat/${customerId}`}>
