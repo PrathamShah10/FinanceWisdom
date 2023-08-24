@@ -32,7 +32,23 @@ export const GET_ALL_USER_DATA = gql`
     }
   }
 `;
-
+export const GET_VISUAL_DATA = gql`
+  query UserDetails($_id: ID!) {
+    getAllUserData(_id: $_id) {
+      visuals {
+        _id
+        expenses
+        budgetExp
+        by {
+          buisnessMan {
+            name
+          }
+        }
+        category
+      }
+    }
+  }
+`;
 export const GET_ALL_BUISNESS_DATA = gql`
   query UserDetails($_id: ID!) {
     getAllBusinessData(_id: $_id) {

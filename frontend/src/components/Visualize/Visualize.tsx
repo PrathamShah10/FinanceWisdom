@@ -1,9 +1,22 @@
-import React, { useState } from "react";
-import { useAppSelector } from "../../hooks/redux";
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import VisualizeData from "./VisualizeData";
+import { useQuery } from "@apollo/client";
+import { GET_VISUAL_DATA } from "../../queries";
+import { setVisuals } from "../../redux/reducer/visual";
 const Visualize = () => {
-  const { visuals } = useAppSelector((state) => state.user);
-  let initialCategory = "";
+  const { user } = useAppSelector((state) => state.user);
+  const { data } = useQuery(GET_VISUAL_DATA, {
+    variables: {
+      _id: user?._id,
+    }
+  });
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setVisuals(data?.getAllUserData?.visuals));
+  }, [dispatch, data]);
+  const visuals = useAppSelector((state) => state.visual);
+  let initialCategory = 'general';
   if (visuals && visuals.length > 0) {
     initialCategory = visuals[0].category;
   }
@@ -22,7 +35,7 @@ const Visualize = () => {
         onChange={(e) => setCategory(e.target.value)}
       >
         {visuals?.map((ele: any, i: number) => {
-          return <option value={ele.category}>{ele.category}</option>;
+          return <option key={i} value={ele.category}>{ele.category}</option>;
         })}
       </select>
       {visuals ? (

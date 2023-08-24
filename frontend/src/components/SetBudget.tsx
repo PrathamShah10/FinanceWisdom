@@ -5,10 +5,12 @@ import { months } from "../constants/month";
 import { GET_CUSTOMER_DATA } from "../queries";
 import { IUserVisualInput } from "../interface/user";
 import { setUserVisualsAction } from "../redux/action/user";
+import ClipSpinner from "./common/ClipSpinner";
 const SetBudget = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("January");
   const [inputData, setInputData] = useState<IUserVisualInput>({});
   const [category, setCategory] = useState<string>("");
+  const [showLoader, setShowLoader] = useState<boolean>(false);
   const { customerId } = useAppSelector((state) => state.user);
   const { data } = useQuery(GET_CUSTOMER_DATA, {
     variables: {
@@ -16,40 +18,43 @@ const SetBudget = () => {
     },
     fetchPolicy: "no-cache",
   });
-  let { visuals } = useAppSelector((state) => state.user);
-  console.log('visualsare', visuals);
+  let  visuals  = useAppSelector((state) => state.visual);
   if (!visuals) {
     visuals = data?.getCustomerData;
   }
   const dispatch = useAppDispatch();
   const handleSubmit = () => {
-    let categoryVisualsExpenses: number[] = months.map((_, i: number) => {
-      return 0;
-    });
-    if (visuals) {
-      const categoryIndex = visuals.findIndex(
-        (item: any) => item.category === category
-      );
-      if (categoryIndex !== -1) {
-        categoryVisualsExpenses = visuals[categoryIndex].budgetExp || [];
+    setShowLoader(true);
+    setTimeout(() => {
+      let categoryVisualsExpenses: number[] = months.map((_, i: number) => {
+        return 0;
+      });
+      if (visuals) {
+        const categoryIndex = visuals.findIndex(
+          (item: any) => item.category === category
+        );
+        if (categoryIndex !== -1) {
+          categoryVisualsExpenses = visuals[categoryIndex].budgetExp || [];
+        }
       }
-    }
-    const changeExpensedData = months.map((month: string, i: number) => {
-      if (month === selectedMonth) {
-        return inputData.budExp || 0;
-      } else {
-        return categoryVisualsExpenses[i] || 0;
+      const changeExpensedData = months.map((month: string, i: number) => {
+        if (month === selectedMonth) {
+          return inputData.budExp || 0;
+        } else {
+          return categoryVisualsExpenses[i] || 0;
+        }
+      });
+      if (customerId) {
+        dispatch(
+          setUserVisualsAction({
+            budgetExp: changeExpensedData,
+            _id: customerId,
+            category,
+          })
+        );
       }
-    });
-    if (customerId) {
-      dispatch(
-        setUserVisualsAction({
-          budgetExp: changeExpensedData,
-          _id: customerId,
-          category,
-        })
-      );
-    }
+      setShowLoader(false);
+    }, 2000);
   };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -107,8 +112,9 @@ const SetBudget = () => {
           <button
             className="block w-full p-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
             onClick={handleSubmit}
+            disabled={showLoader}
           >
-            Submit
+            {showLoader ? <ClipSpinner isLoading={showLoader} /> : "Submit"}
           </button>
         </div>
       </div>

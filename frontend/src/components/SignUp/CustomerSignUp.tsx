@@ -13,7 +13,6 @@ const CustomerSignUp = () => {
   } = useQuery(GET_ALL_BUISNESSMEN);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('res', registrationData);
     signUpUser({
       variables: {
         newUserDetails: registrationData,

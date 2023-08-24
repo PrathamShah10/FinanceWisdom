@@ -25,10 +25,9 @@ interface ICustomer {
 }
 interface IUserState {
   user?: IUser;
-  visuals?: Array<IDataVisualize>;
   isUserDataPending?: boolean;
-  chats?: Array<IChats>;
   customerId?: string;
+  chats?: Array<IChats>;
 }
 interface IUserVisualInput {
   expenses?: number;
@@ -46,4 +45,9 @@ interface IChats {
   reciever: string;
   message: string;
 }
-export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats };
+interface IVisualState {
+  expenses: Array<number>;
+  budgetExp?: Array<number>;
+  category: string;
+}
+export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats, IVisualState };

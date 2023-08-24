@@ -7,7 +7,6 @@ import { CategoryScale } from "chart.js";
 import PieChart from "./PieChart";
 import { BarChart } from "./BarChart";
 import ClipSpinner from "../common/ClipSpinner";
-// import { BarChart } from "./BarChart";
 Chart.register(CategoryScale);
 const VisualizeData = ({ expenseData }: VisualizeDataProps) => {
   const [toogleChart, setToogleChart] = useState<string>("PIECHART");

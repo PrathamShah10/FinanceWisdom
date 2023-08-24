@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
@@ -12,18 +12,21 @@ const ViewCustomer = () => {
     variables: {
       _id: customerId,
     },
+    fetchPolicy: "no-cache",
   });
+  useEffect(() => {
+    setCategory(data?.getCustomerData[0]?.category);
+  }, [data]);
   const [category, setCategory] = useState<string>(
-    data?.getCustomerData[0].category || ""
+    data?.getCustomerData[0]?.category || ""
   );
   let categoricalDataIndex = 0;
   if (data?.getCustomerData) {
     categoricalDataIndex = data?.getCustomerData?.findIndex(
       (item: any) => item.category === category
     );
-    // console.log('index is', categoricalDataIndex);
   }
-  const expenseData = data?.getCustomerData[categoricalDataIndex].expenses;
+  const expenseData = data?.getCustomerData[categoricalDataIndex]?.expenses;
   const expenseGraphData = {
     datasets: [
       {
@@ -64,7 +67,7 @@ const ViewCustomer = () => {
           onChange={(e) => setCategory(e.target.value)}
         >
           {data?.getCustomerData?.map((ele: any, i: number) => {
-            return <option value={ele.category}>{ele.category}</option>;
+            return <option value={ele.category} key={i}>{ele.category}</option>;
           })}
         </select>
       </div>

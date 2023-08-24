@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import { months } from "../../constants/month";
 import { useAppSelector } from "../../hooks/redux";
 const ViewAllLines = () => {
-  const { visuals } = useAppSelector((state) => state.user);
+  const  visuals = useAppSelector((state) => state.visual);
   let initialCategory = "";
   if (visuals && visuals.length > 0) {
     initialCategory = visuals[0].category;
@@ -66,7 +66,7 @@ const ViewAllLines = () => {
           onChange={(e) => setCategory(e.target.value)}
         >
           {visuals?.map((ele: any, i: number) => {
-            return <option value={ele.category}>{ele.category}</option>;
+            return <option key={i} value={ele.category}>{ele.category}</option>;
           })}
         </select>
       </div>

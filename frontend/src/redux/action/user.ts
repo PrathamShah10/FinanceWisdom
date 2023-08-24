@@ -8,17 +8,18 @@ import { AppDispatch } from "..";
 import { client } from "../../index";
 import {
   setUserData,
-  setUserVisuals,
   setIsUserDataPending,
   setChats,
   setAllData,
 } from "../reducer/user";
+import { setUserVisuals } from "../reducer/visual";
 import { ISignInDetails, IUser, IChats } from "../../interface/user";
 import {
   GET_ALL_BUISNESS_DATA,
   GET_ALL_CHATS,
   GET_ALL_USER_DATA,
 } from "../../queries";
+import { setVisuals } from "../reducer/visual";
 
 export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
@@ -106,7 +107,6 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
       })
       .then((response) => {
         const res = response.data.updateEconomics;
-        console.log('resay', res);
         dispatch(
           setUserVisuals({ expenses: res.expenses, budgetExp: res.budgetExp, category: res.category })
         );
@@ -188,7 +188,9 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
       .then((response) => {
         if (isCustomer) {
           const res = response.data.getAllUserData;
-          dispatch(setAllData(res));
+          const {visuals, ...userData} = res;
+          dispatch(setAllData(userData));
+          dispatch(setVisuals(visuals));
         } else {
           dispatch(setAllData(response.data.getAllBusinessData));
         }

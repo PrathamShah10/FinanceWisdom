@@ -9,9 +9,10 @@ const EnterManualData = () => {
   const [inputData, setInputData] = useState<IUserVisualInput>({});
   const [category, setCategory] = useState("");
   const dispatch = useAppDispatch();
-  const { user, visuals, isUserDataPending } = useAppSelector(
+  const { user, isUserDataPending } = useAppSelector(
     (state) => state.user
   );
+  const visuals = useAppSelector((state) => state.visual);
   const handleSubmit = () => {
     let categoryVisualsExpenses: number[] = months.map((_, i: number) => {
       return 0;
