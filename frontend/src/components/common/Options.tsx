@@ -24,39 +24,44 @@ const Options = ({
   }, [dispatch, isCustomerStart]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6">{title}</h2>
-        <div className="mb-4">
-          <Link to={link1}>
-            <button
-              type="button"
-              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600 mb-2"
-              onClick={() => {
-                if (onHandleClick) {
-                  onHandleClick(heading1);
-                }
-              }}
-            >
-              {heading1}
-            </button>
-          </Link>
-          <Link to={link2}>
-            <button
-              type="button"
-              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-              onClick={() => {
-                if (onHandleClick) {
-                  onHandleClick(heading2);
-                }
-              }}
-            >
-              {heading2}
-            </button>
-          </Link>
-        </div>
+    <div className="min-h-screen bg-blue-200 flex flex-col items-center justify-center">
+  <h2 className="text-3xl font-semibold mb-8">{title}</h2>
+  <div className="grid grid-cols-2 gap-6 max-w-4xl w-full">
+    <Link to={link1}>
+      <div className="bg-indigo-500 text-white p-6 rounded-md shadow-md hover:bg-indigo-600 transition-colors flex items-center justify-center">
+        <button
+          type="button"
+          className="text-white py-2 px-4 rounded-md focus:outline-none transition-colors w-full"
+          onClick={() => {
+            if (onHandleClick) {
+              onHandleClick(heading1);
+            }
+          }}
+        >
+          {heading1}
+        </button>
       </div>
-    </div>
+    </Link>
+    <Link to={link2}>
+      <div className="bg-green-500 text-white p-6 rounded-md shadow-md hover:bg-green-600 transition-colors flex items-center justify-center">
+        <button
+          type="button"
+          className="text-white py-2 px-4 rounded-md focus:outline-none transition-colors w-full"
+          onClick={() => {
+            if (onHandleClick) {
+              onHandleClick(heading2);
+            }
+          }}
+        >
+          {heading2}
+        </button>
+      </div>
+    </Link>
+  </div>
+</div>
+
+
+
   );
 };
 type OptionsProps = {

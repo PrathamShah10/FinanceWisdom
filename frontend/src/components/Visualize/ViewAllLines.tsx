@@ -58,10 +58,10 @@ const ViewAllLines = () => {
     },
   } as any;
   return (
-    <div className="mt-5 flex flex-col space-y-4">
+    <div className="min-h-screen bg-blue-200 flex flex-col space-y-4">
       <div className="flex mb-4">
         <select
-          className="m-3 p-3 rounded-lg bg-white text-black border-2 border-black hover:border-black"
+          className="m-3 px-4 py-2 rounded-lg bg-white-200 to-purple-600 text-black border-2 border-white-200 hover:border-gray-300"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
