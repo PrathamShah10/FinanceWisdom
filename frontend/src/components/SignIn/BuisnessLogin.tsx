@@ -36,7 +36,7 @@ function BuisnessLogin() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="bg-indigo-600 text-white py-4 px-6">
-          <h2 className="text-3xl font-extrabold text-white">Business Login</h2>
+          <h2 className="text-3xl font-extrabold text-white">Financial Advisor Login</h2>
           <p className="mt-2 text-white">Sign in to your account.</p>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
