@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import VisualizeData from "./VisualizeData";
 import { useQuery } from "@apollo/client";
@@ -30,7 +30,7 @@ const Visualize = () => {
     );
   }
   return (
-    <div className="min-h-screen bg-blue-200">
+    <div className="min-h-screen bg-gray-200">
       <div className="flex">
         <select
           className="m-3 px-4 py-2 rounded-lg bg-white-200 to-purple-600 text-black border-2 border-white-200 hover:border-gray-300"
@@ -57,17 +57,18 @@ const Visualize = () => {
           <option value="BARCHART" className="bg-white text-black">
             BarChart
           </option>
+          <option value="LINECHART" className="bg-white text-black">
+            LineChart
+          </option>
         </select>
-        {/* <div className="flex justify-end"> */}
-          <button className="mr-3 mt-2 ml-auto h-[35px] px-2 rounded-lg bg-green-200 text-black">
-            <Link to="/line-graph">See Growth</Link>
-          </button>
-        {/* </div> */}
       </div>
       {visuals ? (
         <VisualizeData
           expenseData={
             visuals ? visuals[categorialVisualsIndex]?.expenses : undefined
+          }
+          budgetData={
+            visuals ? visuals[categorialVisualsIndex]?.budgetExp : undefined
           }
           chart={toogleChart}
         />

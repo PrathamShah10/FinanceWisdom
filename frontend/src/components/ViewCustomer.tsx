@@ -58,7 +58,7 @@ const ViewCustomer = () => {
   } as any;
   if (error) return <h1>error</h1>;
   return (
-    <div className="min-h-screen bg-blue-200 flex flex-col">
+    <div className="min-h-screen bg-gray-200 flex flex-col">
       {loading && <ClipSpinner isLoading={loading} />}
       <div className="flex mb-4">
         <select
@@ -67,7 +67,11 @@ const ViewCustomer = () => {
           onChange={(e) => setCategory(e.target.value)}
         >
           {data?.getCustomerData?.map((ele: any, i: number) => {
-            return <option value={ele.category} key={i}>{ele.category}</option>;
+            return (
+              <option value={ele.category} key={i}>
+                {ele.category}
+              </option>
+            );
           })}
         </select>
       </div>
@@ -82,9 +86,11 @@ const ViewCustomer = () => {
         </div>
       </Link>
       <div className="mx-auto mt-auto px-4 pb-8">
-        <button className="mt-3 px-10 bg-blue-500 text-white rounded-lg py-4">
-          <Link to={`/set-budget/${customerId}`}>Set Financial Budget</Link>
-        </button>
+        <Link to={`/update-advisor-manualdata`}>
+          <button className="m-3 px-4 py-2 rounded-lg bg-white to-purple-600 text-black border-2 border-white-200 hover:border-gray-300">
+            Set Financial Budget
+          </button>
+        </Link>
       </div>
     </div>
   );

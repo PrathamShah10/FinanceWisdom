@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CustomerIcon, FinancialAdvisorIcon } from "../common/icons/Icons";
 const SignUp = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="max-w-3xl w-full p-10 bg-white rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Get Started</h2>
         <p className="text-lg text-gray-600 mb-8">

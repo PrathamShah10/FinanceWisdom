@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { useQuery } from "@apollo/client";
 import { months } from "../constants/month";
@@ -18,7 +19,7 @@ const SetBudget = () => {
     },
     fetchPolicy: "no-cache",
   });
-  let  visuals  = useAppSelector((state) => state.visual);
+  let visuals = useAppSelector((state) => state.visual);
   if (!visuals) {
     visuals = data?.getCustomerData;
   }
@@ -57,7 +58,7 @@ const SetBudget = () => {
     }, 2000);
   };
   return (
-    <div className="min-h-screen bg-blue-200 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-gray-200 flex flex-col justify-center items-center">
       <div className="w-[70%] flex flex-row items-center justify-center">
         <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-4 text-center">
@@ -116,6 +117,15 @@ const SetBudget = () => {
           >
             {showLoader ? <ClipSpinner isLoading={showLoader} /> : "Submit"}
           </button>
+          <p className="py-2 text-gray-600 text-sm text-center">
+            want to enter via excel?{" "}
+            <Link
+              to="/update-advisor-exceldata"
+              className="text-indigo-600 hover:underline"
+            >
+              Click here
+            </Link>
+          </p>
         </div>
       </div>
     </div>

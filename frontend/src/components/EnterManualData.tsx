@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setUserVisualsAction } from "../redux/action/user";
 import { months } from "../constants/month";
@@ -43,7 +44,7 @@ const EnterManualData = () => {
     }
   };
   return (
-    <div className="min-h-screen bg-blue-200 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-gray-200  flex flex-col justify-center items-center">
       <div className="w-[70%] flex flex-row items-center justify-center">
         <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-4 text-center">
@@ -107,6 +108,15 @@ const EnterManualData = () => {
               "Submit"
             )}
           </button>
+          <p className="py-2 text-gray-600 text-sm text-center">
+            want to enter via excel?{" "}
+            <Link
+              to="/update-exceldata"
+              className="text-indigo-600 hover:underline"
+            >
+              Click here
+            </Link>
+          </p>
         </div>
       </div>
     </div>

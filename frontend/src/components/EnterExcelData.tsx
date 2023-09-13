@@ -67,7 +67,7 @@ const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
     toastAction.success("Data Updated!");
   };
   return (
-    <div className="min-h-screen bg-blue-200 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center">
       <div className="bg-white p-8 rounded-md shadow-md max-w-md w-full">
         <input
           type="text"
