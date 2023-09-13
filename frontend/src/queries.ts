@@ -16,14 +16,13 @@ export const GET_ALL_USER_DATA = gql`
       visuals {
         _id
         expenses
-        savings
-        budgetSave
         budgetExp
         by {
           buisnessMan {
             name
           }
         }
+        category
       }
       chats {
         sender
@@ -33,7 +32,23 @@ export const GET_ALL_USER_DATA = gql`
     }
   }
 `;
-
+export const GET_VISUAL_DATA = gql`
+  query UserDetails($_id: ID!) {
+    getAllUserData(_id: $_id) {
+      visuals {
+        _id
+        expenses
+        budgetExp
+        by {
+          buisnessMan {
+            name
+          }
+        }
+        category
+      }
+    }
+  }
+`;
 export const GET_ALL_BUISNESS_DATA = gql`
   query UserDetails($_id: ID!) {
     getAllBusinessData(_id: $_id) {
@@ -87,10 +102,9 @@ export const GET_CUSTOMER_DATA = gql`
 query visuals($_id: String!) {
   getCustomerData(_id: $_id) {
     expenses
-    savings
-    budgetSave
     budgetExp
     _id
+    category
   }
 }
 `;

@@ -8,17 +8,18 @@ import { AppDispatch } from "..";
 import { client } from "../../index";
 import {
   setUserData,
-  setUserVisuals,
   setIsUserDataPending,
   setChats,
   setAllData,
 } from "../reducer/user";
+import { setUserVisuals } from "../reducer/visual";
 import { ISignInDetails, IUser, IChats } from "../../interface/user";
 import {
   GET_ALL_BUISNESS_DATA,
   GET_ALL_CHATS,
   GET_ALL_USER_DATA,
 } from "../../queries";
+import { setVisuals } from "../reducer/visual";
 
 export const getSignedBuisnessDetailsAction = (signDetails: ISignInDetails) => {
   return (dispatch: AppDispatch) => {
@@ -107,7 +108,7 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
       .then((response) => {
         const res = response.data.updateEconomics;
         dispatch(
-          setUserVisuals({ expenses: res.expenses, savings: res.savings })
+          setUserVisuals({ expenses: res.expenses, budgetExp: res.budgetExp, category: res.category })
         );
       })
       .catch((err) => {
@@ -187,7 +188,9 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
       .then((response) => {
         if (isCustomer) {
           const res = response.data.getAllUserData;
-          dispatch(setAllData(res));
+          const {visuals, ...userData} = res;
+          dispatch(setAllData(userData));
+          dispatch(setVisuals(visuals));
         } else {
           dispatch(setAllData(response.data.getAllBusinessData));
         }
@@ -203,14 +206,12 @@ export const getAllUserData = (_id: string, isCustomer: boolean) => {
 type EconomicsInput = {
   _id: string;
   expenses?: Array<number>;
-  savings?: Array<number>;
   budgetExp?: Array<number>;
-  budgetSave?: Array<number>;
   isBuisness?: boolean;
+  category?: string;
 };
 type MessageInput = {
   sender?: string;
   reciever?: string;
   message?: string;
-  //messages
 };

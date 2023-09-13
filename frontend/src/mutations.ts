@@ -65,10 +65,11 @@ export const UPDATE_USERVISUAL = gql`
     updateEconomics(economicDetails: $economicDetails) {
       _id
       expenses
-      savings
+      budgetExp
       by {
         name
       }
+      category
     }
   }
 `;

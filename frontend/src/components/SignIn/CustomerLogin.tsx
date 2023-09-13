@@ -4,6 +4,7 @@ import { getSignedUserDetailsAction } from "../../redux/action/user";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { ISignInDetails } from "../../interface/user";
 import ClipSpinner from "../common/ClipSpinner";
+import { Link } from 'react-router-dom';
 function CustomerLogin() {
   const [signInData, setSignInData] = useState<ISignInDetails>({});
   const dispatch = useAppDispatch();
@@ -31,10 +32,13 @@ function CustomerLogin() {
     value: string;
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6">Customer Login</h2>
-        <form onSubmit={handleSubmit}>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-indigo-600 text-white py-4 px-6">
+          <h2 className="text-3xl font-extrabold text-white">Customer Login</h2>
+          <p className="mt-2 text-white">Sign in to your account.</p>
+        </div>
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium text-gray-800">
               Username
@@ -43,7 +47,7 @@ function CustomerLogin() {
               type="string"
               name="username"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your username"
             />
           </div>
@@ -55,7 +59,7 @@ function CustomerLogin() {
               type="password"
               name="password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your password"
             />
           </div>
@@ -66,6 +70,15 @@ function CustomerLogin() {
             {!isUserDataPending ? 'Sign In'  : <ClipSpinner isLoading={isUserDataPending} />}
           </button>
         </form>
+        <p className="text-gray-600 text-sm text-center mb-3">
+          Don't have an account?{" "}
+          <Link
+            to="/customer-register"
+            className="text-indigo-600 hover:underline"
+          >
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );

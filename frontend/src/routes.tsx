@@ -11,7 +11,6 @@ import { RouteObject } from "react-router-dom";
 import BuisnessHome from "./components/BuisnessHome";
 import EnterManualData from "./components/EnterManualData";
 import SetBudget from "./components/SetBudget";
-import ViewAllLines from "./components/Visualize/ViewAllLines";
 import Options from "./components/common/Options";
 import EnterExcelData from "./components/EnterExcelData";
 import Visualize from "./components/Visualize/Visualize";
@@ -45,23 +44,13 @@ export const routes: RouteObject[] = [
   {
     path: "/home-user",
     element: (
-      <PrivateRoute
-        element={Options}
-        props={{
-          title: "What you wish to do?",
-          heading1: "update your financial data for this year",
-          heading2: "view financial data in grahpical format",
-          link1: "/update-user-data",
-          link2: "/view-user-data",
-          isCustomerStart: true,
-        }}
-      />
+      <PrivateRoute element={Visualize} />
     ),
   },
-  {
-    path: "/view-user-data",
-    element: <PrivateRoute element={Visualize} />,
-  },
+  // {
+  //   path: "/view-user-data",
+  //   element: <PrivateRoute element={Visualize} />,
+  // },
   {
     path: "/update-user-data",
     element: (
@@ -109,7 +98,7 @@ export const routes: RouteObject[] = [
       <PrivateRoute element={EnterExcelData} props={{ isAdvisor: true }} />
     ),
   },
-  { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
+  // { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
   {path: '/view-customer/:customerId', element: <PrivateRoute element={ViewCustomer} isBuisness={true} />},
   {path: '/news', element: <PrivateRoute element={News} />},
 ];

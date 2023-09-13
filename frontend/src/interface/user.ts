@@ -25,28 +25,29 @@ interface ICustomer {
 }
 interface IUserState {
   user?: IUser;
-  visuals?: IDataVisualize;
   isUserDataPending?: boolean;
-  chats?: Array<IChats>;
   customerId?: string;
+  chats?: Array<IChats>;
 }
 interface IUserVisualInput {
   expenses?: number;
-  savings?: number;
   budExp?: number;
-  budSav?: number;
 }
 interface IDataVisualize {
   _id?: string;
   by?: any;
   expenses: Array<number>;
-  savings: Array<number>;
   budgetExp?: Array<number>;
-  budgetSave?: Array<number>;
+  category: string;
 }
 interface IChats {
   sender: string;
   reciever: string;
   message: string;
 }
-export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats };
+interface IVisualState {
+  expenses: Array<number>;
+  budgetExp?: Array<number>;
+  category: string;
+}
+export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats, IVisualState };

@@ -3,6 +3,7 @@ import { SIGNUP_USER } from "../../mutations";
 import { GET_ALL_BUISNESSMEN } from "../../queries";
 import { useMutation, useQuery } from "@apollo/client";
 import ClipSpinner from "../common/ClipSpinner";
+import { Link } from "react-router-dom";
 const CustomerSignUp = () => {
   const [registrationData, setRegistrationData] = useState({});
   const [signUpUser, { loading, error }] = useMutation(SIGNUP_USER);
@@ -45,10 +46,13 @@ const CustomerSignUp = () => {
     return <h1>Error</h1>;
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6">Customer Register</h2>
-        <form onSubmit={(e) => handleSubmit(e)}>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-indigo-600 text-white py-4 px-6">
+          <h2 className="text-3xl font-extrabold">Join Us!</h2>
+          <p className="mt-2">Create an account and get started.</p>
+        </div>
+        <form onSubmit={(e) => handleSubmit(e)} className="p-6 space-y-4">
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium text-gray-800">
               Name
@@ -57,7 +61,7 @@ const CustomerSignUp = () => {
               type="string"
               name="name"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your Name"
             />
           </div>
@@ -69,18 +73,18 @@ const CustomerSignUp = () => {
               type="email"
               name="email"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your email"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="month" className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium">
               Select BuisnessMan:
             </label>
             <select
               name="buisnessMan"
-              className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              onChange={(e) => {
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              onClick={(e) => {
                 handleChange(
                   undefined,
                   "buisnessMan",
@@ -107,7 +111,7 @@ const CustomerSignUp = () => {
               type="string"
               name="username"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your username"
             />
           </div>
@@ -119,7 +123,7 @@ const CustomerSignUp = () => {
               name="password"
               type="password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your password"
             />
           </div>
@@ -134,6 +138,15 @@ const CustomerSignUp = () => {
             )}
           </button>
         </form>
+        <p className="mb-2 text-gray-600 text-sm text-center">
+          Already have an account?{" "}
+          <Link
+            to="/customer-login"
+            className=" text-indigo-600 hover:underline"
+          >
+            Log in
+          </Link>
+        </p>
       </div>
     </div>
   );

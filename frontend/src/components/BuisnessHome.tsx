@@ -17,36 +17,37 @@ const BuisnessHome = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <div className="max-w-md p-6 bg-white rounded-lg shadow-md w-full">
-        <h2 className="text-3xl font-semibold text-center mb-6 text-purple-700">
-          My Customers
-        </h2>
-        {user?.customers?.map((customer: ICustomer, i: number) => (
-          <Link
-            key={i}
-            to={`/view-customer/${customer?._id}`}
-            className="block w-full"
+    <div className="max-w-md p-6 bg-white rounded-lg shadow-md w-full">
+      <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
+        My Customers
+      </h2>
+      {user?.customers?.map((customer: ICustomer, i: number) => (
+        <Link
+          key={i}
+          to={`/view-customer/${customer?._id}`}
+          className="block w-full"
+        >
+          <div
+            className="flex items-center justify-between p-4 cursor-pointer rounded-lg bg-blue-200 text-gray-700 mb-2 hover:bg-blue-300"
+            onClick={() => {
+              // customer?._id && setCustomer(customer._id);
+              customer?._id && dispatch(setCustomerId(customer?._id));
+              // setSelected(true);
+            }}
           >
-            <div
-              className="flex items-center justify-between p-4 cursor-pointer rounded-lg bg-pink-500 text-white mb-2 hover:bg-pink-600"
-              onClick={() => {
-                // customer?._id && setCustomer(customer._id);
-                customer?._id && dispatch(setCustomerId(customer?._id));
-                // setSelected(true);
-              }}
-            >
-              <span className="text-lg font-semibold">{customer.name}</span>
-              <span className="bg-indigo-500 px-3 py-1 rounded-lg text-sm">
-                View Details
-              </span>
-            </div>
-          </Link>
-        ))}
-        {user?.customers?.length === 0 && (
-          <p className="text-center text-gray-500 mt-4">No customers found.</p>
-        )}
-      </div>
+            <span className="text-lg font-semibold">{customer.name}</span>
+            <span className="bg-gray-200 px-3 py-1 rounded-lg text-gray-700 text-sm">
+              View Details
+            </span>
+          </div>
+        </Link>
+      ))}
+      {user?.customers?.length === 0 && (
+        <p className="text-center text-gray-500 mt-4">No customers found.</p>
+      )}
     </div>
+  </div>
+  
   );
 };
 
