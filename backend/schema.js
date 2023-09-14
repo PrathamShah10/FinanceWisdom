@@ -9,6 +9,7 @@ type Query {
  getCustomerData(_id: String!): [Economics]
  getGoals(_id: String!): [String]
  getInvestments(_id: String!): [invest]
+ getAllNotifications(_id: String!): [String]
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User

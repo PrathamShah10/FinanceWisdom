@@ -19,6 +19,7 @@ import News from "./components/News";
 import CustomerGoals from "./components/CustomerGoals";
 import GiveGoalInsight from "./components/GiveGoalInsight";
 import ViewInvestments from "./components/ViewInvestments";
+import Notifications from "./components/Notifications";
 
 export const routes: RouteObject[] = [
   {
@@ -119,5 +120,9 @@ export const routes: RouteObject[] = [
   {
     path: "/view-investments",
     element: <PrivateRoute element={ViewInvestments} />,
+  },
+  {
+    path: "/notifications",
+    element: <PrivateRoute element={Notifications} />,
   },
 ];

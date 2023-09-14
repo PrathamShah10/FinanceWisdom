@@ -7,6 +7,12 @@ const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
 const Investment = mongoose.model("Investment");
+const Notification = mongoose.model("Notification");
+
+import bullmq from "bullmq";
+const { Queue, Worker } = bullmq;
+const notificationQueue = new Queue("notificationQueue");
+
 const getData = (data) => {
   const refinedData = data.map((ele) => {
     return ele.goal;
@@ -56,6 +62,13 @@ export const resolvers = {
     getInvestments: async (_, { _id }) => {
       return await Investment.find({ customer: _id });
     },
+    getAllNotifications: async (_, {_id}) => {
+      const notifs = await Notification.find({FAId: _id});
+      const refinedNotifications = await notifs.map((msg, i) => {
+        return msg.message
+      });
+      return refinedNotifications;
+    }
   },
   Mutation: {
     addUser: async (_, { newUserDetails }) => {
@@ -161,6 +174,7 @@ export const resolvers = {
     },
     changeGoals: async (_, { goalDetails }) => {
       const { goal, isAdd, userid } = goalDetails;
+      const res = await User.findById(userid).populate("buisnessMan", "_id");
       if (isAdd) {
         const newGoal = await new Goal({
           goal,
@@ -169,11 +183,23 @@ export const resolvers = {
         await newGoal.save();
         const goals = await Goal.find({ by: userid });
         const refinedData = await getData(goals);
+
+        notificationQueue.add("notifyBusinessPerson", {
+          FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
+          message: `${res.name} added a new goal: ${goal}`,
+        });
+
         return refinedData;
       } else {
         await Goal.deleteOne({ by: userid, goal });
         const goals = await Goal.find({ by: userid });
         const refinedData = await getData(goals);
+
+        notificationQueue.add("notifyBusinessPerson", {
+          FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
+          message: `${res.name} removed a goal: ${goal}`,
+        });
+
         return refinedData;
       }
     },
@@ -236,3 +262,15 @@ export const resolvers = {
     },
   },
 };
+
+const notificationWorker = new Worker("notificationQueue", async (job) => {
+  const { FAid, message } = job.data;
+
+  console.log('running vai', job.data);
+  // Find the BusinessPerson by ID
+  const notify = await new Notification({
+    message,
+    FAId: FAid,
+  });
+  await notify.save();
+});

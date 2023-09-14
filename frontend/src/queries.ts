@@ -125,3 +125,9 @@ export const GET_ALL_INVESTS = gql`
     }
   }
 `;
+
+export const GET_ALL_NOTIFICATIONS = gql`
+  query getnotifs($id: String!) {
+    getAllNotifications(_id: $id)
+  }
+`;
