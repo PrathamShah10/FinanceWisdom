@@ -2,9 +2,17 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const User = mongoose.model("User");
+const Goal = mongoose.model("Goal");
 const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
+const Investment = mongoose.model("Investment");
+const getData = (data) => {
+  const refinedData = data.map((ele) => {
+    return ele.goal;
+  });
+  return refinedData;
+};
 export const resolvers = {
   Query: {
     user: async (_, { _id }) => {
@@ -39,6 +47,14 @@ export const resolvers = {
     },
     getCustomerData: async (_, { _id }) => {
       return await Economics.find({ by: _id });
+    },
+    getGoals: async (_, { _id }) => {
+      const goals = await Goal.find({ by: _id });
+      const refinedData = await getData(goals);
+      return refinedData;
+    },
+    getInvestments: async (_, { _id }) => {
+      return await Investment.find({ customer: _id });
     },
   },
   Mutation: {
@@ -111,7 +127,9 @@ export const resolvers = {
     },
     // updateEconmoics(economicDetails: EconomicsInput!): Economics
     updateEconomics: async (_, { economicDetails }) => {
-      const ecoData = await Economics.findOne({ category: economicDetails.category });
+      const ecoData = await Economics.findOne({
+        category: economicDetails.category,
+      });
       if (!ecoData) {
         const newEcoData = await new Economics({
           expenses: economicDetails.expenses,
@@ -141,7 +159,44 @@ export const resolvers = {
       await msg.save();
       return await Chats.find({});
     },
+    changeGoals: async (_, { goalDetails }) => {
+      const { goal, isAdd, userid } = goalDetails;
+      if (isAdd) {
+        const newGoal = await new Goal({
+          goal,
+          by: userid,
+        });
+        await newGoal.save();
+        const goals = await Goal.find({ by: userid });
+        const refinedData = await getData(goals);
+        return refinedData;
+      } else {
+        await Goal.deleteOne({ by: userid, goal });
+        const goals = await Goal.find({ by: userid });
+        const refinedData = await getData(goals);
+        return refinedData;
+      }
+    },
+    addInvestment: async (_, { investDetails }) => {
+      const { Itype, amount, duration, returns, customer, isAdd } =
+        investDetails;
+      if (isAdd) {
+        const newInvest = await new Investment({
+          Itype,
+          amount,
+          duration,
+          returns,
+          customer,
+        });
+        await newInvest.save();
+        return await Investment.find({ customer });
+      } else {
+        await Investment.deleteOne({ Itype, customer });
+        return await Investment.find({ customer });
+      }
+    },
   },
+
   BusinessPerson: {
     customers: async (buisnessMan) => {
       const res = await BusinessPerson.findById(buisnessMan._id).select(

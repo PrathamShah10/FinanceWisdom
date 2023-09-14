@@ -91,6 +91,11 @@ const ViewCustomer = () => {
             Set Financial Budget
           </button>
         </Link>
+        <Link to={`/goals`}>
+          <button className="m-3 px-4 py-2 rounded-lg bg-white to-purple-600 text-black border-2 border-white-200 hover:border-gray-300">
+            View Customer Goals
+          </button>
+        </Link>
       </div>
     </div>
   );

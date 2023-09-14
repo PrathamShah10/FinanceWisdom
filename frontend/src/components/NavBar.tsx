@@ -46,6 +46,18 @@ const NavBar = () => {
                         News
                       </div>
                     </Link>
+
+                    <Link to={`/set-goals`}>
+                      <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                        Goals
+                      </div>
+                    </Link>
+
+                    <Link to={`/view-investments`}>
+                      <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                        Investments
+                      </div>
+                    </Link>
                   </>
                 )}
               </div>

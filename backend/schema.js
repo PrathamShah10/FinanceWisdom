@@ -7,6 +7,8 @@ type Query {
  getAllBusinessData(_id:ID!): AllBuisnessData
  getAllBusinessMen: [BusinessPerson]
  getCustomerData(_id: String!): [Economics]
+ getGoals(_id: String!): [String]
+ getInvestments(_id: String!): [invest]
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User
@@ -15,6 +17,8 @@ type Mutation {
     addBuisnessMan(newUserDetails: BuisnessInput!) : BusinessPerson
     updateEconomics(economicDetails: EconomicsInput): Economics
     addMessage(messageDetails: MessagingInput!): [Messaging]
+    changeGoals(goalDetails: GoalInput!): [String]
+    addInvestment(investDetails: InvestInput!): [invest]
 }
 type User {
     _id: ID!
@@ -31,6 +35,17 @@ type BusinessPerson {
     username: String
     password: String
     customers: [User]
+}
+type invest {
+    Itype: String
+    amount:String
+    duration: String
+    returns: String
+    customer: String
+}
+type goals {
+    goal: String
+    by: String
 }
 type Economics {
     _id: ID!
@@ -86,6 +101,19 @@ input EconomicsInput {
     expenses: [Int]
     budgetExp: [Int]
     category: String
+}
+input InvestInput {
+    Itype: String!
+    amount:String!
+    duration: String!
+    returns: String!
+    customer: String!
+    isAdd: Boolean!
+}
+input GoalInput {
+    goal: String!
+    userid: String!
+    isAdd: Boolean
 }
 input MessagingInput {
     sender: String!
