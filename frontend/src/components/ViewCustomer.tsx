@@ -7,7 +7,7 @@ import { ChatIcon } from "./common/icons/Icons";
 import VisualizeData from "./Visualize/VisualizeData";
 const ViewCustomer = () => {
   const { customerId } = useParams();
-  const [toogleChart, setToogleChart] = useState<string>('PIECHART');
+  const [toogleChart, setToogleChart] = useState<string>("PIECHART");
   const { data, loading, error } = useQuery(GET_CUSTOMER_DATA, {
     variables: {
       _id: customerId,
@@ -26,38 +26,9 @@ const ViewCustomer = () => {
       (item: any) => item.category === category
     );
   }
-  // console.log('datavaiviewcusromer', data?.getCustomerData[categoricalDataIndex]);
   const expenseData = data?.getCustomerData[categoricalDataIndex]?.expenses;
-  const budgetExpenseData = data?.getCustomerData[categoricalDataIndex]?.budgetExp;
-  // const expenseGraphData = {
-  //   datasets: [
-  //     {
-  //       label: "Expenses",
-  //       data: expenseData?.map((expense: any, index: number) => ({
-  //         x: months[index],
-  //         y: expense,
-  //       })),
-  //       fill: false,
-  //       borderColor: "rgb(205, 92, 92)",
-  //       pointRadius: 4,
-  //       pointHoverRadius: 7,
-  //     },
-  //   ],
-  // };
-  // const LineOptions = {
-  //   scales: {
-  //     x: {
-  //       type: "category",
-  //       labels: months,
-  //     },
-  //     y: {
-  //       beginAtZero: true,
-  //       ticks: {
-  //         precision: 5,
-  //       },
-  //     },
-  //   },
-  // } as any;
+  const budgetExpenseData =
+    data?.getCustomerData[categoricalDataIndex]?.budgetExp;
   if (error) return <h1>error</h1>;
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col">
@@ -95,8 +66,12 @@ const ViewCustomer = () => {
       </div>
       <div className="mt-8 flex flex-col justify-center items-center space-y-4">
         <div className="h-[300px] w-full md:w-2/3 lg:w-1/2">
-          {/* <Line data={expenseGraphData} options={LineOptions} /> */}
-          <VisualizeData expenseData={expenseData} budgetData={budgetExpenseData} chart={toogleChart} isFA={true}/>
+          <VisualizeData
+            expenseData={expenseData}
+            budgetData={budgetExpenseData}
+            chart={toogleChart}
+            isFA={true}
+          />
         </div>
       </div>
       <Link to={`/chat/${customerId}`}>

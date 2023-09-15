@@ -266,7 +266,6 @@ export const resolvers = {
 const notificationWorker = new Worker("notificationQueue", async (job) => {
   const { FAid, message } = job.data;
 
-  console.log('running vai', job.data);
   // Find the BusinessPerson by ID
   const notify = await new Notification({
     message,
