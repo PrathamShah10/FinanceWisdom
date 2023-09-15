@@ -22,12 +22,11 @@ function CustomerGoals() {
     if (newGoal.trim() !== "") {
       const { data } = await changeGoals({
         variables: {
-            goalDetails: {
-                 userid: user?._id,
-          isAdd: true,
-          goal: newGoal,
-            }
-         
+          goalDetails: {
+            userid: user?._id,
+            isAdd: true,
+            goal: newGoal,
+          },
         },
       });
       setGoals(data.changeGoals);
@@ -39,16 +38,15 @@ function CustomerGoals() {
     // const updatedGoals = [...goals];
     // updatedGoals.splice(index, 1);
     const { data } = await changeGoals({
-        variables: {
-            goalDetails: {
-                 userid: user?._id,
+      variables: {
+        goalDetails: {
+          userid: user?._id,
           isAdd: false,
           goal: goals[index],
-            }
-         
         },
-      });
-      setGoals(data.changeGoals);
+      },
+    });
+    setGoals(data.changeGoals);
   };
 
   return (
