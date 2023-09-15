@@ -13,7 +13,7 @@ const VisualizeData = ({
   budgetData,
   isFA = false,
 }: VisualizeDataProps) => {
-  const data1 = {
+  const chartData = {
     labels: [...months],
     datasets: [
       {
@@ -38,12 +38,15 @@ const VisualizeData = ({
     ],
   };
   const renderGraph = () => {
+    if (!expenseData || !budgetData) {
+      return "No data to display";
+    }
     switch (chart) {
       case "PIECHART":
         return (
           <div className="h-[400px] w-[600px]">
             <Pie
-              data={data1}
+              data={chartData}
               options={{
                 plugins: {
                   title: {
@@ -59,7 +62,7 @@ const VisualizeData = ({
         return (
           <div className="h-[400px] w-[600px]">
             <Bar
-              data={data1}
+              data={chartData}
               options={{
                 scales: {
                   y: {
@@ -74,7 +77,7 @@ const VisualizeData = ({
         return (
           <div className="h-[400px] w-[600px]">
             <Line
-              data={data1}
+              data={chartData}
               options={{
                 scales: {
                   x: {
