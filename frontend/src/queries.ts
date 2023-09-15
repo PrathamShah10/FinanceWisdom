@@ -99,12 +99,35 @@ export const GET_ALL_CHATS = gql`
 `;
 
 export const GET_CUSTOMER_DATA = gql`
-query visuals($_id: String!) {
-  getCustomerData(_id: $_id) {
-    expenses
-    budgetExp
-    _id
-    category
+  query visuals($_id: String!) {
+    getCustomerData(_id: $_id) {
+      expenses
+      budgetExp
+      _id
+      category
+    }
   }
-}
+`;
+
+export const GET_ALL_GOALS = gql`
+  query getgoals($id: String!) {
+    getGoals(_id: $id)
+  }
+`;
+
+export const GET_ALL_INVESTS = gql`
+  query getInvests($id: String!) {
+    getInvestments(_id: $id) {
+      duration
+      Itype
+      amount
+      returns
+    }
+  }
+`;
+
+export const GET_ALL_NOTIFICATIONS = gql`
+  query getnotifs($id: String!) {
+    getAllNotifications(_id: $id)
+  }
 `;

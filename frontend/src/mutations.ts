@@ -83,3 +83,18 @@ export const ADD_MESSAGES = gql`
     }
   }
 `;
+export const CHANGE_GOALS = gql`
+mutation goalChange($goalDetails: GoalInput!) {
+  changeGoals(goalDetails: $goalDetails)
+}
+`;
+export const ADD_INVESTMENTS = gql`
+mutation investments($investDetails: InvestInput!) {
+  addInvestment(investDetails: $investDetails) {
+    Itype
+    duration
+    amount
+    returns
+  } 
+}
+`;

@@ -16,6 +16,10 @@ import EnterExcelData from "./components/EnterExcelData";
 import Visualize from "./components/Visualize/Visualize";
 import ViewCustomer from "./components/ViewCustomer";
 import News from "./components/News";
+import CustomerGoals from "./components/CustomerGoals";
+import GiveGoalInsight from "./components/GiveGoalInsight";
+import ViewInvestments from "./components/ViewInvestments";
+import Notifications from "./components/Notifications";
 
 export const routes: RouteObject[] = [
   {
@@ -40,12 +44,13 @@ export const routes: RouteObject[] = [
   },
   { path: "/register", element: <SignUp /> },
   { path: "/video-call", element: <PrivateRoute element={VideoCallBody} /> },
-  { path: "/home-buisness", element: <PrivateRoute element={BuisnessHome} isBuisness={true} /> },
+  {
+    path: "/home-buisness",
+    element: <PrivateRoute element={BuisnessHome} isBuisness={true} />,
+  },
   {
     path: "/home-user",
-    element: (
-      <PrivateRoute element={Visualize} />
-    ),
+    element: <PrivateRoute element={Visualize} />,
   },
   // {
   //   path: "/view-user-data",
@@ -66,7 +71,10 @@ export const routes: RouteObject[] = [
       />
     ),
   },
-  { path: "/update-manualdata", element: <PrivateRoute element={EnterManualData} /> },
+  {
+    path: "/update-manualdata",
+    element: <PrivateRoute element={EnterManualData} />,
+  },
   {
     path: "/update-exceldata",
     element: <PrivateRoute element={EnterExcelData} />,
@@ -84,7 +92,7 @@ export const routes: RouteObject[] = [
           link1: "/update-advisor-manualdata",
           link2: "/update-advisor-exceldata",
         }}
-        isBuisness={true} 
+        isBuisness={true}
       />
     ),
   },
@@ -99,6 +107,22 @@ export const routes: RouteObject[] = [
     ),
   },
   // { path: "/line-graph", element: <PrivateRoute element={ViewAllLines} /> },
-  {path: '/view-customer/:customerId', element: <PrivateRoute element={ViewCustomer} isBuisness={true} />},
-  {path: '/news', element: <PrivateRoute element={News} />},
+  {
+    path: "/view-customer/:customerId",
+    element: <PrivateRoute element={ViewCustomer} isBuisness={true} />,
+  },
+  { path: "/news", element: <PrivateRoute element={News} /> },
+  { path: "/set-goals", element: <PrivateRoute element={CustomerGoals} /> },
+  {
+    path: "/goals",
+    element: <PrivateRoute element={GiveGoalInsight} isBuisness={true} />,
+  },
+  {
+    path: "/view-investments",
+    element: <PrivateRoute element={ViewInvestments} />,
+  },
+  {
+    path: "/notifications",
+    element: <PrivateRoute element={Notifications} />,
+  },
 ];

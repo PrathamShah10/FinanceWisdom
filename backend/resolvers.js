@@ -2,9 +2,23 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const User = mongoose.model("User");
+const Goal = mongoose.model("Goal");
 const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
+const Investment = mongoose.model("Investment");
+const Notification = mongoose.model("Notification");
+
+import bullmq from "bullmq";
+const { Queue, Worker } = bullmq;
+const notificationQueue = new Queue("notificationQueue");
+
+const getData = (data) => {
+  const refinedData = data.map((ele) => {
+    return ele.goal;
+  });
+  return refinedData;
+};
 export const resolvers = {
   Query: {
     user: async (_, { _id }) => {
@@ -40,6 +54,21 @@ export const resolvers = {
     getCustomerData: async (_, { _id }) => {
       return await Economics.find({ by: _id });
     },
+    getGoals: async (_, { _id }) => {
+      const goals = await Goal.find({ by: _id });
+      const refinedData = await getData(goals);
+      return refinedData;
+    },
+    getInvestments: async (_, { _id }) => {
+      return await Investment.find({ customer: _id });
+    },
+    getAllNotifications: async (_, {_id}) => {
+      const notifs = await Notification.find({FAId: _id});
+      const refinedNotifications = await notifs.map((msg, i) => {
+        return msg.message
+      });
+      return refinedNotifications;
+    }
   },
   Mutation: {
     addUser: async (_, { newUserDetails }) => {
@@ -111,7 +140,9 @@ export const resolvers = {
     },
     // updateEconmoics(economicDetails: EconomicsInput!): Economics
     updateEconomics: async (_, { economicDetails }) => {
-      const ecoData = await Economics.findOne({ category: economicDetails.category });
+      const ecoData = await Economics.findOne({
+        category: economicDetails.category,
+      });
       if (!ecoData) {
         const newEcoData = await new Economics({
           expenses: economicDetails.expenses,
@@ -141,7 +172,57 @@ export const resolvers = {
       await msg.save();
       return await Chats.find({});
     },
+    changeGoals: async (_, { goalDetails }) => {
+      const { goal, isAdd, userid } = goalDetails;
+      const res = await User.findById(userid).populate("buisnessMan", "_id");
+      if (isAdd) {
+        const newGoal = await new Goal({
+          goal,
+          by: userid,
+        });
+        await newGoal.save();
+        const goals = await Goal.find({ by: userid });
+        const refinedData = await getData(goals);
+
+        notificationQueue.add("notifyBusinessPerson", {
+          FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
+          message: `${res.name} added a new goal: ${goal}`,
+        });
+
+        return refinedData;
+      } else {
+        await Goal.deleteOne({ by: userid, goal });
+        const goals = await Goal.find({ by: userid });
+        const refinedData = await getData(goals);
+
+        notificationQueue.add("notifyBusinessPerson", {
+          FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
+          message: `${res.name} removed a goal: ${goal}`,
+        });
+
+        return refinedData;
+      }
+    },
+    addInvestment: async (_, { investDetails }) => {
+      const { Itype, amount, duration, returns, customer, isAdd } =
+        investDetails;
+      if (isAdd) {
+        const newInvest = await new Investment({
+          Itype,
+          amount,
+          duration,
+          returns,
+          customer,
+        });
+        await newInvest.save();
+        return await Investment.find({ customer });
+      } else {
+        await Investment.deleteOne({ Itype, customer });
+        return await Investment.find({ customer });
+      }
+    },
   },
+
   BusinessPerson: {
     customers: async (buisnessMan) => {
       const res = await BusinessPerson.findById(buisnessMan._id).select(
@@ -181,3 +262,15 @@ export const resolvers = {
     },
   },
 };
+
+const notificationWorker = new Worker("notificationQueue", async (job) => {
+  const { FAid, message } = job.data;
+
+  console.log('running vai', job.data);
+  // Find the BusinessPerson by ID
+  const notify = await new Notification({
+    message,
+    FAId: FAid,
+  });
+  await notify.save();
+});

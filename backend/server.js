@@ -3,6 +3,10 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+
+
+
+
 const io = new Server(8000, {
   cors: true,
 });
@@ -59,6 +63,9 @@ import "./modals/User.js";
 import "./modals/Buisness.js";
 import "./modals/Economics.js";
 import "./modals/Chat.js";
+import "./modals/Goals.js";
+import "./modals/Investments.js";
+import "./modals/Notifications.js";
 import { typeDefs } from "./schema.js";
 import { resolvers } from "./resolvers.js";
 

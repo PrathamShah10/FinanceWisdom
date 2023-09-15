@@ -12,13 +12,13 @@ interface IUser {
   isCustomer?: boolean;
 }
 interface IBuisnessMan {
-  _id?: string
+  _id?: string;
   name?: string;
   email?: string;
   username?: string;
 }
 interface ICustomer {
-  _id?:string;
+  _id?: string;
   name: string;
   email?: string;
   username?: string;
@@ -50,4 +50,20 @@ interface IVisualState {
   budgetExp?: Array<number>;
   category: string;
 }
-export type { ISignInDetails, ICustomer, IUser, IUserState, IUserVisualInput, IDataVisualize, IChats, IVisualState };
+interface IInvestment {
+  Itype?: string;
+  amount?: string;
+  duration?: string;
+  returns?: string;
+}
+export type {
+  ISignInDetails,
+  ICustomer,
+  IUser,
+  IUserState,
+  IUserVisualInput,
+  IDataVisualize,
+  IChats,
+  IVisualState,
+  IInvestment,
+};
