@@ -6,16 +6,20 @@ import { useQuery } from "@apollo/client";
 import { GET_VISUAL_DATA } from "../../queries";
 import { setVisuals } from "../../redux/reducer/visual";
 const Visualize = () => {
+  const [visualData, setVisualData] = useState<any>(null);
   const { user } = useAppSelector((state) => state.user);
   const { data } = useQuery(GET_VISUAL_DATA, {
     variables: {
       _id: user?._id,
     },
   });
+  useEffect(() => {
+    setVisualData(data?.getAllUserData?.visuals);
+  }, [data?.getAllUserData?.visuals]);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(setVisuals(data?.getAllUserData?.visuals));
-  }, [dispatch, data]);
+    dispatch(setVisuals(visualData));
+  }, [dispatch, data, visualData]);
   const visuals = useAppSelector((state) => state.visual);
   const [toogleChart, setToogleChart] = useState<string>("PIECHART");
   let initialCategory = "general";
@@ -62,13 +66,13 @@ const Visualize = () => {
           </option>
         </select>
       </div>
-      {visuals ? (
+      {visualData ? (
         <VisualizeData
           expenseData={
-            visuals ? visuals[categorialVisualsIndex]?.expenses : undefined
+            visualData ? visualData[categorialVisualsIndex]?.expenses : undefined
           }
           budgetData={
-            visuals ? visuals[categorialVisualsIndex]?.budgetExp : undefined
+            visualData ? visualData[categorialVisualsIndex]?.budgetExp : undefined
           }
           chart={toogleChart}
         />
