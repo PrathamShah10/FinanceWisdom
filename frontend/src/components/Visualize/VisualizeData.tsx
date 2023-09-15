@@ -19,7 +19,7 @@ const VisualizeData = ({
       {
         label: "Expenses",
         data: expenseData,
-        borderColor: "rgb(34, 139, 34)",
+        borderColor: "rgb(205, 92, 92)",
         backgroundColor: [...bgcolors],
         pointRadius: 2.2,
         pointHoverRadius: 4.5,
