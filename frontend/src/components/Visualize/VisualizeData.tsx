@@ -11,8 +11,8 @@ const VisualizeData = ({
   expenseData,
   chart,
   budgetData,
+  isFA = false,
 }: VisualizeDataProps) => {
-  console.log('expdatameissuehaikya?', expenseData);
   const data1 = {
     labels: [...months],
     datasets: [
@@ -38,8 +38,6 @@ const VisualizeData = ({
     ],
   };
   const renderGraph = () => {
-    // Define a common set of options for all charts to control their dimensions
-
     switch (chart) {
       case "PIECHART":
         return (
@@ -102,14 +100,16 @@ const VisualizeData = ({
       <div className="flex items-center justify-center mx-auto mt-2 h-[500px]">
         {renderGraph()}
       </div>
-      <div className="flex items-center justify-center mt-2">
-        <Link
-          to="/update-manualdata"
-          className="m-3 px-4 py-2 rounded-lg bg-white to-purple-600 text-black border-2 border-white-200 hover:border-gray-300"
-        >
-          Update Data
-        </Link>
-      </div>
+      {!isFA && (
+        <div className="flex items-center justify-center mt-2">
+          <Link
+            to="/update-manualdata"
+            className="m-3 px-4 py-2 rounded-lg bg-white to-purple-600 text-black border-2 border-white-200 hover:border-gray-300"
+          >
+            Update Data
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
@@ -118,6 +118,7 @@ type VisualizeDataProps = {
   expenseData?: Array<number>;
   chart?: string;
   budgetData?: Array<number>;
+  isFA?: boolean;
 };
 
 export default VisualizeData;
