@@ -4,9 +4,6 @@ import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-
-
-
 const io = new Server(8000, {
   cors: true,
 });
@@ -50,7 +47,7 @@ io.on("connection", (socket) => {
   });
 });
 
-mongoose.connect("mongodb://localhost:27017/growthDB", {
+mongoose.connect("mongodb://0.0.0.0:27017/growthDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -66,6 +63,7 @@ import "./modals/Goals.js";
 import "./modals/Investments.js";
 import "./modals/Notifications.js";
 import { typeDefs } from "./schema.js";
+import "./bullmqworker.js";
 import { resolvers } from "./resolvers.js";
 
 const server = new ApolloServer({
@@ -75,6 +73,7 @@ const server = new ApolloServer({
 const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => {
     const { authorization } = req.headers;
+    // console.log('newone');
     if (authorization) {
       const { userId } = jwt.verify(authorization, "avbdd!@#$]");
       return { userId: userId };

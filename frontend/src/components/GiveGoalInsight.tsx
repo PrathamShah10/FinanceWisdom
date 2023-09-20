@@ -13,6 +13,7 @@ const GiveGoalInsight = () => {
     variables: {
       id: customerId,
     },
+    fetchPolicy: "no-cache",
   });
 
   const { data: investmentData } = useQuery(GET_ALL_INVESTS, {

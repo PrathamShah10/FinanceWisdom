@@ -13,6 +13,7 @@ function CustomerGoals() {
     variables: {
       id: user?._id,
     },
+    fetchPolicy: "no-cache",
   });
   useEffect(() => {
     if (data) setGoals(data.getGoals);
@@ -35,8 +36,6 @@ function CustomerGoals() {
   };
 
   const handleDeleteGoal = async (index: number) => {
-    // const updatedGoals = [...goals];
-    // updatedGoals.splice(index, 1);
     const { data } = await changeGoals({
       variables: {
         goalDetails: {

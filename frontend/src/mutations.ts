@@ -31,8 +31,6 @@ export const SIGNIN_USER = gql`
         buisnessMan {
           _id
           name
-          email
-          username
         }
       }
       isCustomer

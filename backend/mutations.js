@@ -7,18 +7,13 @@ const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
 const Investment = mongoose.model("Investment");
-const Notification = mongoose.model("Notification");
-
+// const Notification = mongoose.model("Notification");
+import Redis from "ioredis";
+const redis = new Redis();
+import { refineData } from "./common.js";
 import bullmq from "bullmq";
-const { Queue, Worker } = bullmq;
+const { Queue } = bullmq;
 const notificationQueue = new Queue("notificationQueue");
-
-const getData = (data) => {
-  const refinedData = data.map((ele) => {
-    return ele.goal;
-  });
-  return refinedData;
-};
 
 export const Mutations = {
   addUser: async (_, { newUserDetails }) => {
@@ -66,12 +61,19 @@ export const Mutations = {
       throw new Error("crediantials invalid");
     }
     const token = jwt.sign({ userId: user._id }, "avbdd!@#$]");
+    await redis.set(
+      `UserSignData_${user._id}`,
+      JSON.stringify(user),
+      "EX",
+      432000
+    ); //5 days
     return { token: token, userDetails: user, isCustomer: true };
   },
   signInBuisness: async (_, { signDetails }) => {
     const user = await BusinessPerson.findOne({
       username: signDetails.username,
     });
+
     if (!user) {
       throw new Error("crediantials invalid");
     }
@@ -80,6 +82,7 @@ export const Mutations = {
       throw new Error("crediantials invalid");
     }
     const token = jwt.sign({ userId: user._id }, "avbdd!@#$]");
+    await redis.set(`FA_data_${user._id}`, JSON.stringify(user), "EX", 432000);
     return { token: token, userDetails: user, isCustomer: false };
   },
   updateEconomics: async (_, { economicDetails }) => {
@@ -122,7 +125,7 @@ export const Mutations = {
       });
       await newGoal.save();
       const goals = await Goal.find({ by: userid });
-      const refinedData = await getData(goals);
+      const refinedData = await refineData(goals);
       notificationQueue.add("notifyBusinessPerson", {
         FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
         message: `${res.name} added a new goal: ${goal}`,
@@ -132,7 +135,7 @@ export const Mutations = {
     } else {
       await Goal.deleteOne({ by: userid, goal });
       const goals = await Goal.find({ by: userid });
-      const refinedData = await getData(goals);
+      const refinedData = await refineData(goals);
 
       notificationQueue.add("notifyBusinessPerson", {
         FAid: res.buisnessMan._id, // Replace 'X' with the actual ID
@@ -160,12 +163,3 @@ export const Mutations = {
     }
   },
 };
-
-const notificationWorker = new Worker("notificationQueue", async (job) => {
-  const { FAid, message } = job.data;
-  const notify = await new Notification({
-    message,
-    FAId: FAid,
-  });
-  await notify.save();
-});

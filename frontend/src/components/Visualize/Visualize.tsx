@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import VisualizeData from "./VisualizeData";
 import { useQuery } from "@apollo/client";
@@ -12,6 +11,7 @@ const Visualize = () => {
     variables: {
       _id: user?._id,
     },
+    fetchPolicy: "no-cache",
   });
   useEffect(() => {
     setVisualData(data?.getAllUserData?.visuals);
@@ -66,13 +66,17 @@ const Visualize = () => {
           </option>
         </select>
       </div>
-      {visualData ? (
+      {user?._id && visualData ? (
         <VisualizeData
           expenseData={
-            visualData ? visualData[categorialVisualsIndex]?.expenses : undefined
+            visualData
+              ? visualData[categorialVisualsIndex]?.expenses
+              : undefined
           }
           budgetData={
-            visualData ? visualData[categorialVisualsIndex]?.budgetExp : undefined
+            visualData
+              ? visualData[categorialVisualsIndex]?.budgetExp
+              : undefined
           }
           chart={toogleChart}
         />
