@@ -12,7 +12,7 @@ const ViewCustomer = () => {
     variables: {
       _id: customerId,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   useEffect(() => {
     setCategory(data?.getCustomerData[0]?.category);

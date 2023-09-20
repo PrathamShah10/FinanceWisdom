@@ -26,7 +26,7 @@ export const GET_ALL_USER_DATA = gql`
       }
       chats {
         sender
-        reciever
+        receiver
         message
       }
     }
@@ -66,7 +66,7 @@ export const GET_ALL_BUISNESS_DATA = gql`
       chats {
         message
         sender
-        reciever
+        receiver
       }
     }
   }
@@ -92,7 +92,7 @@ export const GET_ALL_CHATS = gql`
   query chats($_id: ID!) {
     getAllChats(_id: $_id) {
       sender
-      reciever
+      receiver
       message
     }
   }

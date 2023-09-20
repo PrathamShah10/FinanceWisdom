@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux";
-import { setUserData } from "../redux/reducer/user";
+import { resetUserState } from "../redux/reducer/user";
+import { resetVisuals } from "../redux/reducer/visual";
 const NavBar = () => {
   const [showLogout, setShowLogout] = useState(false);
   const dispatch = useAppDispatch();
@@ -106,7 +107,8 @@ const NavBar = () => {
                           onClick={() => {
                             localStorage.removeItem("token");
                             localStorage.removeItem("user");
-                            dispatch(setUserData(undefined));
+                            dispatch(resetUserState());
+                            dispatch(resetVisuals());
                             navigate("/");
                           }}
                         >

@@ -14,7 +14,6 @@ export const Queries = {
   user: async (_, { _id }) => {
     const cachedUser = await redis.get(`User_${_id}`);
     if (cachedUser) {
-      console.log("cached User");
       return JSON.parse(cachedUser);
     }
     const userData = await User.findOne({ _id: _id });
@@ -24,7 +23,6 @@ export const Queries = {
   business: async (_, { _id }) => {
     const cachedFA = await redis.get(`FA_${_id}`);
     if (cachedFA) {
-      console.log("cached business");
       return JSON.parse(cachedFA);
     }
     const FAData = await BusinessPerson.findOne({ _id: _id });
@@ -42,7 +40,7 @@ export const Queries = {
     }
     const visuals = await Economics.find({ by: _id });
     const chats = await Chats.find({
-      $or: [{ sender: _id }, { reciever: _id }],
+      $or: [{ sender: _id }, { receiver: _id }],
     });
     const allUserData = { user, visuals, chats };
     await redis.set(
@@ -57,13 +55,12 @@ export const Queries = {
     const cachedAllFinancialAdvisorsData = await redis.get(`FA_data_${_id}`);
     let FA = null;
     if (cachedAllFinancialAdvisorsData) {
-      console.log("fetched FA data from cache");
       FA = JSON.parse(cachedAllFinancialAdvisorsData);
     } else {
       FA = await BusinessPerson.findById(_id);
     }
     const chats = await Chats.find({
-      $or: [{ sender: _id }, { reciever: _id }],
+      $or: [{ sender: _id }, { receiver: _id }],
     });
     const FA_Data = { user: FA, chats };
     await redis.set(`FA_data_${_id}`, JSON.stringify(FA), "EX", 3600);
@@ -72,7 +69,6 @@ export const Queries = {
   getAllBusinessMen: async () => {
     const cachedFinancialAdvisorsData = await redis.get("allBusinessMen");
     if (cachedFinancialAdvisorsData) {
-      console.log("cached getBusinessMen Data");
       return JSON.parse(cachedFinancialAdvisorsData);
     }
     const businessMen = await BusinessPerson.find({});
@@ -81,7 +77,7 @@ export const Queries = {
   },
   getAllChats: async (_, { _id }) => {
     return await Chats.find({
-      $or: [{ sender: _id }, { reciever: _id }],
+      $or: [{ sender: _id }, { receiver: _id }],
     });
   },
   getCustomerData: async (_, { _id }) => {
@@ -99,7 +95,6 @@ export const Queries = {
   getAllNotifications: async (_, { _id }) => {
     const cachedNotifications = await redis.get(`notification${_id}`);
     if (cachedNotifications) {
-      console.log("cached notifications");
       return JSON.parse(cachedNotifications);
     }
     const notificationsFromDatabase = await Notification.find({ FAId: _id });

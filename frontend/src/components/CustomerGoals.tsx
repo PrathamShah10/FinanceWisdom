@@ -13,7 +13,7 @@ function CustomerGoals() {
     variables: {
       id: user?._id,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   useEffect(() => {
     if (data) setGoals(data.getGoals);

@@ -73,7 +73,6 @@ const server = new ApolloServer({
 const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => {
     const { authorization } = req.headers;
-    // console.log('newone');
     if (authorization) {
       const { userId } = jwt.verify(authorization, "avbdd!@#$]");
       return { userId: userId };

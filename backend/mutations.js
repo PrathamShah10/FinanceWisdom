@@ -110,11 +110,36 @@ export const Mutations = {
     return ecoData;
   },
   addMessage: async (_, { messageDetails }) => {
-    const msg = await new Chats({
-      ...messageDetails,
+
+
+    // Define the sender and receiver from the first item in messageDetails
+    const { sender, receiver } = messageDetails[0];
+  
+    // Remove all records where sender or receiver matches sender or receiver from messageDetails
+    await Chats.deleteMany({
+      $or: [
+        { sender: sender, receiver: receiver },
+        { sender: receiver, receiver: sender }, // Include reverse matching
+      ],
     });
-    await msg.save();
-    return await Chats.find({});
+  
+    // Insert each message from messageDetails into the database
+    const insertedMessages = await Promise.all(
+      messageDetails.map(async (messageDetail) => {
+        const newMessage = new Chats({ ...messageDetail });
+        return await newMessage.save();
+      })
+    );
+  
+    // Find and return all records where sender is messageDetails[0].sender or receiver is messageDetails[0].receiver
+    const allChats = await Chats.find({
+      $or: [
+        { sender: sender, receiver: receiver },
+        { sender: receiver, receiver: sender }, // Include reverse matching
+      ],
+    });
+  
+    return allChats;
   },
   changeGoals: async (_, { goalDetails }) => {
     const { goal, isAdd, userid } = goalDetails;

@@ -20,6 +20,7 @@ import CustomerGoals from "./components/CustomerGoals";
 import GiveGoalInsight from "./components/GiveGoalInsight";
 import ViewInvestments from "./components/ViewInvestments";
 import Notifications from "./components/Notifications";
+import Page1 from "./components/Page1";
 
 export const routes: RouteObject[] = [
   {
@@ -125,4 +126,8 @@ export const routes: RouteObject[] = [
     path: "/notifications",
     element: <PrivateRoute element={Notifications} />,
   },
+  {
+    path:'/testing',
+    element: <PrivateRoute element={Page1} />,
+  }
 ];

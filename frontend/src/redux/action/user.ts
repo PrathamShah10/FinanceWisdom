@@ -120,7 +120,7 @@ export const setUserVisualsAction = (economicDetails: EconomicsInput) => {
   };
 };
 
-export const setChatsAction = (messageDetails: MessageInput) => {
+export const setChatsAction = (messageDetails: MessageInput[]) => {
   return (dispatch: AppDispatch) => {
     dispatch(setIsUserDataPending(true));
     client
@@ -133,14 +133,10 @@ export const setChatsAction = (messageDetails: MessageInput) => {
       })
       .then((response) => {
         const res: IChats[] = response.data.addMessage;
-        const filteredData = res.filter(
-          (item) =>
-            (item.sender === messageDetails.sender ||
-              item.sender === messageDetails.reciever) &&
-            (item.reciever === messageDetails.reciever ||
-              item.reciever === messageDetails.sender)
-        );
-        dispatch(setChats(filteredData));
+        const filteredChats = res.filter(chat => {
+          return chat.sender === messageDetails[0].sender || chat.receiver === messageDetails[0].receiver;
+        });
+        dispatch(setChats(filteredChats));
       })
       .catch((err) => {
         console.log(err);
@@ -211,7 +207,7 @@ type EconomicsInput = {
   category?: string;
 };
 type MessageInput = {
-  sender?: string;
-  reciever?: string;
-  message?: string;
+  sender: string;
+  receiver: string;
+  message: string;
 };

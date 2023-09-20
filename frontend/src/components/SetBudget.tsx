@@ -17,7 +17,7 @@ const SetBudget = () => {
     variables: {
       _id: customerId,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   let visuals = useAppSelector((state) => state.visual);
   if (!visuals) {

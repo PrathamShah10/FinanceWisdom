@@ -11,15 +11,18 @@ const Visualize = () => {
     variables: {
       _id: user?._id,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   useEffect(() => {
     setVisualData(data?.getAllUserData?.visuals);
   }, [data?.getAllUserData?.visuals]);
+
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(setVisuals(visualData));
   }, [dispatch, data, visualData]);
+
   const visuals = useAppSelector((state) => state.visual);
   const [toogleChart, setToogleChart] = useState<string>("PIECHART");
   let initialCategory = "general";

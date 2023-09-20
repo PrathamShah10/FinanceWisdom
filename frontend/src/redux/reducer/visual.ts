@@ -24,17 +24,16 @@ export const visualSlicer = createSlice({
       const index = state.findIndex((item) => item.category === category);
       if (index !== -1 && payload) {
         // Return a new state array with the updated item
-        return [
-          ...state.slice(0, index),
-          payload,
-          ...state.slice(index + 1),
-        ];
+        return [...state.slice(0, index), payload, ...state.slice(index + 1)];
       }
       return state;
+    },
+    resetVisuals: (state) => {
+      return [];
     },
   },
 });
 
-export const { setUserVisuals, setVisuals } = visualSlicer.actions;
+export const { setUserVisuals, setVisuals, resetVisuals } = visualSlicer.actions;
 
 export default visualSlicer.reducer;

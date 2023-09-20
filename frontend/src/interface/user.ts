@@ -42,7 +42,7 @@ interface IDataVisualize {
 }
 interface IChats {
   sender: string;
-  reciever: string;
+  receiver: string;
   message: string;
 }
 interface IVisualState {
