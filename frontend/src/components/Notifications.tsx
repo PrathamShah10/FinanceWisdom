@@ -8,6 +8,7 @@ function Notifications() {
     variables: {
       id: user?._id,
     },
+    fetchPolicy: "no-cache",
   });
   return (
     <div className="min-h-screen bg-gray-100 p-6 rounded-lg shadow-md">

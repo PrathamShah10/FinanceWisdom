@@ -7,12 +7,13 @@ const BusinessPerson = mongoose.model("BusinessPerson");
 const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
 const Investment = mongoose.model("Investment");
-// const Notification = mongoose.model("Notification");
+const Notification = mongoose.model("Notification");
+
 import Redis from "ioredis";
 const redis = new Redis();
 import { refineData } from "./common.js";
 import bullmq from "bullmq";
-const { Queue } = bullmq;
+const { Queue, Worker } = bullmq;
 const notificationQueue = new Queue("notificationQueue");
 
 export const Mutations = {
@@ -163,3 +164,13 @@ export const Mutations = {
     }
   },
 };
+
+
+const notificationWorker = new Worker("notificationQueue", async (job) => {
+  const { FAid, message } = job.data;
+  const notify = await new Notification({
+    message,
+    FAId: FAid,
+  });
+  await notify.save();
+});
