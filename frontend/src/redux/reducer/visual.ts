@@ -14,6 +14,7 @@ export const visualSlicer = createSlice({
   reducers: {
     setVisuals: (state, { payload }: PayloadAction<Array<IDataVisualize>>) => {
       // state = payload;
+      console.log('visuals are', payload);
       return payload;
     },
     setUserVisuals: (

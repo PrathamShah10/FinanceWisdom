@@ -37,18 +37,19 @@ export const Queries = {
       user = JSON.parse(cachedUserData);
     } else {
       user = await User.findById(_id);
+      await redis.set(
+        `UserSignData_${_id}`,
+        JSON.stringify(user),
+        "EX",
+        432000 //5 days
+      );
     }
     const visuals = await Economics.find({ by: _id });
     const chats = await Chats.find({
       $or: [{ sender: _id }, { receiver: _id }],
     });
     const allUserData = { user, visuals, chats };
-    await redis.set(
-      `UserSignData_${_id}`,
-      JSON.stringify(user),
-      "EX",
-      432000 //5 days
-    );
+
     return allUserData;
   },
   getAllBusinessData: async (_, { _id }) => {
@@ -101,6 +102,7 @@ export const Queries = {
     const refinedNotifications = notificationsFromDatabase.map((msg, i) => {
       return msg.message;
     });
+    refinedNotifications.reverse();
     await redis.set(
       `notification${_id}`,
       JSON.stringify(refinedNotifications),

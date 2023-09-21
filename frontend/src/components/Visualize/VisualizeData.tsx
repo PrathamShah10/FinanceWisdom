@@ -13,6 +13,7 @@ const VisualizeData = ({
   budgetData,
   isFA = false,
 }: VisualizeDataProps) => {
+  console.log("expdata", expenseData);
   const chartData = {
     labels: [...months],
     datasets: [
