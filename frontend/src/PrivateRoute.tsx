@@ -15,7 +15,6 @@ const PrivateRoute = ({
       isAuthenticated = isCustomer === false;
     }
   }
-
   if (!isAuthenticated) {
     navigate("/");
   }

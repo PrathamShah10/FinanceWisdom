@@ -72,7 +72,7 @@ export const UPDATE_USERVISUAL = gql`
   }
 `;
 export const ADD_MESSAGES = gql`
-  mutation addmsg($messageDetails: [MessagingInput]!) {
+  mutation addmsg($messageDetails: MessagingInput!) {
     addMessage(messageDetails: $messageDetails) {
       _id
       sender

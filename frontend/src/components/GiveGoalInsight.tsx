@@ -28,9 +28,9 @@ const GiveGoalInsight = () => {
   }, [data?.getGoals, investmentData?.getInvestments]);
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+    <div className="bg-transparent p-6 rounded-lg shadow-md">
       <div className="mb-8">
-        <h2 className="text-3xl font-semibold mb-4">Financial Goals</h2>
+        <h2 className="text-lg font-semibold mb-4">Financial Goals</h2>
         <div className="space-y-4">
           {goalData?.map((goal: string, index: number) => (
             <div
@@ -44,7 +44,7 @@ const GiveGoalInsight = () => {
       </div>
 
       <div>
-        <h2 className="text-3xl font-semibold mb-4">Suggest Investment</h2>
+        <h2 className="text-lg font-semibold mb-4">Suggest Investment</h2>
         <div className="space-y-4">
           <InvestmentList invests={investData} customerId={customerId} />
         </div>

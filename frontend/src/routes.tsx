@@ -20,7 +20,9 @@ import CustomerGoals from "./components/CustomerGoals";
 import GiveGoalInsight from "./components/GiveGoalInsight";
 import ViewInvestments from "./components/ViewInvestments";
 import Notifications from "./components/Notifications";
-import Page1 from "./components/Page1";
+// import Page1 from "./components/Page1";
+// import Opencheck from "./components/Opencheck";
+import Homeuser from "./components/Homeuser";
 
 export const routes: RouteObject[] = [
   {
@@ -50,27 +52,8 @@ export const routes: RouteObject[] = [
     element: <PrivateRoute element={BuisnessHome} isBuisness={true} />,
   },
   {
-    path: "/home-user",
+    path: "/visualize",
     element: <PrivateRoute element={Visualize} />,
-  },
-  // {
-  //   path: "/view-user-data",
-  //   element: <PrivateRoute element={Visualize} />,
-  // },
-  {
-    path: "/update-user-data",
-    element: (
-      <PrivateRoute
-        element={Options}
-        props={{
-          title: "How would you like to Update?",
-          heading1: "enter manually",
-          heading2: "enter through excel sheet",
-          link1: "/update-manualdata",
-          link2: "/update-exceldata",
-        }}
-      />
-    ),
   },
   {
     path: "/update-manualdata",
@@ -112,7 +95,7 @@ export const routes: RouteObject[] = [
     path: "/view-customer/:customerId",
     element: <PrivateRoute element={ViewCustomer} isBuisness={true} />,
   },
-  { path: "/news", element: <PrivateRoute element={News} /> },
+  { path: "/news", element: <News /> },
   { path: "/set-goals", element: <PrivateRoute element={CustomerGoals} /> },
   {
     path: "/goals",
@@ -126,8 +109,16 @@ export const routes: RouteObject[] = [
     path: "/notifications",
     element: <PrivateRoute element={Notifications} />,
   },
+  // {
+  //   path: "/testing",
+  //   element: <PrivateRoute element={Page1} />,
+  // },
+  // {
+  //   path: "/testing2",
+  //   element: <Opencheck />,
+  // },
   {
-    path:'/testing',
-    element: <PrivateRoute element={Page1} />,
-  }
+    path: "/home-user",
+    element: <PrivateRoute element={Homeuser} />,
+  },
 ];

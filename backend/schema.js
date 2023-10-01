@@ -17,7 +17,7 @@ type Mutation {
     signInBuisness(signDetails: signInput!): BuisnessToken
     addBuisnessMan(newUserDetails: BuisnessInput!) : BusinessPerson
     updateEconomics(economicDetails: EconomicsInput): Economics
-    addMessage(messageDetails: [MessagingInput]!): [Messaging]
+    addMessage(messageDetails: MessagingInput!): [Messaging]
     changeGoals(goalDetails: GoalInput!): [String]
     addInvestment(investDetails: InvestInput!): [invest]
 }

@@ -58,7 +58,7 @@ const SetBudget = () => {
     }, 2000);
   };
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-transparent flex flex-col justify-center items-center">
       <div className="w-[70%] flex flex-row items-center justify-center">
         <div className="w-full h-full max-w-md p-8 bg-white shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-4 text-center">

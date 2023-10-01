@@ -51,7 +51,7 @@ const ViewGrowth = () => {
   //   },
   // } as any;
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-row items-center justify-center">
+    <div className="min-h-screen bg-transparent flex flex-row items-center justify-center">
       {/* <div className="flex flex-col space-y-4">
         <h2 className="mb-3 flex justify-center items-center text-center font-bold">
           My Growth

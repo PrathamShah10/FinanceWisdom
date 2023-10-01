@@ -9,12 +9,14 @@ import { routes } from "./routes";
 function App() {
   const element = useRoutes(routes);
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavBar />
-        {element}
-      </PersistGate>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavBar />
+          {element}
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
 

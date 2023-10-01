@@ -17,7 +17,6 @@ const Visualize = () => {
   });
 
   useEffect(() => {
-    console.log("useEffect visualize.tsx");
     if (data) dispatch(setVisuals(data?.getAllUserData?.visuals));
   }, [data, dispatch]);
 
@@ -32,11 +31,10 @@ const Visualize = () => {
         visuals?.findIndex((item) => item.category === category)
       );
     }
-    console.log("now the catis", category);
   }, [category, visuals]);
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="min-h-screen bg-transparent">
       <div className="flex">
         <select
           className="m-3 px-4 py-2 rounded-lg bg-white-200 to-purple-600 text-black border-2 border-white-200 hover:border-gray-300"
