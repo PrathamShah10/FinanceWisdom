@@ -136,9 +136,9 @@ export const setChatsAction = (messageDetails: MessageInput) => {
         const filteredData = res.filter(
           (item) =>
             (item.sender === messageDetails.sender ||
-              item.sender === messageDetails.reciever) &&
-            (item.reciever === messageDetails.reciever ||
-              item.reciever === messageDetails.sender)
+              item.sender === messageDetails.receiver) &&
+            (item.receiver === messageDetails.receiver ||
+              item.receiver === messageDetails.sender)
         );
         dispatch(setChats(filteredData));
       })
@@ -159,9 +159,10 @@ export const getAllChats = (_id: string) => {
         variables: {
           _id,
         },
-        fetchPolicy: "network-only",
+        fetchPolicy: "no-cache",
       })
       .then((response) => {
+        console.log('resssya', response);
         const res: IChats[] = response.data.getAllChats;
         dispatch(setChats(res));
       })
@@ -211,7 +212,7 @@ type EconomicsInput = {
   category?: string;
 };
 type MessageInput = {
-  sender?: string;
-  reciever?: string;
-  message?: string;
+  sender: string;
+  receiver: string;
+  message: string;
 };

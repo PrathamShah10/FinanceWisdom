@@ -6,7 +6,7 @@ const News = () => {
 
   const getNews = async () => {
     const API_KEY = "9c6672843352485fbf99ce6139ede318";
-    const API_ENDPOINT = `https://newsapi.org/v2/top-headlines?country=in&category=business`;
+    const API_ENDPOINT = `https://newsapi.org/v2/top-headlines?country=in&category=health`;
     const res = await axios.get(`${API_ENDPOINT}&apiKey=${API_KEY}`);
     setNewsArticles(res.data.articles);
   };
@@ -16,7 +16,7 @@ const News = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="min-h-screen bg-transparent">
       <div className="max-w-2xl ml-[50px] px-4 py-8">
       <h1 className="text-2xl font-bold mb-4">Business News Headlines</h1>
       {newsArticles?.map((ele: any, i: number) => (

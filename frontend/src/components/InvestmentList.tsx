@@ -57,7 +57,7 @@ function InvestmentList({ invests, customerId }: InvestmentListProps) {
     <div className="min-h-screen flex p-4">
       <div className="w-1/2 p-4 pr-2">
         <div className="max-w-md mx-auto bg-white p-4 rounded shadow-md">
-          <h1 className="text-2xl font-bold mb-4">Investment List</h1>
+          <h1 className="text-lg font-bold mb-4">Investment List</h1>
           <div className="mb-2">
             <input
               type="text"

@@ -13,6 +13,7 @@ function CustomerGoals() {
     variables: {
       id: user?._id,
     },
+    fetchPolicy: "network-only",
   });
   useEffect(() => {
     if (data) setGoals(data.getGoals);
@@ -22,12 +23,11 @@ function CustomerGoals() {
     if (newGoal.trim() !== "") {
       const { data } = await changeGoals({
         variables: {
-            goalDetails: {
-                 userid: user?._id,
-          isAdd: true,
-          goal: newGoal,
-            }
-         
+          goalDetails: {
+            userid: user?._id,
+            isAdd: true,
+            goal: newGoal,
+          },
         },
       });
       setGoals(data.changeGoals);
@@ -36,23 +36,20 @@ function CustomerGoals() {
   };
 
   const handleDeleteGoal = async (index: number) => {
-    // const updatedGoals = [...goals];
-    // updatedGoals.splice(index, 1);
     const { data } = await changeGoals({
-        variables: {
-            goalDetails: {
-                 userid: user?._id,
+      variables: {
+        goalDetails: {
+          userid: user?._id,
           isAdd: false,
           goal: goals[index],
-            }
-         
         },
-      });
-      setGoals(data.changeGoals);
+      },
+    });
+    setGoals(data.changeGoals);
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 py-10">
+    <div className="min-h-screen bg-transparent py-10">
       <div className="max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-4 text-center">
           Your Financial Goals

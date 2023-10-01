@@ -117,7 +117,7 @@ const Room = ({ enteredRoom }: RoomProps) => {
     handleNegoNeedFinal,
   ]);
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-transparent">
       <h1 className="text-3xl font-bold mb-6">Video Meet</h1>
       <h4 className="text-lg mb-4">
         {remoteSocketId ? "Connected" : "No one in room"}

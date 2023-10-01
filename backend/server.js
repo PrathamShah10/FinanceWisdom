@@ -4,9 +4,6 @@ import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-
-
-
 const io = new Server(8000, {
   cors: true,
 });
@@ -14,8 +11,7 @@ io.on("connection", (socket) => {
   console.log(`Socket Connected`, socket.id);
   socket.on("room:join", (data) => {
     const { room } = data;
-    console.log('room joined new is: ', room);
-    io.to(room).emit("user:joined", { id: socket.id, room:room });
+    io.to(room).emit("user:joined", { id: socket.id, room: room });
     socket.join(room);
     // io.to(socket.id).emit("room:join", data);
   });
@@ -51,7 +47,7 @@ io.on("connection", (socket) => {
   });
 });
 
-mongoose.connect("mongodb://localhost:27017/growthDB", {
+mongoose.connect("mongodb://0.0.0.0:27017/growthDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -67,6 +63,7 @@ import "./modals/Goals.js";
 import "./modals/Investments.js";
 import "./modals/Notifications.js";
 import { typeDefs } from "./schema.js";
+// import "./bullmqworker.js";
 import { resolvers } from "./resolvers.js";
 
 const server = new ApolloServer({

@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  IUser,
-  IUserState,
-  IChats,
-} from "../../interface/user";
+import { IUser, IUserState, IChats } from "../../interface/user";
 const initialState: IUserState = {
   user: undefined,
   isUserDataPending: false,
@@ -30,6 +26,15 @@ export const userSlicer = createSlice({
     setCustomerId: (state, { payload }: PayloadAction<string>) => {
       state.customerId = payload;
     },
+    resetUserState: (state) => {
+      return {
+        ...state,
+        user: undefined,
+        isUserDataPending: false,
+        chats: undefined,
+        customerId: undefined,
+      };
+    },
   },
 });
 
@@ -39,6 +44,7 @@ export const {
   setAllData,
   setIsUserDataPending,
   setCustomerId,
+  resetUserState,
 } = userSlicer.actions;
 
 export default userSlicer.reducer;

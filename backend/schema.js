@@ -3,7 +3,7 @@ type Query {
  user(_id:ID!): User
  business(_id:ID!): BusinessPerson
  getAllChats(_id:ID!): [Messaging]
- getAllUserData(_id:ID!): AllUserData
+ getAllUserData(_id:ID): AllUserData
  getAllBusinessData(_id:ID!): AllBuisnessData
  getAllBusinessMen: [BusinessPerson]
  getCustomerData(_id: String!): [Economics]
@@ -77,7 +77,7 @@ type BuisnessToken {
 type Messaging {
     _id: ID!
     sender: String
-    reciever: String
+    receiver: String
     message: String
 }
 input signInput {
@@ -118,7 +118,7 @@ input GoalInput {
 }
 input MessagingInput {
     sender: String!
-    reciever: String!
+    receiver: String!
     message: String!
 }
 `;

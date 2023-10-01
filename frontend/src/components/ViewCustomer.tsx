@@ -12,7 +12,7 @@ const ViewCustomer = () => {
     variables: {
       _id: customerId,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   useEffect(() => {
     setCategory(data?.getCustomerData[0]?.category);
@@ -31,7 +31,7 @@ const ViewCustomer = () => {
     data?.getCustomerData[categoricalDataIndex]?.budgetExp;
   if (error) return <h1>error</h1>;
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col">
+    <div className="min-h-screen bg-transparent flex flex-col">
       {loading && <ClipSpinner isLoading={loading} />}
       <div className="flex mb-4">
         <select
