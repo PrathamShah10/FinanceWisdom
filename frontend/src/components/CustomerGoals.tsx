@@ -51,7 +51,7 @@ function CustomerGoals() {
   return (
     <div className="min-h-screen bg-transparent py-10">
       <div className="max-w-md mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-center">
+        <h1 className="text-blue-600 text-2xl font-bold mb-4 text-center">
           Your Financial Goals
         </h1>
         <div className="mb-4 flex items-center justify-between">

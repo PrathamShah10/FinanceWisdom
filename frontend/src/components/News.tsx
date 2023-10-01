@@ -18,7 +18,7 @@ const News = () => {
   return (
     <div className="min-h-screen bg-transparent">
       <div className="max-w-2xl ml-[50px] px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Business News Headlines</h1>
+      <h1 className="text-blue-600 text-2xl font-bold mb-4">Business News Headlines</h1>
       {newsArticles?.map((ele: any, i: number) => (
         <div key={i} className="border-b py-4">
           <p className="text-gray-500 mb-1">{ele.author}</p>

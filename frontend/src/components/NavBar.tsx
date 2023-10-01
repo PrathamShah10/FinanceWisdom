@@ -22,7 +22,7 @@ const NavBar = () => {
         <div className="flex items-center">
           <Link to={user?.isCustomer ? "/home-user" : "/home-buisness"}>
             <div
-              className={`text-[25px] text-gray-800 hover:text-blue-600 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer `}
+              className={`text-[125%] text-gray-800 hover:text-blue-600 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer `}
             >
               FinanceWisdom
             </div>

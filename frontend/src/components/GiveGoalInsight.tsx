@@ -30,7 +30,7 @@ const GiveGoalInsight = () => {
   return (
     <div className="bg-transparent p-6 rounded-lg shadow-md">
       <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Financial Goals</h2>
+        <h2 className="text-blue-600 font-semibold mb-4">Financial Goals</h2>
         <div className="space-y-4">
           {goalData?.map((goal: string, index: number) => (
             <div
@@ -44,7 +44,7 @@ const GiveGoalInsight = () => {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold mb-4">Suggest Investment</h2>
+        <h2 className="text-blue-600 text-lg font-semibold mb-4">Suggest Investment</h2>
         <div className="space-y-4">
           <InvestmentList invests={investData} customerId={customerId} />
         </div>
