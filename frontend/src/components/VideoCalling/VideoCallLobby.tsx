@@ -23,23 +23,9 @@ function VideoCallLobby({ setPath, setRoomId }: VideoCallLobbyProps) {
     setPath && setPath("room");
     setRoomId && setRoomId(lobbyId);
   };
-  // const handleJoinLobby = useCallback(
-  //   (data: any) => {
-  //     const { lobbyId } = data;
-  //     setPath && setPath(`/room/${lobbyId}`);
-  //     setRoomId && setRoomId(lobbyId);
-  //   },
-  //   [setPath, setRoomId]
-  // );
-  // useEffect(() => {
-  //   socket.on("room:join", handleJoinLobby);
-  //   return () => {
-  //     socket.off("room:join", handleJoinLobby);
-  //   };
-  // }, [socket, handleJoinLobby]);
   return (
     <div>
-      <div className="flex flex-col justify-center items-center bg-transparent">
+      <div className="min-h-screen flex flex-col justify-center items-center bg-transparent">
         <div className="max-w-2xl p-6 bg-white rounded-lg w-full">
           <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
             Video Call with Your Financial Advisor

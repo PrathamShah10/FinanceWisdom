@@ -18,11 +18,11 @@ const BuisnessHome = () => {
 
   return (
     <div className="mt-5 flex flex-col items-center min-h-screen bg-transparent">
-      <div className=" p-6 bg-white rounded-lg w-full">
+      <div className=" p-6 bg-white rounded-lg w-[80%]">
         <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
           Welcome, Financial Advisor!
         </h2>
-        <p className="mx-[35px] text-center text-gray-700 mb-4">
+        <p className="text-center text-gray-700 mb-4">
           As a valued financial advisor on our platform, you play a crucial role
           in guiding your customers towards financial prosperity. Establish
           meaningful connections by understanding their unique financial needs
@@ -68,23 +68,6 @@ const BuisnessHome = () => {
             financial guidance.
           </p>
         )}
-
-        <div className="mt-8 mx-auto flex flex-col justify-center items-center ">
-          <h3 className="text-xl font-semibold mb-2 text-blue-600">
-            Why Use Our Platform?
-          </h3>
-          <ul className="list-disc list-inside text-gray-700">
-            <li>Effortlessly manage and track your customer interactions.</li>
-            <li>Access detailed customer profiles to tailor your advice.</li>
-            <li>
-              Receive real-time updates on your customers' financial activities.
-            </li>
-            <li>Enhance customer satisfaction and loyalty.</li>
-          </ul>
-        </div>
-        <p className="text-center text-gray-700 mt-4">
-          Need help or have questions? Contact our support team.
-        </p>
       </div>
     </div>
   );

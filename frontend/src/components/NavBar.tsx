@@ -18,11 +18,11 @@ const NavBar = () => {
   const { user: userDetails } = useAppSelector((state) => state.user);
   return (
     <nav>
-      <div className="flex items-center justify-between p-4">
+      <div className="mt-3 flex items-center justify-between p-4">
         <div className="flex items-center">
           <Link to={user?.isCustomer ? "/home-user" : "/home-buisness"}>
             <div
-              className={`text-[125%] text-gray-800 hover:text-blue-600 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer `}
+              className={`text-[150%] text-blue-600 hover:text-blue-700 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer `}
             >
               FinanceWisdom
             </div>
@@ -46,7 +46,7 @@ const NavBar = () => {
           </div>
         )}
       </div>
-      <div className="mx-[10px] flex items-center justify-between p-2 border border-gray-500 rounded-md">
+      <div className="mt-3 mx-[10px] flex items-center justify-between p-2 border border-gray-500 rounded-md">
         <div className="hidden md:block">
           <div
             className={`${token ? "" : "hidden"} flex items-baseline space-x-4`}

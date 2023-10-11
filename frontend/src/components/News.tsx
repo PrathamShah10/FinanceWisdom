@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { API_KEY } from "../Variables";
 const News = () => {
   const [newsArticles, setNewsArticles] = useState<any[] | null>(null);
 
   const getNews = async () => {
-    const API_KEY = "9c6672843352485fbf99ce6139ede318";
-    const API_ENDPOINT = `https://newsapi.org/v2/top-headlines?country=in&category=health`;
+    const API_ENDPOINT = `https://newsapi.org/v2/top-headlines?country=in&category=business`;
     const res = await axios.get(`${API_ENDPOINT}&apiKey=${API_KEY}`);
     setNewsArticles(res.data.articles);
   };
