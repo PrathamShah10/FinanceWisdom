@@ -11,7 +11,6 @@ import { RouteObject } from "react-router-dom";
 import BuisnessHome from "./components/BuisnessHome";
 import EnterManualData from "./components/EnterManualData";
 import SetBudget from "./components/SetBudget";
-import Options from "./components/common/Options";
 import EnterExcelData from "./components/EnterExcelData";
 import Visualize from "./components/Visualize/Visualize";
 import ViewCustomer from "./components/ViewCustomer";
@@ -64,22 +63,6 @@ export const routes: RouteObject[] = [
     element: <PrivateRoute element={EnterExcelData} />,
   },
   { path: "/chat/:customerId", element: <PrivateRoute element={Chat} /> },
-  {
-    path: "/set-budget/:customerId",
-    element: (
-      <PrivateRoute
-        element={Options}
-        props={{
-          title: "How would you like to Update?",
-          heading1: "enter manually",
-          heading2: "enter through excel sheet",
-          link1: "/update-advisor-manualdata",
-          link2: "/update-advisor-exceldata",
-        }}
-        isBuisness={true}
-      />
-    ),
-  },
   {
     path: "update-advisor-manualdata",
     element: <PrivateRoute element={SetBudget} isBuisness={true} />,

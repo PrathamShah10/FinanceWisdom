@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setUserVisualsAction } from "../redux/action/user";
 import { toastAction } from "./common/ToastAction";
+import { EXCEL_TEMPLATE } from "../Variables";
 const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [expense, setExpense] = useState<number[] | null>(null);
@@ -37,10 +38,8 @@ const EnterExcelData = ({ isAdvisor = false }: EnterExcelDataProps) => {
     setExpense(changeExpensedData);
   };
   const handleDownload = () => {
-    // Replace 'template.xlsx' with the actual name of your Excel template file.
     const link = document.createElement("a");
-    link.href =
-      "https://docs.google.com/spreadsheets/d/1CdANoVj6kBVRrARp010VJ7zkwX9fNDiG/edit?usp=sharing&ouid=104255153687666150749&rtpof=true&sd=true";
+    link.href = EXCEL_TEMPLATE;
     link.download = "template.xlsx";
     link.click();
   };

@@ -11,7 +11,7 @@ function Notifications() {
     fetchPolicy: "network-only",
   });
   return (
-    <div className="min-h-screen bg-gray-100 p-6 rounded-lg shadow-md">
+    <div className="min-h-screen bg-tansperent p-6 rounded-lg shadow-md">
       <div className="mb-8">
         <h2 className="text-3xl font-semibold mb-4">Notifications</h2>
         <div className="space-y-4">
