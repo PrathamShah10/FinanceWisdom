@@ -166,7 +166,7 @@ export const Mutations = {
   addReport: async (_, { reportDetails }) => {
     const exsitingReport = await Report.findOne({customer: reportDetails.customer});
     if(exsitingReport) {
-      exsitingReport = {...reportDetails};
+      exsitingReport.report = reportDetails.report;
      await exsitingReport.save();
     }
     else {

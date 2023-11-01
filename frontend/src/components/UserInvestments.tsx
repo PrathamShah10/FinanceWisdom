@@ -44,7 +44,6 @@ const UserInvestments: FC = () => {
   };
 
   const handleAddInvestment = async () => {
-    console.log('fds', {...investment})
     const { data } = await changeInvests({
         variables: {
           investDetails: {
