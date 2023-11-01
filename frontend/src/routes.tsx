@@ -92,18 +92,6 @@ export const routes: RouteObject[] = [
     path: "/notifications",
     element: <PrivateRoute element={Notifications} />,
   },
-  // {
-  //   path: "/testing",
-  //   element: <PrivateRoute element={Page1} />,
-  // },
-  // {
-  //   path: "/testing2",
-  //   element: <Opencheck />,
-  // },
-  // {
-  //   path:'/maptry',
-  //   element: <GoogleMap />,
-  // },
   {
     path: "/home-user",
     element: <PrivateRoute element={Homeuser} />,
