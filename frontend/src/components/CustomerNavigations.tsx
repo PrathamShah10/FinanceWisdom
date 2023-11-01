@@ -43,7 +43,7 @@ function CustomerNavigations({
       </Link>
 
       <Link
-        to={`/view-investments`}
+        to={`/user-investments`}
         onClick={() => setSelection("Investments")}
       >
         <div
@@ -54,6 +54,21 @@ function CustomerNavigations({
           }`}
         >
           Investments
+        </div>
+      </Link>
+
+      <Link
+        to={`/view-report`}
+        onClick={() => setSelection("Report")}
+      >
+        <div
+          className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
+            selected === "Report"
+              ? "underline underline-offset-8 decoration-4"
+              : ""
+          }`}
+        >
+          Report
         </div>
       </Link>
     </>

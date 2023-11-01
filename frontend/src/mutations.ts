@@ -82,17 +82,22 @@ export const ADD_MESSAGES = gql`
   }
 `;
 export const CHANGE_GOALS = gql`
-mutation goalChange($goalDetails: GoalInput!) {
-  changeGoals(goalDetails: $goalDetails)
-}
+  mutation goalChange($goalDetails: GoalInput!) {
+    changeGoals(goalDetails: $goalDetails)
+  }
 `;
 export const ADD_INVESTMENTS = gql`
-mutation investments($investDetails: InvestInput!) {
-  addInvestment(investDetails: $investDetails) {
-    Itype
-    duration
-    amount
-    returns
-  } 
-}
+  mutation investments($investDetails: InvestInput!) {
+    addInvestment(investDetails: $investDetails) {
+      type
+      amount
+      period
+      description
+    }
+  }
+`;
+export const ADD_REPORT = gql`
+  mutation report($reportDetails: ReportInput!) {
+    addReport(reportDetails: $reportDetails)
+  }
 `;

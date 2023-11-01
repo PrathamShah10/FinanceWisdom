@@ -51,10 +51,10 @@ interface IVisualState {
   category: string;
 }
 interface IInvestment {
-  Itype?: string;
+  type?: string;
   amount?: string;
-  duration?: string;
-  returns?: string;
+  period?: string;
+  description?: string;
 }
 export type {
   ISignInDetails,

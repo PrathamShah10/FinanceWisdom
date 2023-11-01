@@ -6,6 +6,7 @@ const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
 const Investment = mongoose.model("Investment");
 const Notification = mongoose.model("Notification");
+const Report = mongoose.model("Report");
 import Redis from "ioredis";
 const redis = new Redis();
 import { refineData } from "./common.js";
@@ -110,5 +111,9 @@ export const Queries = {
       600 //10 minutes
     );
     return refinedNotifications;
+  },
+  getReport: async (_, { _id }) => {
+    const Response = await Report.findOne({ customer: _id });
+    return Response.report;
   },
 };

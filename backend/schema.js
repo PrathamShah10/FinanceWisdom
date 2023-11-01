@@ -1,15 +1,16 @@
 export const typeDefs = `#graphql
 type Query {
- user(_id:ID!): User
- business(_id:ID!): BusinessPerson
- getAllChats(_id:ID!): [Messaging]
- getAllUserData(_id:ID): AllUserData
- getAllBusinessData(_id:ID!): AllBuisnessData
- getAllBusinessMen: [BusinessPerson]
- getCustomerData(_id: String!): [Economics]
- getGoals(_id: String!): [String]
- getInvestments(_id: String!): [invest]
- getAllNotifications(_id: String!): [String]
+    user(_id:ID!): User
+    business(_id:ID!): BusinessPerson
+    getAllChats(_id:ID!): [Messaging]
+    getAllUserData(_id:ID): AllUserData
+    getAllBusinessData(_id:ID!): AllBuisnessData
+    getAllBusinessMen: [BusinessPerson]
+    getCustomerData(_id: String!): [Economics]
+    getGoals(_id: String!): [String]
+    getInvestments(_id: String!): [invest]
+    getAllNotifications(_id: String!): [String]
+    getReport(_id: String!): String
 }
 type Mutation {
     addUser(newUserDetails: UserInput!) : User
@@ -20,6 +21,7 @@ type Mutation {
     addMessage(messageDetails: MessagingInput!): [Messaging]
     changeGoals(goalDetails: GoalInput!): [String]
     addInvestment(investDetails: InvestInput!): [invest]
+    addReport(reportDetails: ReportInput!): String
 }
 type User {
     _id: ID!
@@ -38,10 +40,10 @@ type BusinessPerson {
     customers: [User]
 }
 type invest {
-    Itype: String
+    type: String
     amount:String
-    duration: String
-    returns: String
+    period: String
+    description: String
     customer: String
 }
 type goals {
@@ -104,10 +106,10 @@ input EconomicsInput {
     category: String
 }
 input InvestInput {
-    Itype: String!
+    type: String!
     amount:String!
-    duration: String!
-    returns: String!
+    period: String!
+    description: String!
     customer: String!
     isAdd: Boolean!
 }
@@ -120,5 +122,9 @@ input MessagingInput {
     sender: String!
     receiver: String!
     message: String!
+}
+input ReportInput {
+    report: String!
+    customer: String!
 }
 `;

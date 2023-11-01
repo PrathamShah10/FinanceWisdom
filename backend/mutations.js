@@ -8,7 +8,7 @@ const Economics = mongoose.model("Economics");
 const Chats = mongoose.model("Chats");
 const Investment = mongoose.model("Investment");
 const Notification = mongoose.model("Notification");
-
+const Report = mongoose.model("Report");
 import Redis from "ioredis";
 const redis = new Redis();
 import { refineData } from "./common.js";
@@ -147,24 +147,37 @@ export const Mutations = {
     }
   },
   addInvestment: async (_, { investDetails }) => {
-    const { Itype, amount, duration, returns, customer, isAdd } = investDetails;
+    const { type, period, description, amount, customer, isAdd } = investDetails;
     if (isAdd) {
       const newInvest = await new Investment({
-        Itype,
+        type,
+        period,
+        description,
         amount,
-        duration,
-        returns,
         customer,
       });
       await newInvest.save();
       return await Investment.find({ customer });
     } else {
-      await Investment.deleteOne({ Itype, customer });
+      await Investment.deleteOne({ type, customer });
       return await Investment.find({ customer });
     }
   },
+  addReport: async (_, { reportDetails }) => {
+    const exsitingReport = await Report.findOne({customer: reportDetails.customer});
+    if(exsitingReport) {
+      exsitingReport = {...reportDetails};
+     await exsitingReport.save();
+    }
+    else {
+      const newReport = await new Report({
+        ...reportDetails
+      });
+      await newReport.save();
+    }
+    return "successfull";
+  },
 };
-
 const notificationWorker = new Worker("notificationQueue", async (job) => {
   const { FAid, message } = job.data;
   const notify = await new Notification({

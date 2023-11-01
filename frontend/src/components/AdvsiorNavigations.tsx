@@ -17,6 +17,17 @@ function AdvsiorNavigations({
           Notifications
         </div>
       </Link>
+      <Link to={`/generate-report`} onClick={() => setSelection("Report")}>
+        <div
+          className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
+            selected === "Report"
+              ? "underline underline-offset-8 decoration-4"
+              : ""
+          }`}
+        >
+          Generate Report
+        </div>
+      </Link>
     </>
   );
 }
