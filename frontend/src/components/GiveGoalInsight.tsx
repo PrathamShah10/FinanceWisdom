@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_GOALS, GET_ALL_INVESTS } from "../queries";
 import { useAppSelector } from "../hooks/redux";
-import InvestmentList from "./InvestmentList";
 import { IInvestment } from "../interface/user";
 const GiveGoalInsight = () => {
   const { customerId } = useAppSelector((state) => state.user);
@@ -43,12 +42,14 @@ const GiveGoalInsight = () => {
         </div>
       </div>
 
-      <div>
-        <h2 className="text-blue-600 text-lg font-semibold mb-4">Suggest Investment</h2>
-        <div className="space-y-4">
-          <InvestmentList invests={investData} customerId={customerId} />
-        </div>
-      </div>
+      <h2 className="text-lg font-bold mt-8 mb-4">Investment List</h2>
+      <ul>
+        {investData?.map((inv, index) => (
+          <li key={index} className="mb-2">
+            {inv.type} - {inv.period} - {inv.amount}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

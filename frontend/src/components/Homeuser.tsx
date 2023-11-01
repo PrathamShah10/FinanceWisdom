@@ -39,7 +39,7 @@ function Homeuser() {
             View Goals
           </Link>
           <Link
-            to="/view-investments"
+            to="/user-investments"
             className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-4 rounded-full transition duration-300"
           >
             Explore Investments

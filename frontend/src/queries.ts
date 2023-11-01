@@ -118,10 +118,10 @@ export const GET_ALL_GOALS = gql`
 export const GET_ALL_INVESTS = gql`
   query getInvests($id: String!) {
     getInvestments(_id: $id) {
-      duration
-      Itype
+      type
       amount
-      returns
+      period
+      description
     }
   }
 `;
@@ -130,4 +130,10 @@ export const GET_ALL_NOTIFICATIONS = gql`
   query getnotifs($id: String!) {
     getAllNotifications(_id: $id)
   }
+`;
+
+export const GET_REPORT = gql`
+query getReport($id: String!) {
+  getReport(_id: $id)
+}
 `;

@@ -62,6 +62,7 @@ import "./modals/Chat.js";
 import "./modals/Goals.js";
 import "./modals/Investments.js";
 import "./modals/Notifications.js";
+import "./modals/Report.js";
 import { typeDefs } from "./schema.js";
 // import "./bullmqworker.js";
 import { resolvers } from "./resolvers.js";

@@ -17,11 +17,11 @@ import ViewCustomer from "./components/ViewCustomer";
 import News from "./components/News";
 import CustomerGoals from "./components/CustomerGoals";
 import GiveGoalInsight from "./components/GiveGoalInsight";
-import ViewInvestments from "./components/ViewInvestments";
 import Notifications from "./components/Notifications";
-// import Page1 from "./components/Page1";
-// import Opencheck from "./components/Opencheck";
 import Homeuser from "./components/Homeuser";
+import UserInvestments from "./components/UserInvestments";
+import GenerateReport from "./components/GenerateReport";
+import ViewReport from "./components/ViewReport";
 
 export const routes: RouteObject[] = [
   {
@@ -85,23 +85,23 @@ export const routes: RouteObject[] = [
     element: <PrivateRoute element={GiveGoalInsight} isBuisness={true} />,
   },
   {
-    path: "/view-investments",
-    element: <PrivateRoute element={ViewInvestments} />,
+    path: "/user-investments",
+    element: <PrivateRoute element={UserInvestments} />,
   },
   {
     path: "/notifications",
     element: <PrivateRoute element={Notifications} />,
   },
-  // {
-  //   path: "/testing",
-  //   element: <PrivateRoute element={Page1} />,
-  // },
-  // {
-  //   path: "/testing2",
-  //   element: <Opencheck />,
-  // },
   {
     path: "/home-user",
     element: <PrivateRoute element={Homeuser} />,
+  },
+  {
+    path: "/generate-report",
+    element: <PrivateRoute element={GenerateReport} isBuisness={true} />,
+  },
+  {
+    path: "/view-report",
+    element: <PrivateRoute element={ViewReport} />,
   },
 ];
